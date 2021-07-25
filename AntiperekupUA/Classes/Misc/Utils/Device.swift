@@ -24,4 +24,8 @@ extension UIDevice {
     static var appBundleIdentifier: String? {
         Bundle.main.bundleIdentifier
     }
+    
+    static var idfv: String? {
+        UIDevice.current.identifierForVendor?.uuidString
+    }
 }
