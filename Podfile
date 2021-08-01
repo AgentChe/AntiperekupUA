@@ -8,7 +8,8 @@ target 'AntiperekupUA' do
   pod 'Alamofire'
 
   pod 'RxSwift'
-  pod 'RxCocoa'  
+  pod 'RxCocoa'
+  pod 'RxDataSources'
   
   pod 'Kingfisher'
   
