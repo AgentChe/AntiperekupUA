@@ -7,6 +7,34 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		86241FD526A8970D008E5863 /* OnboardingLanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86241FD426A8970D008E5863 /* OnboardingLanguageView.swift */; };
+		864250AA26AC150000837F07 /* UITapGestureRecognizerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864250A926AC150000837F07 /* UITapGestureRecognizerExtension.swift */; };
+		864250AF26AC174C00837F07 /* OnboardingWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864250AC26AC174C00837F07 /* OnboardingWebViewController.swift */; };
+		864250B026AC174C00837F07 /* OnboardingWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864250AD26AC174C00837F07 /* OnboardingWebView.swift */; };
+		864250B626AC1FCF00837F07 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864250B326AC1FCF00837F07 /* SplashViewController.swift */; };
+		864250B726AC1FCF00837F07 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864250B426AC1FCF00837F07 /* SplashView.swift */; };
+		864250B826AC1FCF00837F07 /* SplashViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864250B526AC1FCF00837F07 /* SplashViewModel.swift */; };
+		864250BD26AC3D0A00837F07 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864250BC26AC3D0A00837F07 /* SessionManager.swift */; };
+		864250C126AC3D7800837F07 /* SessionManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864250C026AC3D7800837F07 /* SessionManagerCore.swift */; };
+		864250C326AC3FB400837F07 /* APIRequestBodyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864250C226AC3FB400837F07 /* APIRequestBodyExtension.swift */; };
+		864250C826AC4B2700837F07 /* LanguageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864250C726AC4B2700837F07 /* LanguageManager.swift */; };
+		864250CA26AC4B3400837F07 /* LanguageManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864250C926AC4B3400837F07 /* LanguageManagerCore.swift */; };
+		864250CF26AC4C2900837F07 /* LanguageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864250CE26AC4C2900837F07 /* LanguageModel.swift */; };
+		864250D126AC4FA100837F07 /* LanguageMediator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864250D026AC4FA100837F07 /* LanguageMediator.swift */; };
+		864250D326AC503B00837F07 /* LanguageMediatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864250D226AC503B00837F07 /* LanguageMediatorDelegate.swift */; };
+		864250D626AC51DF00837F07 /* UpdateTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864250D526AC51DF00837F07 /* UpdateTokenRequest.swift */; };
+		864250D826AC71A100837F07 /* UpdateTokenResponseMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864250D726AC71A100837F07 /* UpdateTokenResponseMapper.swift */; };
+		864250DB26AC71E400837F07 /* UpdateTokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864250DA26AC71E400837F07 /* UpdateTokenModel.swift */; };
+		86BB67C026A7426300283267 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BB67BD26A7426300283267 /* OnboardingViewController.swift */; };
+		86BB67C126A7426300283267 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BB67BE26A7426300283267 /* OnboardingView.swift */; };
+		86BB67C226A7426300283267 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BB67BF26A7426300283267 /* OnboardingViewModel.swift */; };
+		86BB67C726A7439700283267 /* OnboardingBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BB67C626A7439700283267 /* OnboardingBaseView.swift */; };
+		86BB67D426A7493E00283267 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 86BB67D626A7493E00283267 /* Localizable.strings */; };
+		86C11F7826AD5E9400D7A47E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C11F7526AD5E9400D7A47E /* MainViewController.swift */; };
+		86C11F7926AD5E9400D7A47E /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C11F7626AD5E9400D7A47E /* MainView.swift */; };
+		86C11F7A26AD5E9400D7A47E /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C11F7726AD5E9400D7A47E /* MainViewModel.swift */; };
+		86C11F7D26AD7D2C00D7A47E /* OnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C11F7C26AD7D2C00D7A47E /* OnboardingManager.swift */; };
+		86C11F7F26AD7D3700D7A47E /* OnboardingManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C11F7E26AD7D3700D7A47E /* OnboardingManagerCore.swift */; };
 		9667E03E26A60FEF0098C7F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9667E03D26A60FEF0098C7F2 /* Assets.xcassets */; };
 		9667E04126A60FEF0098C7F2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9667E03F26A60FEF0098C7F2 /* LaunchScreen.storyboard */; };
 		9667E07326A6156C0098C7F2 /* PaddingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9667E05026A6156C0098C7F2 /* PaddingTextField.swift */; };
@@ -40,6 +68,35 @@
 /* Begin PBXFileReference section */
 		27EB71CF45A59AC600F69116 /* Pods_AntiperekupUA.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AntiperekupUA.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E7C257D32632EF7B14E0FF7 /* Pods-AntiperekupUA.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AntiperekupUA.debug.xcconfig"; path = "Target Support Files/Pods-AntiperekupUA/Pods-AntiperekupUA.debug.xcconfig"; sourceTree = "<group>"; };
+		86241FD426A8970D008E5863 /* OnboardingLanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingLanguageView.swift; sourceTree = "<group>"; };
+		864250A926AC150000837F07 /* UITapGestureRecognizerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITapGestureRecognizerExtension.swift; sourceTree = "<group>"; };
+		864250AC26AC174C00837F07 /* OnboardingWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWebViewController.swift; sourceTree = "<group>"; };
+		864250AD26AC174C00837F07 /* OnboardingWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingWebView.swift; sourceTree = "<group>"; };
+		864250B326AC1FCF00837F07 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		864250B426AC1FCF00837F07 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		864250B526AC1FCF00837F07 /* SplashViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewModel.swift; sourceTree = "<group>"; };
+		864250BC26AC3D0A00837F07 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		864250C026AC3D7800837F07 /* SessionManagerCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManagerCore.swift; sourceTree = "<group>"; };
+		864250C226AC3FB400837F07 /* APIRequestBodyExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequestBodyExtension.swift; sourceTree = "<group>"; };
+		864250C726AC4B2700837F07 /* LanguageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageManager.swift; sourceTree = "<group>"; };
+		864250C926AC4B3400837F07 /* LanguageManagerCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageManagerCore.swift; sourceTree = "<group>"; };
+		864250CE26AC4C2900837F07 /* LanguageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageModel.swift; sourceTree = "<group>"; };
+		864250D026AC4FA100837F07 /* LanguageMediator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageMediator.swift; sourceTree = "<group>"; };
+		864250D226AC503B00837F07 /* LanguageMediatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageMediatorDelegate.swift; sourceTree = "<group>"; };
+		864250D526AC51DF00837F07 /* UpdateTokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTokenRequest.swift; sourceTree = "<group>"; };
+		864250D726AC71A100837F07 /* UpdateTokenResponseMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTokenResponseMapper.swift; sourceTree = "<group>"; };
+		864250DA26AC71E400837F07 /* UpdateTokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTokenModel.swift; sourceTree = "<group>"; };
+		86BB67BD26A7426300283267 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		86BB67BE26A7426300283267 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		86BB67BF26A7426300283267 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		86BB67C626A7439700283267 /* OnboardingBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingBaseView.swift; sourceTree = "<group>"; };
+		86BB67D726A7495300283267 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		86BB67D826A7497100283267 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		86C11F7526AD5E9400D7A47E /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		86C11F7626AD5E9400D7A47E /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		86C11F7726AD5E9400D7A47E /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		86C11F7C26AD7D2C00D7A47E /* OnboardingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingManager.swift; sourceTree = "<group>"; };
+		86C11F7E26AD7D3700D7A47E /* OnboardingManagerCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingManagerCore.swift; sourceTree = "<group>"; };
 		9667E03126A60FEB0098C7F2 /* AntiperekupUA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AntiperekupUA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9667E03D26A60FEF0098C7F2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9667E04026A60FEF0098C7F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -102,6 +159,165 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		864250AB26AC172C00837F07 /* OnboardingWebView */ = {
+			isa = PBXGroup;
+			children = (
+				864250AC26AC174C00837F07 /* OnboardingWebViewController.swift */,
+				864250AD26AC174C00837F07 /* OnboardingWebView.swift */,
+			);
+			path = OnboardingWebView;
+			sourceTree = "<group>";
+		};
+		864250B226AC1FA600837F07 /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				864250B326AC1FCF00837F07 /* SplashViewController.swift */,
+				864250B426AC1FCF00837F07 /* SplashView.swift */,
+				864250B526AC1FCF00837F07 /* SplashViewModel.swift */,
+			);
+			path = Splash;
+			sourceTree = "<group>";
+		};
+		864250BB26AC3CF300837F07 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				86C11F7B26AD7D1B00D7A47E /* Onboarding */,
+				864250C626AC4B1100837F07 /* Language */,
+				864250BE26AC3D1F00837F07 /* Session */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		864250BE26AC3D1F00837F07 /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				864250D926AC71D100837F07 /* Models */,
+				864250D426AC51C400837F07 /* Request */,
+				864250BF26AC3D3C00837F07 /* Manager */,
+			);
+			path = Session;
+			sourceTree = "<group>";
+		};
+		864250BF26AC3D3C00837F07 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				864250BC26AC3D0A00837F07 /* SessionManager.swift */,
+				864250C026AC3D7800837F07 /* SessionManagerCore.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		864250C626AC4B1100837F07 /* Language */ = {
+			isa = PBXGroup;
+			children = (
+				864250CD26AC4C1400837F07 /* Models */,
+				864250CC26AC4BEA00837F07 /* Mediator */,
+				864250CB26AC4B8500837F07 /* Manager */,
+			);
+			path = Language;
+			sourceTree = "<group>";
+		};
+		864250CB26AC4B8500837F07 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				864250C726AC4B2700837F07 /* LanguageManager.swift */,
+				864250C926AC4B3400837F07 /* LanguageManagerCore.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		864250CC26AC4BEA00837F07 /* Mediator */ = {
+			isa = PBXGroup;
+			children = (
+				864250D026AC4FA100837F07 /* LanguageMediator.swift */,
+				864250D226AC503B00837F07 /* LanguageMediatorDelegate.swift */,
+			);
+			path = Mediator;
+			sourceTree = "<group>";
+		};
+		864250CD26AC4C1400837F07 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				864250CE26AC4C2900837F07 /* LanguageModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		864250D426AC51C400837F07 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				864250D526AC51DF00837F07 /* UpdateTokenRequest.swift */,
+				864250D726AC71A100837F07 /* UpdateTokenResponseMapper.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		864250D926AC71D100837F07 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				864250DA26AC71E400837F07 /* UpdateTokenModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		86BB67BB26A741B200283267 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				86C11F7426AD5E7800D7A47E /* Main */,
+				864250B226AC1FA600837F07 /* Splash */,
+				86BB67BC26A7421B00283267 /* Onboarding */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		86BB67BC26A7421B00283267 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				864250AB26AC172C00837F07 /* OnboardingWebView */,
+				86BB67C326A7426F00283267 /* Views */,
+				86BB67BD26A7426300283267 /* OnboardingViewController.swift */,
+				86BB67BE26A7426300283267 /* OnboardingView.swift */,
+				86BB67BF26A7426300283267 /* OnboardingViewModel.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		86BB67C326A7426F00283267 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				86BB67C626A7439700283267 /* OnboardingBaseView.swift */,
+				86241FD426A8970D008E5863 /* OnboardingLanguageView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		86BB67C826A7462200283267 /* Strings */ = {
+			isa = PBXGroup;
+			children = (
+				86BB67D626A7493E00283267 /* Localizable.strings */,
+			);
+			path = Strings;
+			sourceTree = "<group>";
+		};
+		86C11F7426AD5E7800D7A47E /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				86C11F7526AD5E9400D7A47E /* MainViewController.swift */,
+				86C11F7626AD5E9400D7A47E /* MainView.swift */,
+				86C11F7726AD5E9400D7A47E /* MainViewModel.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		86C11F7B26AD7D1B00D7A47E /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				86C11F7C26AD7D2C00D7A47E /* OnboardingManager.swift */,
+				86C11F7E26AD7D3700D7A47E /* OnboardingManagerCore.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		9667E02826A60FEB0098C7F2 = {
 			isa = PBXGroup;
 			children = (
@@ -133,6 +349,7 @@
 		9667E04826A610090098C7F2 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				86BB67C826A7462200283267 /* Strings */,
 				9667E04926A6152A0098C7F2 /* Fonts */,
 				9667E04226A60FEF0098C7F2 /* Info.plist */,
 				9667E08D26A618B80098C7F2 /* GoogleService-Info.plist */,
@@ -152,8 +369,10 @@
 		9667E04A26A6156C0098C7F2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				864250BB26AC3CF300837F07 /* Service */,
 				9667E04B26A6156C0098C7F2 /* Misc */,
 				9667E06D26A6156C0098C7F2 /* Analytics */,
+				86BB67BB26A741B200283267 /* Presentation */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -187,9 +406,11 @@
 		9667E05526A6156C0098C7F2 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				864250C226AC3FB400837F07 /* APIRequestBodyExtension.swift */,
 				9667E05626A6156C0098C7F2 /* UIColorExtension.swift */,
 				9667E05726A6156C0098C7F2 /* UIViewRxExtension.swift */,
 				9667E05826A6156C0098C7F2 /* StringExtension.swift */,
+				864250A926AC150000837F07 /* UITapGestureRecognizerExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -303,6 +524,7 @@
 			knownRegions = (
 				en,
 				Base,
+				uk,
 			);
 			mainGroup = 9667E02826A60FEB0098C7F2;
 			productRefGroup = 9667E03226A60FEB0098C7F2 /* Products */;
@@ -320,6 +542,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9667E04126A60FEF0098C7F2 /* LaunchScreen.storyboard in Resources */,
+				86BB67D426A7493E00283267 /* Localizable.strings in Resources */,
 				9667E03E26A60FEF0098C7F2 /* Assets.xcassets in Resources */,
 				9667E08E26A618B80098C7F2 /* GoogleService-Info.plist in Resources */,
 			);
@@ -374,36 +597,72 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86C11F7A26AD5E9400D7A47E /* MainViewModel.swift in Sources */,
 				9667E07E26A6156C0098C7F2 /* Scalable.swift in Sources */,
+				86C11F7D26AD7D2C00D7A47E /* OnboardingManager.swift in Sources */,
 				9667E07626A6156C0098C7F2 /* CircleView.swift in Sources */,
 				9667E07526A6156C0098C7F2 /* GradientButton.swift in Sources */,
 				9667E08B26A6156C0098C7F2 /* FirebaseManager.swift in Sources */,
+				864250D126AC4FA100837F07 /* LanguageMediator.swift in Sources */,
+				86BB67C226A7426300283267 /* OnboardingViewModel.swift in Sources */,
 				9667E08226A6156C0098C7F2 /* Device.swift in Sources */,
 				9667E07A26A6156C0098C7F2 /* StringExtension.swift in Sources */,
 				9667E08626A6156C0098C7F2 /* Weak.swift in Sources */,
 				9667E08426A6156C0098C7F2 /* SignError.swift in Sources */,
+				86C11F7826AD5E9400D7A47E /* MainViewController.swift in Sources */,
 				9667E07426A6156C0098C7F2 /* PaddingLabel.swift in Sources */,
+				864250B826AC1FCF00837F07 /* SplashViewModel.swift in Sources */,
 				9667E08A26A6156C0098C7F2 /* AppDelegate.swift in Sources */,
+				864250CF26AC4C2900837F07 /* LanguageModel.swift in Sources */,
 				9667E07C26A6156C0098C7F2 /* APIRequestBody.swift in Sources */,
+				86BB67C726A7439700283267 /* OnboardingBaseView.swift in Sources */,
+				864250D626AC51DF00837F07 /* UpdateTokenRequest.swift in Sources */,
+				86BB67C126A7426300283267 /* OnboardingView.swift in Sources */,
+				864250B026AC174C00837F07 /* OnboardingWebView.swift in Sources */,
+				86241FD526A8970D008E5863 /* OnboardingLanguageView.swift in Sources */,
 				9667E08026A6156C0098C7F2 /* ScreenSize.swift in Sources */,
+				864250BD26AC3D0A00837F07 /* SessionManager.swift in Sources */,
+				86BB67C026A7426300283267 /* OnboardingViewController.swift in Sources */,
+				864250CA26AC4B3400837F07 /* LanguageManagerCore.swift in Sources */,
+				86C11F7926AD5E9400D7A47E /* MainView.swift in Sources */,
 				9667E08126A6156C0098C7F2 /* Fonts.swift in Sources */,
+				86C11F7F26AD7D3700D7A47E /* OnboardingManagerCore.swift in Sources */,
+				864250B726AC1FCF00837F07 /* SplashView.swift in Sources */,
+				864250C326AC3FB400837F07 /* APIRequestBodyExtension.swift in Sources */,
 				9667E07826A6156C0098C7F2 /* UIColorExtension.swift in Sources */,
 				9667E08726A6156C0098C7F2 /* ImagePicker.swift in Sources */,
+				864250B626AC1FCF00837F07 /* SplashViewController.swift in Sources */,
+				864250C126AC3D7800837F07 /* SessionManagerCore.swift in Sources */,
+				864250C826AC4B2700837F07 /* LanguageManager.swift in Sources */,
+				864250DB26AC71E400837F07 /* UpdateTokenModel.swift in Sources */,
 				9667E07726A6156C0098C7F2 /* GradientView.swift in Sources */,
 				9667E08826A6156C0098C7F2 /* RxActivityIndicator.swift in Sources */,
 				9667E07326A6156C0098C7F2 /* PaddingTextField.swift in Sources */,
+				864250D826AC71A100837F07 /* UpdateTokenResponseMapper.swift in Sources */,
 				9667E08526A6156C0098C7F2 /* NetworkError.swift in Sources */,
 				9667E07D26A6156C0098C7F2 /* RestAPITransport.swift in Sources */,
 				9667E07F26A6156C0098C7F2 /* TextAttributes.swift in Sources */,
 				9667E08926A6156C0098C7F2 /* Toast.swift in Sources */,
+				864250AF26AC174C00837F07 /* OnboardingWebViewController.swift in Sources */,
+				864250AA26AC150000837F07 /* UITapGestureRecognizerExtension.swift in Sources */,
 				9667E07926A6156C0098C7F2 /* UIViewRxExtension.swift in Sources */,
 				9667E07B26A6156C0098C7F2 /* GlobalDefinitions.swift in Sources */,
+				864250D326AC503B00837F07 /* LanguageMediatorDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		86BB67D626A7493E00283267 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				86BB67D726A7495300283267 /* uk */,
+				86BB67D826A7497100283267 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		9667E03F26A60FEF0098C7F2 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -419,6 +678,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -480,6 +740,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

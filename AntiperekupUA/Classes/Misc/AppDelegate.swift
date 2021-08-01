@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,6 +15,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseManager.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = SplashViewController()
+        window?.makeKeyAndVisible()
+        
+        Messaging.messaging().delegate = self
         return true
     }
+}
+
+extension AppDelegate: MessagingDelegate {
+    
 }

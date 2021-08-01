@@ -1,0 +1,384 @@
+/* 
+  Localizable.strings
+  AntiperekupUA
+
+  Created by Vitaliy Zagorodnov on 20.07.2021.
+  
+*/
+"app_name" = "Перевірка авто. Антиперекуп Україна";
+
+// Errors
+"request_error" = "Помилка запиту";
+"field_error" = "Поле введення повинно бути заповнене";
+"network_error" = "Немає мережевого підключення";
+"timeout_error" = "Сервер не відповідає. Спробуйте знову";
+"vin_error" = "VIN код може містити тілько\nлатинські букви та цифри.\nНаприклад: XTA111730B0123490";
+"car_number_error" = "Перевірте держ.номер";
+"empty_field" = "Введіть дані для пошуку";
+
+// Other
+"check" = "Перевірити";
+"check_repeat" = "Повторити";
+"no_data" = "н.д.";
+"wait" = "Виконується пошук даних. Запит може виконуватися протягом певного часу. Будь ласка, зачекайте";
+
+"natural_type" = "Фізична особа";
+"legal_type" = "Юридична особа";
+
+// Bottom menu
+// Vin report
+
+"no_car_information_found" = "Відомості про автомобіль не знайдено";
+/*
+<plurals name="photos">
+    <item quantity="one">Знайдено %d фото</item>
+    <item quantity="few">Знайдено %d фото</item>
+    <item quantity="other">Знайдено %d фото</item>
+    <item quantity="many">Знайдено %d фото</item>
+</plurals>
+<plurals name="records">
+    <item quantity="one">%d запис</item>
+    <item quantity="few">%d записи</item>
+    <item quantity="other">%d записів</item>
+    <item quantity="many">%d записів</item>
+</plurals>
+<plurals name="records_wanted">
+    <item quantity="one">%d запис. Автомобіль в розшуку</item>
+    <item quantity="few">%d записи. Автомобіль в розшуку</item>
+    <item quantity="other">%d записів. Автомобіль в розшуку</item>
+    <item quantity="many">%d записів. Автомобіль в розшуку</item>
+</plurals>
+*/
+"error_purchaise" = "Сталася помилка під час купівлі. Зв\'яжіться з нами, якщо це помилка";
+
+// My reports
+"copied" = "Скопійовано";
+
+// More menu
+"wanted_passport_menu" = "Перевірка паспорта";
+
+"code_support" = "Код техпідтримки: %1$s";
+"technical_support" = "Звернутися в техпідтримку";
+"audit_history" = "Історія перевірок";
+"merchant_debt_verification" = "Перевірка боргів";
+"privacy_policy" = "Політика конфіденційності";
+
+"rate" = "Поставити оцінку";
+
+// Intro
+"intro_text1" = "Найбільш повна \nінформація про Українські авто";
+"intro_text2" = "Безлімітні звіти";
+"intro_text3" = "Власні бази по\nавтомобілях";
+"intro_text4" = "Таксі, розшук, аукціони та\nбагато іншого";
+"next" = "Далі";
+"privacy_policy_title" = "Продовжуючи, Ви приймаєте\n";
+"privacy_policy_link" = "політику конфіденційності";
+"start" = "Почати";
+
+// Splash-
+"splash_text" = "Антиперекуп Україна \nПеревірка авто";
+"error_occured" = "сталася помилка.";
+"understand" = "Зрозуміло";
+"send_mail" = "Зв\'язатися з нами";
+"app_name_error" = "Антиперекуп Україна. Помилка";
+"email_text" = "ID: %s \n
+    OS: %s \n
+    Version: %s \n
+    Device: %s \n
+";
+"warning" = "Увага";
+
+"date" = "Дата:";
+
+// WebActivity
+"wait_text" = "1. Дочекайтеся завантаження \n2. Поставте галочку \n3. Пройдіть капчу";
+"wait_text2" = "Ця капча знаходиться на сторонньому сервісі, додали її не ми, прибрати її неможливо";
+
+"send" = "Відправити";
+"cancel" = "Відміна";
+"error_deposit" = "Сталася помилка під час пошуку. Спробуйте пізніше";
+
+// History
+"app_name_question" = "Антиперекуп Україна. Запитання";
+
+"close" = "Закрити";
+"camera_hint" = "Наведіть білу рамку на VIN код автомобіля";
+"access_denied" = "Дозвольте доступ до камери";
+
+// list
+// small before
+// after
+
+"go_to_app" = "Перейдіть в додаток";
+
+"support_us" = "Підтримайте нас";
+"please_rate_app" = "Будь ласка, залиште відгук про додаток в Google Play. Це допоможе нам розвиватися та додавати нові джерела даних";
+
+"gov_data_regnumber" = "Держ.номер:";
+"gov_data_vin" = "VIN:";
+"gov_data_person" = "Власник:";
+"gov_data_reg_addr_koatuu" = "Адреса:";
+"gov_data_operation_code" = "Код операції:";
+"gov_data_operation_name" = "Запис:";
+"gov_data_date" = "Дата:";
+"gov_data_department_code" = "Код департаменту:";
+"gov_data_department" = "Департамент:";
+"gov_data_brand" = "Марка:";
+"gov_data_model" = "Модель:";
+"gov_data_year" = "Рік:";
+"gov_data_color" = "Колір:";
+"gov_data_kind" = "Тип ТЗ:";
+"gov_data_body" = "Кузов ТЗ:";
+"gov_data_purpose" = "Призначення:";
+"gov_data_fuel" = "Паливо:";
+"gov_data_capacity" = "Об\'єм двигуна:";
+"gov_data_own_weight" = "Маса без навантаження:";
+"gov_data_total_weight" = "Повна маса:";
+"no_gov_data_information_found" = "Відомості не знайдено";
+"subs_descr_gov_data" = "Інформація надана державним порталом України";
+
+"error_subs" = "Сталася помилка під час пошуку";
+
+"wanted_ovd" = "ОВС:";
+"wanted_brand" = "Марка, модель:";
+"wanted_color" = "Колір:";
+"wanted_vehicle_number" = "Держ.номер:";
+"wanted_body_number" = "VIN / номер кузова:";
+"wanted_chassis_number" = "Номер рами:";
+"wanted_engine_number" = "Номер двигуна:";
+"wanted_theft_date" = "Дата викрадення:";
+"wanted_insert_date" = "Дата подачі в розшук:";
+"wanted_title" = "Розшук автомобіля";
+"no_wanted_information_found" = "Відомості про розшук не знайдено";
+"subs_descr_wanted" = "Інформація надана МВС України";
+
+"wanted_passport_id" = "№ в базі:";
+"wanted_passport_ovd" = "ОВС:";
+"wanted_passport_series" = "Серія:";
+"wanted_passport_number" = "Номер:";
+"wanted_passport_type" = "Тип:";
+"wanted_passport_status" = "Статус:";
+"wanted_passport_theft_date" = "Дата втрати:";
+"wanted_passport_insert_date" = "Дата додавання в базу:";
+
+"wanted_passport_series_hint" = "Серія";
+"wanted_passport_number_hint" = "Номер";
+
+"wanted_passport_description" = "Пошук виконується по базі МВС. Якщо дані знайдено - паспорт  (втрачений або викрадений). Будьте уважні!";
+"no_wanted_passport_information_found" = "Паспорт не є в базі викрадених паспортів";
+"wanted_passport_information_found" = "Паспорт недійсний";
+"passport_number_error_numbers" = "Номер паспорта може складатися тільки з цифр";
+"passport_series_error_numbers" = "Серія паспорта може складатися тільки з латинських букв";
+
+"reg_doc_number_error_numbers" = "Номер документа може складатися тільки з цифр";
+"reg_doc_series_error_numbers" = "Серія документа може складатися тільки з латинських букв";
+
+"photos_make" = "Марка:";
+"photos_model" = "Модель:";
+"photos_title" = "Фотографії автомобіля";
+"no_photos_information_found" = "Фотографії не знайдено";
+"subs_descr_photos" = "Фото надані сервісом avto-nomer.ru";
+"photo_not_exist" = "Фотографії немає";
+
+"mtsbu_policy_number" = "№ поліса:";
+"mtsbu_vin" = "VIN:";
+"mtsbu_reg_number" = "Держ.номер:";
+"mtsbu_make_model" = "Марка, модель:";
+"mtsbu_type" = "Тип ТЗ:";
+"mtsbu_insurer_name" = "Страховик:";
+"mtsbu_insurer_status" = "Статус страховика:";
+"mtsbu_insurer_phone" = "Номер телефону страховика:";
+"mtsbu_insurer_email" = "Email страховика:";
+"mtsbu_insurer_address" = "Адреса страховика:";
+
+"mtsbu_title" = "Перевірка автоцивілки";
+"no_mtsbu_information_found" = "Страховку не знайдено";
+"subs_descr_mtsbu" = "Дані надані МТСБУ";
+
+"dsbt_regnumber" = "Держ.номер:";
+"dsbt_managment_type" = "Тип ліцензії:";
+"dsbt_name" = "Ім\'я:";
+"dsbt_short_name" = "Коротке ім\'я:";
+"dsbt_license_num" = "Номер ліцензії:";
+"dsbt_start_date" = "Дата початку:";
+"dsbt_end_date" = "Дата закінчення:";
+"dsbt_activity" = "Вид діяльності:";
+"dsbt_vehicle_status" = "Статус ТЗ:";
+"dsbt_status" = "Статус ліцензії:";
+
+"dsbt_title" = "Реєстр таксі";
+"no_dsbt_information_found" = "Автомобіль не зареєстровано в якості таксі";
+"subs_descr_dsbt" = "Дані надано порталом gov.ua";
+
+"complectation_title" = "Розшифровка комплектації";
+"no_complectation_information_found" = "Даних по розшифровці комплектації не знайдено";
+"subs_descr_complectation" = "Розшифровка комплектації працює тільки з наступними марками автомобілів: AUDI, BMW, CHRYSLER, CITROEN, DODGE, FORD, HYUNDAI, INFINITI, JAGUAR, JEEP, KIA, LAND ROVER, LEXUS, MERCEDES-BENZ, MINI, NISSAN, PEUGEOT, PLYMOUTH, PORSCHE, RENAULT, ROLLS-ROYCE, SEAT, SKODA, TOYOTA, VOLKSWAGEN. Наявність інформації залежить від джерела даних. У деяких випадках можуть бути неточності";
+"recall_vin" = "VIN:";
+"recall_make" = "Марка:";
+"recall_model" = "Модель:";
+"recall_reason" = "Причина:";
+"no_recall_information_found" = "Відкличні кампанії не знайдено";
+"subs_descr_recall" = "Відклична кампанія не зв\'язана з терміном гарантії на автомобіль. Її оголошують у зв\'язку з можливими несправностями, які можуть мати серйозний вплив на рівень безпеки машини. Роботи проводяться безкоштовно для власників - за рахунок виробника";
+"recall_title" = "Відкличні кампанії";
+"decoder_title" = "Розшифровка VIN";
+"no_decoder_information_found" = "Дані розшифровки не знайдено.";
+"subs_descr_decoder" = "Розшифровка VIN коду в деяких випадках може видавати невірні дані через особливості роботи джерела даних";
+"decoder_success" = "Дані розшифровки отримано";
+"interpol_vin" = "VIN:";
+"interpol_number" = "Системний номер:";
+"interpol_date_added" = "Дата постановки на облік:";
+"interpol_date_theft" = "Дата викрадення:";
+"interpol_engine" = "Номер двигуна:";
+"interpol_type" = "Тип обліку:";
+"interpol_make_model" = "Марка, модель:";
+"interpol_title" = "Розшук по базі Інтерполу";
+"no_interpol_information_found" = "Дані в базі Інтерполу не знайдено";
+"subs_descr_interpol" = "Перевірка виконується по базі Інтерполу (міжнародний розшук)";
+
+// Проверка долгов
+"name" = "Ім\'я";
+"last_name" = "Прізвище";
+"patronymic" = "По батькові";
+"birthday" = "Дата народження";
+"seller_duty_hint" = "Дані про борги завантажуються з єдиного державного реєстру боржників. Дані потрібно вводити українською мовою";
+
+"deduction_type" = "Категорія боргу:";
+"department_name" = "Департамент:";
+"executor" = "Виконавець:";
+"executor_phone" = "Телефон виконавця:";
+"executor_email" = "Email виконавця:";
+
+"debt_found" = "Знайдено інформацію про заборгованості";
+"debt_not_found" = "Відомості про борги не знайдено";
+
+"continue_work" = "Продовжити";
+"ssl_certificate_error" = "Помилка SSL-сертифіката.";
+"ssl_untrusted" = "Центр сертифікації не є довіреним.";
+"ssl_expired" = "Термін дії сертифіката закінчився.";
+"ssl_idmismatch" = "Невідповідність імені хоста і сертифіката.";
+"ssl_notyetvalid" = "Сертифікат недійсний.";
+"ssl_unknown_error" = "Помилка SSL";
+"continue_anyway" = "\nВсе одно продовжити?";
+
+"preview_title" = "Участь в аукціоні";
+"no_preview_information_found" = "Дані не знайдено";
+"subs_descr_preview" = "Дані про участь в аукціонах в США";
+
+"auction_header" = "Марка, модель:";
+"auction_actual_price" = "Актуальна вартість:";
+"auction_repair_cost" = "Вартість ремонту:";
+"auction_title_state" = "Стан:";
+"auction_location" = "Розташування:";
+"auction_odometer" = "Пробіг:";
+"auction_primary_damage" = "Основне пошкодження:";
+"auction_secondary_damage" = "Інші ушкодження:";
+"auction_color" = "Колір:";
+"auction_engine" = "Двигун:";
+"auction_cylinders" = "Кількість циліндрів:";
+"auction_fuel" = "Тип палива:";
+"auction_keys" = "Наявність ключів:";
+"auction_highlights" = "Примітки:";
+"activate_access_for_month" = "Активувати безліміт";
+"restore_purchase" = "Відновити покупку";
+"download_app" = "Завантажити додаток";
+"share_report" = "Поділитися звітом";
+"wait_finish_all_requests" = "Дочекайтеся закінчення завантаження всіх запитів";
+"ad_fines" = "Сплатити штрафи";
+"complete_captcha_info" = "Для пошуку страховки необхідно пройти капчу. Натисніть на кнопку нижче і пройдіть її";
+
+"no_ria_information_found" = "Дані не знайдено";
+"subs_descr_ria" = "У цьому блоці представлена ​​інформація про історію продажів з фотографіями";
+"ria_title" = "Фотографії та історія продажів RIA";
+
+"ria_vin" = "VIN:";
+"ria_regnumber" = "Держ.номер:";
+"ria_make" = "Марка:";
+"ria_model" = "Модель:";
+"ria_location" = "Розташування:";
+"ria_date_add" = "Дата:";
+"ria_user_phone" = "Номер телефону:";
+"ria_description" = "Опис:";
+"ria_year" = "Рік:";
+"ria_mileage" = "Пробіг:";
+"ria_fuel" = "Паливо:";
+"ria_transmission" = "Коробка передач:";
+"ria_price_usd" = "Ціна в USD:";
+"ria_title_name" = "Заголовок:";
+"ria_url" = "Посилання:";
+"ria_city" = "Місто:";
+"ria_is_leasing" = "У лізингу?";
+"ria_is_leasing_yes" = "Так";
+"ria_is_leasing_no" = "Немає";
+
+"tab_reg_number" = "Держномер";
+"tab_vin_number" = "VIN номер";
+"no_history" = "Поки немає жодної перевірки";
+"clear" = "Очистити";
+"remove" = "Видалити";
+"check_passport_mvd" = "Перевірка паспорта по базі МВС";
+"ukraine_mvd_database" = "База МВС України";
+"yesterday" = "Вчора %s";
+"day_before_yesterday" = "Позавчора %s";
+"search_debts" = "Пошук заборгованостей власника";
+"ad_polis_2" = "Поліс автоцивілки";
+"technical_passport" = "Техпаспорт";
+"send_email" = "Відправлення email…";
+"tech_passport_number_error" = "Перевірте серію і номер техпаспорта";
+"choose_language" = "Оберіть мову";
+"russian" = "Русский";
+"ukraine" = "Українська";
+
+"report" = "Звіт";
+"basic_information" = "Базові відомості";
+"invalid_vin" = "Невірний VIN?";
+"invalid_reg_number" = "Невірний держномер?";
+"enter_gos_number" = "Введіть держномер";
+"enter_vin" = "Введіть VIN";
+"enter_tech_passport" = "Введіть номер техпаспорта";
+"check_vin" = "Перевірте VIN";
+"check_gos_number" = "Перевірте держномер";
+"tech_passport_number" = "Номер техпаспорта:";
+"confirm" = "Підтвердити";
+"input_missing_gos" = "Введіть відсутні символи в держномері, щоб виконати запит";
+"input_missing_vin" = "Введіть відсутні символи в VIN, щоб виконати запит";
+"check_input_value" = "Перевірте введені дані";
+"main_information" = "Основні відомості";
+"registration_history" = "Історія реєстрації";
+"required_empty_data_warning" = "
+    Зверніть увагу! Для виконання перевірки автомобіля по цьому блоку даних необхідно ввести %s.
+    Або, якщо у Вас є номер техпаспорта: введіть його
+";
+"gos_number_type" = "Держ.номер";
+"vin_code_type" = "VIN код";
+"skip" = "Пропустити";
+
+"comment_vin" = "VIN:";
+"comment_reg_number" = "Держ.номер:";
+"comment_timestamp" = "Дата, час:";
+"comment_title" = "Заголовок:";
+"comment_description" = "Коментар:";
+"user_comments" = "Коментарі користувачів";
+"select_comment_title" = "Оберіть заголовок коментаря";
+"comment_has_been_sent" = "Дякуємо, ваш коментар відправлений";
+"user_comments_not_found" = "Коментарі не знайдені";
+"new_comment_button" = "Вам щось відомо про цей автомобіль? Додайте коментар для всіх";
+"user_comments_found" = "Знайдено коментарі. Ви можете поскаржитися на коментар, натиснувши на прапорець поруч з ним";
+"user_comments_desc" = "В даному блоці відображені коментарі, які користувачі залишили по даному автомобілю";
+"new_comment" = "Новий коментар";
+"title" = "Заголовок";
+"comment" = "Коментар";
+
+"premium_access_title" = "Безлімітні запити";
+"premium_access_subtitle" = "Оформивши покупку, Ви отримаєте:";
+"premium_access_info_1" = "Безлімітні запити";
+"premium_access_info_2" = "Інформація з закритих баз даних";
+"premium_access_info_3" = "Дані аукціонів і багато іншого";
+"month_1_cost" = "1 місяць – %.0f%s";
+"r_299_month" = "%.0f%s / місяць";
+"month_6_cost" = "6 місяців – %.0f%s";
+"r_199_month" = "299₽ / місяць";
+"sale" = "Знижка";
+"subscription_info_2_1" = "Підписка відкриває доступ до необмежених запитам на обраний період. Підписка продовжується автоматично. Скасувати підписку можна в додатку Google Play / Підписка. Активуючи доступ, ви погоджуєтеся з нашою";
+"subscription_info_2_2" = "Політикою конфіденційності та правилами сервісу!";
+"subscribe_not_found" = "Покупки не знайдені";
+"warning_only_ukr" = "Зверніть увагу, дані необхідно вводити ТІЛЬКИ українською мовою";
