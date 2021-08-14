@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>photos</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>Найдено %d фото</string>
+			<key>few</key>
+			<string>Найдено %d фото</string>
+			<key>other</key>
+			<string>Найдено %d фото</string>
+		</dict>
+	</dict>
+	<key>records</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%d запись</string>
+			<key>few</key>
+			<string>%d записи</string>
+			<key>other</key>
+			<string>%d записей</string>
+		</dict>
+	</dict>
+	<key>records_wanted</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%d запись. Автомобиль в розыске</string>
+			<key>few</key>
+			<string>%d записи. Автомобиль в розыске</string>
+			<key>other</key>
+			<string>%d записей. Автомобиль в розыске</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

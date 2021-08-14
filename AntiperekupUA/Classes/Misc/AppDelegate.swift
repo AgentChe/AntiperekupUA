@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().shadowImage = UIColor.black.withAlphaComponent(0.3).navigationShadow()
         UINavigationBar.appearance().barTintColor = .white
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.black]
+        UINavigationBar.appearance().tintColor = .black
         return true
     }
 }
