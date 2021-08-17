@@ -47,4 +47,28 @@ final class ReportManagerCore {
             .callServerApi(requestBody: request)
             .map(InterpolModel.map(from:))
     }
+    
+    func getPhotos(regNumber: String) -> Single<PhotoModel?> {
+        let request = GetPhotoRequest(regNumber: regNumber)
+        
+        return RestAPITransport()
+            .callServerApi(requestBody: request)
+            .map { PhotoModel.map(from: $0) }
+    }
+    
+    func getComments(regNumber: String, vin: String) -> Single<CommentsModel?> {
+        let request = GetCommentsRequest(regNumber: regNumber, vin: vin)
+        
+        return RestAPITransport()
+            .callServerApi(requestBody: request)
+            .map(CommentsModel.map(from:))
+    }
+    
+    func getRIA(regNumber: String, vin: String) -> Single<RIAModel?> {
+        let request = GetRIARequest(regNumber: regNumber, vin: vin)
+        
+        return RestAPITransport()
+            .callServerApi(requestBody: request)
+            .map(RIAModel.map(from:))
+    }
 }

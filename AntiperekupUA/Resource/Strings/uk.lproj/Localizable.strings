@@ -175,6 +175,7 @@
 
 "photos_make" = "Марка:";
 "photos_model" = "Модель:";
+"photos_date" = "Дата:";
 "photos_title" = "Фотографії автомобіля";
 "no_photos_information_found" = "Фотографії не знайдено";
 "subs_descr_photos" = "Фото надані сервісом avto-nomer.ru";

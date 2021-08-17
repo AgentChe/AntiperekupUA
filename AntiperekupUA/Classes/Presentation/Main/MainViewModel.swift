@@ -24,7 +24,6 @@ extension MainViewModel {
     struct Output {
         let tableData: Driver<[TableDataSource]>
         let searchPlaceholder: Driver<String>
-//        let searchResult: Signal<SearchResult>
         let isError: Driver<Bool>
         let route: Signal<MainRoute>
     }
@@ -142,7 +141,8 @@ private extension MainViewModel {
         return { result -> MainRoute? in
             switch result {
             case let .regNumber(value):
-                return .regValidation(value)
+                return .report(.regNumber(value))
+//                return .regValidation(value)
             case let .vinNumber(value):
                 return .report(.vin(value))
             case let .technicalPassport(series, number):

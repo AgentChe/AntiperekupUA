@@ -9,10 +9,12 @@ import RxSwift
 import RxCocoa
 
 final class ReportScreenViewModel {
+    typealias DataSource = (String, [ReportTableItem])
+    typealias Elements = [ReportTableItem]
+    
     private lazy var paygateService = PaygateManagerCore()
     private lazy var reportService = ReportManagerCore()
     private let searchValue: ReportSearchValue
-    typealias DataSource = (String, [ReportTableItem])
     
     init(searchValue: ReportSearchValue) {
         self.searchValue = searchValue
@@ -30,22 +32,35 @@ extension ReportScreenViewModel {
     
     func configure(input: Input) -> Output {
         
+        // TODO: Удалить take, после реализации подписок
         let isActiveSubscription = paygateService.isActiveSubscription()
             .asObservable()
+            .map(!)
             .share(replay: 1)
+        
         let searchValue = Observable.just(searchValue)
         
         let baseData = makeBaseData(searchValue: searchValue)
             .distinctUntilChanged()
+            .share(replay: 1, scope: .forever)
+        
+        let mainAndHistory = makeMainAndHistorySection(baseData: baseData)
             .share(replay: 1)
         
         let elements = Observable
-            .combineLatest(
+            .combineLatest([
                 makeBaseSection(baseData: baseData),
-                makeMainAndHistorySection(baseData: baseData),
+                mainAndHistory.map { $0.main },
+                mainAndHistory.map { $0.history },
                 makeWantedSection(baseData: baseData),
-                makeInterpolSection(baseData: baseData)
-            ) { $0 + $1 + $2 + $3 }
+                makeInterpolSection(baseData: baseData),
+                makePhotosSection(baseData: baseData),
+                makeMTSBUSection(),
+                makeCommentsSection(baseData: baseData),
+                makeLockedSection(baseData: baseData, isActiveSubscription: isActiveSubscription)
+            ]) { elements -> [DataSource] in
+                return elements.map { ("", $0) }
+            }
             .asDriver(onErrorJustReturn: [])
         
         
@@ -68,22 +83,32 @@ private extension ReportScreenViewModel {
                         .getRegNumberByVin(vin: value)
                         .asObservable()
                         .map { BaseData(vin: value, regNumber: $0?.regNumber, technicalPassport: nil) }
-                case .regNumber:
-                    baseData = .empty()
+                        .startWith(BaseData(vin: value, regNumber: nil, technicalPassport: nil))
+                case let .regNumber(value):
+                    // TODO: После реализации WebView поправить конфигурацию данных
+                    baseData = .just(BaseData(vin: nil, regNumber: value, technicalPassport: nil))
                 case let .technicalPassport(series, number):
                     baseData = reportService
                         .getVinAndRegNumberByRegDoc(series: series, number: number)
                         .asObservable()
                         .map { BaseData(vin: $0?.vin, regNumber: $0?.regNumber, technicalPassport: "\(series)\(number)") }
+                        .startWith(BaseData(vin: nil, regNumber: nil, technicalPassport: "\(series)\(number)"))
                 }
                 
                 return baseData
             }
+            .scan(BaseData(vin: nil, regNumber: nil, technicalPassport: nil)) { old, new in
+                return BaseData(
+                    vin: new.vin ?? old.vin,
+                    regNumber: new.regNumber ?? old.regNumber,
+                    technicalPassport: new.technicalPassport ?? old.technicalPassport
+                )
+            }
     }
     
-    func makeBaseSection(baseData: Observable<BaseData>) -> Observable<[DataSource]> {
+    func makeBaseSection(baseData: Observable<BaseData>) -> Observable<Elements> {
         baseData
-            .map { model -> [DataSource] in
+            .map { model -> Elements in
                 let regNumber = ReportValueWithActionModel(
                     value: model.regNumber ?? "",
                     action: model.regNumber.map { $0.contains("_") ? .change : .none } ?? .add,
@@ -109,97 +134,118 @@ private extension ReportScreenViewModel {
                     .valueWithAction(technicalPassport)
                 ]
                 
-                return [("", items)]
+                return items
             }
     }
     
-    func makeMainAndHistorySection(baseData: Observable<BaseData>) -> Observable<[DataSource]> {
+    func makeMainAndHistorySection(baseData: Observable<BaseData>) -> Observable<(main: Elements, history: Elements)> {
+        let mainTitle = "main_information".localized
+        let historyTitle = "registration_history".localized
+        
+        let loadingSections = (
+            main: [ReportTableItem.header(.init(title: mainTitle, state: .empty)), .loader],
+            history: [ReportTableItem.header(.init(title: historyTitle, state: .empty)), .loader]
+        )
+        
         return baseData
             .map { $0.regNumber }
-            .flatMapLatest { [reportService] regNumber -> Observable<[DataSource]> in
-                let headerTitle = "main_information".localized
-                
+            .distinctUntilChanged()
+            .flatMapLatest { [reportService] regNumber -> Observable<(main: Elements, history: Elements)>in
                 guard let regNumber = regNumber else {
                     let text = String(format: "required_empty_data_warning".localized, "gos_number_type".localized)
-                    let items: [ReportTableItem] = [
-                        .header(.init(title: headerTitle, state: .empty)),
+                    let mainItems: [ReportTableItem] = [
+                        .header(.init(title: mainTitle, state: .error)),
                         .text(text),
                         .valueWithAction(.init(value: "", action: .add, fieldType: .regNumber)),
                         .valueWithAction(.init(value: "", action: .add, fieldType: .technicalPassport))
                     ]
-                    return .just([("", items)])
+                    
+                    let historyItems: [ReportTableItem] = [
+                        .header(.init(title: historyTitle, state: .error)),
+                        .text(text),
+                        .valueWithAction(.init(value: "", action: .add, fieldType: .regNumber)),
+                        .valueWithAction(.init(value: "", action: .add, fieldType: .technicalPassport))
+                    ]
+                    return .just((main: mainItems, history: historyItems))
                 }
                 
                 return reportService
                     .getGovData(regNumber: regNumber)
                     .asObservable()
-                    .map { model -> [DataSource] in
+                    .withUnretained(self)
+                    .map { base, model -> (main: Elements, history: Elements) in
                         guard let model = model, model.result else {
-                            return [Self.errorSection(headerText: headerTitle, message: model?.errorMessage)]
+                            return (base.errorSection(headerText: mainTitle, message: model?.errorMessage), base.errorSection(headerText: historyTitle, message: model?.errorMessage))
                         }
                         
-                        guard let vehicle = model.vehicle else {
-                            let items: [ReportTableItem] = [
-                                .header(.init(title: headerTitle, state: .error)),
+                        let main: [ReportTableItem] = model.vehicle
+                            .map { vehicle in
+                                [
+                                    .header(.init(title: mainTitle, state: .success)),
+                                    vehicle.logo.map { .logo($0) },
+                                    .value(.init(title: "gov_data_regnumber".localized, value: vehicle.regNumber)),
+                                    .value(.init(title: "gov_data_vin".localized, value: vehicle.vin)),
+                                    .value(.init(title: "gov_data_brand".localized, value: vehicle.brand)),
+                                    .value(.init(title: "gov_data_model".localized, value: vehicle.model)),
+                                    .value(.init(title: "gov_data_color".localized, value: vehicle.color)),
+                                    .value(.init(title: "gov_data_body".localized, value: vehicle.body)),
+                                    .value(.init(title: "gov_data_purpose".localized, value: vehicle.purpose)),
+                                    .value(.init(title: "gov_data_kind".localized, value: vehicle.kind)),
+                                    .value(.init(title: "gov_data_capacity".localized, value: vehicle.capacity)),
+                                    .value(.init(title: "gov_data_year".localized, value: vehicle.year)),
+                                    .value(.init(title: "gov_data_fuel".localized, value: vehicle.fuel)),
+                                    .value(.init(title: "gov_data_own_weight".localized, value: vehicle.ownWeight)),
+                                    .value(.init(title: "gov_data_total_weight".localized, value: vehicle.totalWeight))
+                                ].compactMap { $0 }
+                            } ?? [
+                                .header(.init(title: mainTitle, state: .error)),
                                 .iconWithText(.init(text: "no_gov_data_information_found".localized, iconType: .error))
                             ]
-                            return [("", items)]
-                        }
-                        
-                        let main: [ReportTableItem] = [
-                            .header(.init(title: headerTitle, state: .success)),
-                            .value(.init(title: "gov_data_regnumber".localized, value: vehicle.regNumber)),
-                            .value(.init(title: "gov_data_vin".localized, value: vehicle.vin)),
-                            .value(.init(title: "gov_data_brand".localized, value: vehicle.brand)),
-                            .value(.init(title: "gov_data_model".localized, value: vehicle.model)),
-                            .value(.init(title: "gov_data_color".localized, value: vehicle.color)),
-                            .value(.init(title: "gov_data_body".localized, value: vehicle.body)),
-                            .value(.init(title: "gov_data_purpose".localized, value: vehicle.purpose)),
-                            .value(.init(title: "gov_data_kind".localized, value: vehicle.kind)),
-                            .value(.init(title: "gov_data_capacity".localized, value: vehicle.capacity)),
-                            .value(.init(title: "gov_data_year".localized, value: vehicle.year)),
-                            .value(.init(title: "gov_data_fuel".localized, value: vehicle.fuel)),
-                            .value(.init(title: "gov_data_own_weight".localized, value: vehicle.ownWeight)),
-                            .value(.init(title: "gov_data_total_weight".localized, value: vehicle.totalWeight))
-                        ]
                         
                         var initialHistory: [ReportTableItem] {
                             let isEmpty = model.records.isEmpty
                             let text = isEmpty ? "no_gov_data_information_found".localized : String(format: "records".localized, model.records.count)
                             
                             let result: ReportTableItem = .iconWithText(.init(text: text, iconType: isEmpty ? .error : .success))
-                            let header: ReportTableItem = .header(.init(title: "registration_history".localized, state: isEmpty ? .error : .success))
+                            let header: ReportTableItem = .header(.init(title: historyTitle, state: isEmpty ? .error : .success))
                             
                             return [header, result]
                         }
                         
                         let history: [ReportTableItem] = model.records
+                            .enumerated()
                             .reduce(into: initialHistory) {
-                                $0.append(.value(.init(title: "gov_data_date".localized, value: $1.date)))
-                                $0.append(.value(.init(title: "gov_data_person".localized, value: $1.person)))
-                                $0.append(.value(.init(title: "gov_data_regnumber".localized, value: $1.regNumber)))
-                                $0.append(.value(.init(title: "gov_data_vin".localized, value: $1.vin)))
-                                $0.append(.value(.init(title: "gov_data_brand".localized, value: $1.brand)))
-                                $0.append(.value(.init(title: "gov_data_model".localized, value: $1.model)))
-                                $0.append(.value(.init(title: "gov_data_year".localized, value: $1.year)))
-                                $0.append(.value(.init(title: "gov_data_color".localized, value: $1.color)))
-                                $0.append(.value(.init(title: "gov_data_department".localized, value: $1.departament)))
-                                $0.append(.value(.init(title: "gov_data_department_code".localized, value: $1.departamentCode)))
-                                $0.append(.value(.init(title: "gov_data_operation_code".localized, value: $1.operationCode)))
-                                $0.append(.value(.init(title: "gov_data_operation_name".localized, value: $1.operationName)))
-                                $0.append(.value(.init(title: "gov_data_reg_addr_koatuu".localized, value: $1.regAddrKoatuu)))
-                                $0.append(.separator)
+                                $0.append(.value(.init(title: "gov_data_date".localized, value: $1.element.date)))
+                                $0.append(.value(.init(title: "gov_data_person".localized, value: $1.element.person)))
+                                $0.append(.value(.init(title: "gov_data_regnumber".localized, value: $1.element.regNumber)))
+                                $0.append(.value(.init(title: "gov_data_vin".localized, value: $1.element.vin)))
+                                $0.append(.value(.init(title: "gov_data_brand".localized, value: $1.element.brand)))
+                                $0.append(.value(.init(title: "gov_data_model".localized, value: $1.element.model)))
+                                $0.append(.value(.init(title: "gov_data_year".localized, value: $1.element.year)))
+                                $0.append(.value(.init(title: "gov_data_color".localized, value: $1.element.color)))
+                                $0.append(.value(.init(title: "gov_data_department".localized, value: $1.element.departament)))
+                                $0.append(.value(.init(title: "gov_data_department_code".localized, value: $1.element.departamentCode)))
+                                $0.append(.value(.init(title: "gov_data_operation_code".localized, value: $1.element.operationCode)))
+                                $0.append(.value(.init(title: "gov_data_operation_name".localized, value: $1.element.operationName)))
+                                $0.append(.value(.init(title: "gov_data_reg_addr_koatuu".localized, value: $1.element.regAddrKoatuu)))
+                                if $1.offset < model.records.count - 1 {
+                                    $0.append(.separator)
+                                }
                             }
                         
-                        return [("", main), ("", history)]
+                        return (main: main, history: history)
                     }
+                    .startWith(loadingSections)
             }
+            .startWith(loadingSections)
     }
     
-    func makeWantedSection(baseData: Observable<BaseData>) -> Observable<[DataSource]> {
+    func makeWantedSection(baseData: Observable<BaseData>) -> Observable<Elements> {
+        let headerTitle = "wanted_title".localized
+        
         return baseData
-            .flatMapLatest { [reportService] data -> Observable<[DataSource]> in
-                let headerTitle = "wanted_title".localized
+            .distinctUntilChanged { $0.vin == $1.vin && $0.regNumber == $1.regNumber }
+            .flatMapLatest { [reportService] data -> Observable<Elements> in
                 
                 let regNumber = data.regNumber ?? ""
                 let vin = data.vin ?? ""
@@ -212,73 +258,79 @@ private extension ReportScreenViewModel {
                 ].compactMap { $0 }
                 
                 guard !regNumber.isEmpty && !vin.isEmpty else {
-                    let text = String(format: "required_empty_data_warning".localized, "gos_number_type".localized)
-                    let items: [ReportTableItem] = [.header(.init(title: headerTitle, state: .empty)), .text(text)] + actionItems
-                    return .just([("", items)])
+                    let text = String(format: "required_empty_data_warning".localized, "\("gos_number_type".localized)")
+                    let items: [ReportTableItem] = [.header(.init(title: headerTitle, state: .error)), .text(text)] + actionItems
+                    return .just(items)
                 }
                 
                 return reportService
                     .getWanted(regNumber: regNumber, vin: vin)
                     .asObservable()
-                    .map { model -> [DataSource] in
+                    .withUnretained(self)
+                    .map { base, model -> Elements in
                         guard let model = model, model.result else {
-                            return [Self.errorSection(headerText: headerTitle, message: model?.errorMessage)]
+                            return base.errorSection(headerText: headerTitle, message: model?.errorMessage)
                         }
                         
                         guard !model.wanted.isEmpty else {
                             let text = "no_wanted_information_found".localized
-                            let items: [ReportTableItem] = [
+                            return [
                                 .header(.init(title: headerTitle, state: .success)),
                                 .iconWithText(.init(text: text, iconType : .success))
                             ]
-                            
-                            return [("", items)]
                         }
                         
                         let recordCount = ReportTableItem.iconWithText(.init(text: String(format: "records_wanted".localized, model.wanted.count), iconType: .error))
                         
                         let items: [ReportTableItem] = model.wanted
+                            .enumerated()
                             .reduce(into: [.header(.init(title: headerTitle, state: .error)), recordCount]) {
-                                $0.append(.value(.init(title: "wanted_ovd".localized, value: $1.ovd)))
-                                $0.append(.value(.init(title: "wanted_brand".localized, value: $1.brand)))
-                                $0.append(.value(.init(title: "wanted_color".localized, value: $1.color)))
-                                $0.append(.value(.init(title: "wanted_vehicle_number".localized, value: $1.vehicleNumber)))
-                                $0.append(.value(.init(title: "wanted_body_number".localized, value: $1.bodyNumber)))
-                                $0.append(.value(.init(title: "wanted_chassis_number".localized, value: $1.chassisNumber)))
-                                $0.append(.value(.init(title: "wanted_engine_number".localized, value: $1.engineNumber)))
-                                $0.append(.value(.init(title: "wanted_theft_date".localized, value: $1.theftDate)))
-                                $0.append(.value(.init(title: "wanted_insert_date".localized, value: $1.insertDate)))
-                                $0.append(.separator)
+                                $0.append(.value(.init(title: "wanted_ovd".localized, value: $1.element.ovd)))
+                                $0.append(.value(.init(title: "wanted_brand".localized, value: $1.element.brand)))
+                                $0.append(.value(.init(title: "wanted_color".localized, value: $1.element.color)))
+                                $0.append(.value(.init(title: "wanted_vehicle_number".localized, value: $1.element.vehicleNumber)))
+                                $0.append(.value(.init(title: "wanted_body_number".localized, value: $1.element.bodyNumber)))
+                                $0.append(.value(.init(title: "wanted_chassis_number".localized, value: $1.element.chassisNumber)))
+                                $0.append(.value(.init(title: "wanted_engine_number".localized, value: $1.element.engineNumber)))
+                                $0.append(.value(.init(title: "wanted_theft_date".localized, value: $1.element.theftDate)))
+                                $0.append(.value(.init(title: "wanted_insert_date".localized, value: $1.element.insertDate)))
+                                if $1.offset < model.wanted.count - 1 {
+                                    $0.append(.separator)
+                                }
                             } + actionItems
                         
-                        return [("", items)]
+                        return items
                     }
+                    .startWith([.header(.init(title: headerTitle, state: .empty)), .loader])
             }
+            .startWith([.header(.init(title: headerTitle, state: .empty)), .loader])
     }
     
-    func makeInterpolSection(baseData: Observable<BaseData>) -> Observable<[DataSource]> {
+    func makeInterpolSection(baseData: Observable<BaseData>) -> Observable<Elements> {
+        let headerTitle = "interpol_title".localized
         return baseData
-            .flatMapLatest { [reportService] data -> Observable<[DataSource]> in
-                let headerTitle = "interpol_title".localized
+            .distinctUntilChanged { $0.vin == $0.vin }
+            .flatMapLatest { [reportService] data -> Observable<Elements> in
                 
                 guard let vin = data.vin else {
                     let text = String(format: "required_empty_data_warning".localized, "vin_code_type".localized)
                     
                     let items: [ReportTableItem] = [
-                        .header(.init(title: headerTitle, state: .empty)),
+                        .header(.init(title: headerTitle, state: .error)),
                         .text(text),
                         .valueWithAction(.init(value: "", action: .add, fieldType: .vin)),
                         .valueWithAction(.init(value: "", action: .add, fieldType: .technicalPassport))
                     ]
-                    return .just([("", items)])
+                    return .just(items)
                 }
                 
                 return reportService
                     .getInterpol(vin: vin)
                     .asObservable()
-                    .map { model -> [DataSource] in
+                    .withUnretained(self)
+                    .map { base, model -> Elements in
                         guard let model = model, model.result else {
-                            return [Self.errorSection(headerText: headerTitle, message: model?.errorMessage)]
+                            return base.errorSection(headerText: headerTitle, message: model?.errorMessage)
                         }
                         
                         guard !model.interpol.isEmpty else {
@@ -286,24 +338,260 @@ private extension ReportScreenViewModel {
                                 .header(.init(title: headerTitle, state: .success)),
                                 .iconWithText(.init(text: "no_interpol_information_found".localized, iconType: .success))
                             ]
-                            return [("", items)]
+                            return items
                         }
                         
                         let recordCount = ReportTableItem.iconWithText(.init(text: String(format: "records_wanted".localized, model.interpol.count), iconType: .error))
                         
                         let items: [ReportTableItem] = model.interpol
+                            .enumerated()
                             .reduce(into: [.header(.init(title: headerTitle, state: .error)), recordCount]) {
-                                $0.append(.value(.init(title: "interpol_vin".localized, value: $1.vin)))
-                                $0.append(.value(.init(title: "interpol_number".localized, value: $1.number)))
-                                $0.append(.value(.init(title: "interpol_date_added".localized, value: $1.addedDate)))
-                                $0.append(.value(.init(title: "interpol_date_theft".localized, value: $1.theftDate)))
-                                $0.append(.value(.init(title: "interpol_engine".localized, value: $1.engine)))
-                                $0.append(.value(.init(title: "interpol_type".localized, value: $1.type)))
-                                $0.append(.value(.init(title: "interpol_make_model".localized, value: $1.makeModel)))
-                                $0.append(.separator)
+                                $0.append(.value(.init(title: "interpol_vin".localized, value: $1.element.vin)))
+                                $0.append(.value(.init(title: "interpol_number".localized, value: $1.element.number)))
+                                $0.append(.value(.init(title: "interpol_date_added".localized, value: $1.element.addedDate)))
+                                $0.append(.value(.init(title: "interpol_date_theft".localized, value: $1.element.theftDate)))
+                                $0.append(.value(.init(title: "interpol_engine".localized, value: $1.element.engine)))
+                                $0.append(.value(.init(title: "interpol_type".localized, value: $1.element.type)))
+                                $0.append(.value(.init(title: "interpol_make_model".localized, value: $1.element.makeModel)))
+                                if $1.offset < model.interpol.count - 1 {
+                                    $0.append(.separator)
+                                }
                             }
                         
-                        return [("",  items)]
+                        return items
+                    }
+                    .startWith([.header(.init(title: headerTitle, state: .empty)), .loader])
+            }
+            .startWith([.header(.init(title: headerTitle, state: .empty)), .loader])
+    }
+    
+    func makePhotosSection(baseData: Observable<BaseData>) -> Observable<Elements> {
+        let headerTitle = "photos_title".localized
+        return baseData
+            .map { $0.regNumber }
+            .distinctUntilChanged()
+            .flatMapLatest { [reportService] regNumber -> Observable<Elements> in
+                
+                guard let regNumber = regNumber else {
+                    let text = String(format: "required_empty_data_warning".localized, "gos_number_type".localized)
+                    
+                    let items: [ReportTableItem] = [
+                        .header(.init(title: headerTitle, state: .error)),
+                        .text(text),
+                        .valueWithAction(.init(value: "", action: .add, fieldType: .regNumber)),
+                        .valueWithAction(.init(value: "", action: .add, fieldType: .technicalPassport))
+                    ]
+                    
+                    return .just(items)
+                }
+                
+                return reportService
+                    .getPhotos(regNumber: regNumber)
+                    .asObservable()
+                    .withUnretained(self)
+                    .map { base, model -> Elements in
+                        guard let model = model, model.result else {
+                            return base.errorSection(headerText: headerTitle, message: model?.errorMessage)
+                        }
+                        
+                        var initialItems: [ReportTableItem] {
+                            let isEmpty = model.photos.isEmpty
+                            let text = isEmpty ? "no_photos_information_found".localized : String(format: "photos".localized, model.photos.count)
+                            
+                            let result: ReportTableItem = .iconWithText(.init(text: text, iconType: isEmpty ? .error : .success))
+                            let header: ReportTableItem = .header(.init(title: headerTitle, state: isEmpty ? .error : .success))
+                            
+                            return [header, result]
+                        }
+                        
+                        let items: [ReportTableItem] = model.photos
+                            .enumerated()
+                            .reduce(into: initialItems) {
+                                $0.append(.value(.init(title: "photos_make".localized, value: $1.element.make)))
+                                $0.append(.value(.init(title: "photos_model".localized, value: $1.element.model)))
+                                $0.append(.value(.init(title: "photos_date".localized, value: $1.element.date)))
+                                if let url = $1.element.url {
+                                    $0.append(.photo(url))
+                                }
+                                
+                                if $1.offset < model.photos.count - 1 {
+                                    $0.append(.separator)
+                                }
+                        }
+                        
+                        
+                        return items
+                    }
+                    .startWith([.header(.init(title: headerTitle, state: .empty)), .loader])
+            }
+            .startWith([.header(.init(title: headerTitle, state: .empty)), .loader])
+    }
+    
+    func makeMTSBUSection() -> Observable<Elements> {
+        // TODO: Реализовать после реализации WebView
+        let headerTitle = "mtsbu_title".localized
+        return .just([.header(.init(title: headerTitle, state: .empty)), .text("TODO: Реализовать после реализации WebView")])
+    }
+    
+    func makeCommentsSection(baseData: Observable<BaseData>) -> Observable<Elements> {
+        let headerTitle = "user_comments".localized
+        return baseData
+            .distinctUntilChanged { $0.vin == $1.vin && $0.regNumber == $1.regNumber }
+            .withUnretained(self)
+            .flatMapLatest { base, data -> Observable<Elements> in
+                let actionItems = base.additionalActionItems(baseData: data, for: .regNumber, .vin, .technicalPassport)
+                let regNumber = data.regNumber ?? ""
+                let vin = data.vin ?? ""
+                
+                guard !regNumber.isEmpty || !vin.isEmpty else {
+                    let text = String(format: "required_empty_data_warning".localized, "gos_number_type".localized)
+                    let items: [ReportTableItem] = [.header(.init(title: headerTitle, state: .error)), .text(text)] + actionItems
+                    return .just(items)
+                }
+                
+                return base.reportService
+                    .getComments(regNumber: regNumber, vin: vin)
+                    .asObservable()
+                    .withUnretained(self)
+                    .map { base, model -> Elements in
+                        guard let model = model, model.result else {
+                            return base.errorSection(headerText: headerTitle, message: model?.errorMessage)
+                        }
+                        
+                        guard !model.comments.isEmpty else {
+                            let text = "user_comments_not_found".localized
+                            let items: [ReportTableItem] = [
+                                .header(.init(title: headerTitle, state: .error)),
+                                .iconWithText(.init(text: text, iconType : .error))
+                            ]
+                            
+                            return items
+                        }
+                        
+                        let initialItems: [ReportTableItem] = [
+                            .header(.init(title: headerTitle, state: .success)),
+                            .iconWithText(.init(text: "user_comments_found".localized, iconType: .success))
+                        ]
+                        
+                        let items: [ReportTableItem] = model.comments
+                            .enumerated()
+                            .reduce(into: initialItems) {
+                                $0.append(.complain(id: $1.element.id))
+                                $0.append(.value(.init(title: "comment_vin".localized, value: $1.element.vin)))
+                                $0.append(.value(.init(title: "comment_reg_number".localized, value: $1.element.gosNumber)))
+//                                $0.append(.value(.init(title: "wanted_ovd".localized, value: $1.)))
+                                $0.append(.value(.init(title: "comment_title".localized, value: $1.element.title)))
+                                $0.append(.value(.init(title: "comment_description".localized, value: $1.element.text)))
+                                if $1.offset < model.comments.count - 1 {
+                                    $0.append(.separator)
+                                }
+                            }
+                        
+                        let additional: [ReportTableItem] = [
+                            .description("user_comments_desc".localized),
+                            .commentAction
+                        ]
+                        
+                        return items + additional
+                    }
+                    .startWith([.header(.init(title: headerTitle, state: .empty)), .loader])
+            }
+            .startWith([.header(.init(title: headerTitle, state: .empty)), .loader])
+    }
+    
+    func makeLockedSection(baseData: Observable<BaseData>, isActiveSubscription: Observable<Bool>) -> Observable<Elements> {
+        let riaSection = makeRIASection(baseData: baseData)
+        
+        return isActiveSubscription
+            .distinctUntilChanged()
+            .flatMapLatest { isActiveSubscription -> Observable<Elements> in
+                guard isActiveSubscription else {
+                    let items: [ReportTableItem] = [
+                        .locked("ria_title".localized),
+                        .locked("recall_title".localized),
+                        .locked("dsbt_title".localized),
+                        .locked("decoder_title".localized),
+                        .locked("complectation_title".localized)
+                    ]
+                    return .just(items)
+                }
+                
+                return riaSection
+            }
+    }
+    
+    func makeRIASection(baseData: Observable<BaseData>) -> Observable<Elements> {
+        let headerTitle = "ria_title".localized
+        
+        return baseData
+            .distinctUntilChanged { $0.vin == $1.vin && $0.regNumber == $1.regNumber }
+            .withUnretained(self)
+            .flatMapLatest { base, data -> Observable<Elements> in
+                let actionItems = base.additionalActionItems(baseData: data, for: .regNumber, .vin, .technicalPassport)
+                let regNumber = data.regNumber ?? ""
+                let vin = data.vin ?? ""
+                
+                guard !regNumber.isEmpty || !vin.isEmpty else {
+                    let text = String(format: "required_empty_data_warning".localized, "gos_number_type".localized)
+                    let items: [ReportTableItem] = [.header(.init(title: headerTitle, state: .error)), .text(text)] + actionItems
+                    return .just(items)
+                }
+                
+                return base.reportService
+                    .getRIA(regNumber: regNumber, vin: vin)
+                    .asObservable()
+                    .withUnretained(self)
+                    .map { base, model -> Elements in
+                        guard let model = model, model.result else {
+                            return base.errorSection(headerText: headerTitle, message: model?.errorMessage)
+                        }
+                        
+                        guard !model.data.isEmpty else {
+                            let text = "no_ria_information_found".localized
+                            let items: [ReportTableItem] = [
+                                .header(.init(title: headerTitle, state: .error)),
+                                .iconWithText(.init(text: text, iconType : .error))
+                            ]
+                            
+                            return items
+                        }
+                        
+                        let initialItems: [ReportTableItem] = [
+                            .header(.init(title: headerTitle, state: .success)),
+                            .iconWithText(.init(text: String(format: "records".localized, model.data.count), iconType: .error))
+                        ]
+                        
+                        let items: [ReportTableItem] = model.data
+                            .enumerated()
+                            .reduce(into: initialItems) {
+                                if let url = $1.element.photoURL {
+                                    $0.append(.photo(url))
+                                }
+                                $0.append(.value(.init(title: "ria_title_name".localized, value: $1.element.title)))
+                                $0.append(.value(.init(title: "ria_vin".localized, value: $1.element.vin)))
+                                $0.append(.value(.init(title: "ria_regnumber".localized, value: $1.element.gosNumber)))
+                                $0.append(.value(.init(title: "ria_make".localized, value: $1.element.make)))
+                                $0.append(.value(.init(title: "ria_model".localized, value: $1.element.model)))
+                                $0.append(.value(.init(title: "ria_location".localized, value: $1.element.location)))
+                                $0.append(.value(.init(title: "ria_city".localized, value: $1.element.city)))
+                                $0.append(.value(.init(title: "ria_date_add".localized, value: $1.element.dateAdd)))
+                                $0.append(.value(.init(title: "ria_user_phone".localized, value: $1.element.userPhone)))
+                                $0.append(.value(.init(title: "ria_description".localized, value: $1.element.description)))
+                                $0.append(.value(.init(title: "ria_year".localized, value: "\($1.element.year)")))
+                                $0.append(.value(.init(title: "ria_mileage".localized, value: $1.element.mileage)))
+                                $0.append(.value(.init(title: "ria_fuel".localized, value: $1.element.fuel)))
+                                $0.append(.value(.init(title: "ria_transmission".localized, value: $1.element.transmission)))
+                                $0.append(.value(.init(title: "ria_price_usd".localized, value: "\($1.element.priceUSD)")))
+                                $0.append(.value(.init(title: "ria_url".localized, value: $1.element.url)))
+                                $0.append(.value(.init(title: "ria_is_leasing".localized, value: ($1.element.isLeasing ? "ria_is_leasing_yes" : "ria_is_leasing_no").localized)))
+                                if $1.offset < model.data.count - 1 {
+                                    $0.append(.separator)
+                                } else {
+                                    $0.append(.description("subs_descr_ria".localized))
+                                }
+                            }
+                        
+                        return items
                     }
             }
     }
@@ -316,12 +604,44 @@ private extension ReportScreenViewModel {
         let technicalPassport: String?
     }
     
-    static func errorSection(headerText: String, message: String?) -> DataSource {
-        let items: [ReportTableItem] = [
+    func errorSection(headerText: String, message: String?) -> Elements {
+        return [
             .header(.init(title: headerText, state: .error)),
             .error(message: message ?? "")
         ]
-        
-        return ("", items)
+    }
+    
+    func additionalActionItems(baseData: BaseData, for fieldTypes: ReportValueWithActionModel.FieldType...) -> [ReportTableItem] {
+        return fieldTypes
+            .compactMap { fieldType -> ReportTableItem? in
+                switch fieldType {
+                case .vin:
+                    let vin = baseData.vin ?? ""
+                    if vin.isEmpty {
+                        return .valueWithAction(.init(value: "", action: .add, fieldType: fieldType))
+                    }
+                    
+                    if vin.contains("_") {
+                        return .valueWithAction(.init(value: vin, action: .change, fieldType: fieldType))
+                    }
+                    return nil
+                case .regNumber:
+                    let regNumber = baseData.regNumber ?? ""
+                    if regNumber.isEmpty {
+                        return .valueWithAction(.init(value: "", action: .add, fieldType: fieldType))
+                    }
+                    
+                    if regNumber.contains("_") {
+                        return .valueWithAction(.init(value: regNumber, action: .change, fieldType: fieldType))
+                    }
+                    return nil
+                case .technicalPassport:
+                    let technicalPassport = baseData.technicalPassport ?? ""
+                    if technicalPassport.isEmpty {
+                        return .valueWithAction(.init(value: "", action: .add, fieldType: fieldType))
+                    }
+                    return nil
+                }
+            }
     }
 }

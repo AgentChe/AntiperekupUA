@@ -23,6 +23,8 @@ final class ReportScreenViewController: UIViewController {
     
     private let viewModel: ReportScreenViewModel
     
+    private let complainIdRelay = PublishRelay<Int>()
+    
     init(searchValue: ReportSearchValue) {
         viewModel = ReportScreenViewModel(searchValue: searchValue)
         super.init(nibName: nil, bundle: nil)
@@ -75,6 +77,36 @@ final class ReportScreenViewController: UIViewController {
             return cell
         case let .error(value):
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportErrorCell.self), for: indexPath) as! ReportErrorCell
+            cell.setup(for: value)
+            return cell
+        case .loader:
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportLoadingCell.self), for: indexPath) as! ReportLoadingCell
+            return cell
+        case let .logo(value):
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportLogoCell.self), for: indexPath) as! ReportLogoCell
+            cell.setup(for: value)
+            return cell
+        case let .photo(value):
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportPhotoCell.self), for: indexPath) as! ReportPhotoCell
+            cell.setup(for: value)
+            return cell
+        case .commentAction:
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportCommentActionCell.self), for: indexPath) as! ReportCommentActionCell
+            return cell
+        case let .complain(id):
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportCommentComplainCell.self), for: indexPath) as! ReportCommentComplainCell
+            cell.setup(id: id) { [weak self] in
+                if let complainId = $0 {
+                    self?.complainIdRelay.accept(complainId)
+                }
+            }
+            return cell
+        case let .locked(value):
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportLockedCell.self), for: indexPath) as! ReportLockedCell
+            cell.setup(for: value)
+            return cell
+        case let .description(value):
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportDescriptionCell.self), for: indexPath) as! ReportDescriptionCell
             cell.setup(for: value)
             return cell
         }

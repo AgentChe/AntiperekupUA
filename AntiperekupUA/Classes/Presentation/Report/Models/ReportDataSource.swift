@@ -59,4 +59,11 @@ enum ReportTableItem {
     case text(String)
     case iconWithText(ReportIconWithTextModel)
     case error(message: String)
+    case loader
+    case logo(URL)
+    case photo(URL)
+    case commentAction
+    case complain(id: Int)
+    case locked(String)
+    case description(String)
 }

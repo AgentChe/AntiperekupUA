@@ -145,7 +145,7 @@ private extension ReportValueWithActionModel {
     var title: String {
         switch fieldType {
         case .vin:
-            return  "gov_data_vin".localized
+            return "gov_data_vin".localized
         case .regNumber:
             return "gov_data_regnumber".localized
         case .technicalPassport:

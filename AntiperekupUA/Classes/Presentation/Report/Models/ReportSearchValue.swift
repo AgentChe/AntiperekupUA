@@ -9,6 +9,6 @@ import Foundation
 
 enum ReportSearchValue {
     case vin(String)
-    case regNumber
+    case regNumber(String)
     case technicalPassport(series: String, number: String)
 }

@@ -26,6 +26,7 @@ final class ReportErrorCell: UITableViewCell {
 
 extension ReportErrorCell {
     func setup(for errorMessage: String) {
+        label.attributedText = "request_error".localized.attributed(with: .title)
         descriptionLabel.attributedText = errorMessage.attributed(with: .errorMessage)
         descriptionLabel.isHidden = errorMessage.isEmpty
     }
@@ -50,10 +51,10 @@ private extension ReportErrorCell {
         ])
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10.scale),
+            stackView.topAnchor.constraint(equalTo: icon.bottomAnchor, constant: 10.scale),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16.scale),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16.scale),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -13.scale)
         ])
     }
 }
@@ -70,14 +71,8 @@ private extension ReportErrorCell {
     }
     
     func makeTitle() -> UILabel {
-        let text = TextAttributes()
-            .font(UIFont.systemFont(ofSize: 14.scale))
-            .lineHeight(17.scale)
-            .textAlignment(.center)
-            .textColor(UIColor(integralRed: 240, green: 134, blue: 129))
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.attributedText = "request_error".localized.attributed(with: text)
         view.numberOfLines = 1
         stackView.addArrangedSubview(view)
         return view
@@ -93,6 +88,7 @@ private extension ReportErrorCell {
     
     func makeStackView() -> UIStackView {
         let view = UIStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .vertical
         view.spacing = 8.scale
         contentView.addSubview(view)
@@ -106,4 +102,10 @@ private extension TextAttributes {
         .lineHeight(18.scale)
         .textAlignment(.center)
         .textColor(UIColor(integralRed: 142, green: 143, blue: 142))
+    
+    static let title = TextAttributes()
+        .font(UIFont.systemFont(ofSize: 14.scale))
+        .lineHeight(17.scale)
+        .textAlignment(.center)
+        .textColor(UIColor(integralRed: 240, green: 134, blue: 129))
 }
