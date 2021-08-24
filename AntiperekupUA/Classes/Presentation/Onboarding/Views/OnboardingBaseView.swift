@@ -27,7 +27,7 @@ final class OnboardingBaseView: UIView {
     convenience init(viewType: OnboardingType, nextAction: (() -> Void)? = nil) {
         self.init()
         imageView.image = viewType.image
-        labelView.text = viewType.text
+        labelView.attributedText = viewType.text.attributed(with: .title)
         self.nextAction = nextAction
     }
     
@@ -89,9 +89,7 @@ private extension OnboardingBaseView {
     func makeLabel() -> UILabel {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.textAlignment = .center
         view.numberOfLines = 0
-        view.textColor = .white
         addSubview(view)
         return view
     }
@@ -100,9 +98,7 @@ private extension OnboardingBaseView {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.tintColor = UIColor(integralRed: 255, green: 213, blue: 0)
-    
-        view.setTitleColor(UIColor(integralRed: 255, green: 213, blue: 0), for: .normal)
-        view.setTitle("next".localized, for: .normal)
+        view.setAttributedTitle("next".localized.attributed(with: .button), for: .normal)
         view.setImage(UIImage(named: "Onboarding.Next"), for: .normal)
         // Не подойдет, если локализация будет для языка справа налево
         view.semanticContentAttribute = .forceRightToLeft
@@ -140,4 +136,16 @@ private extension OnboardingBaseView.OnboardingType {
             return "intro_text4".localized
         }
     }
+}
+
+private extension TextAttributes {
+    static let title = TextAttributes()
+        .font(Fonts.SFProDisplay.font(weight: .W500, size: 20.scale))
+        .lineHeight(28.scale)
+        .textColor(.white)
+        .textAlignment(.center)
+    
+    static let button = TextAttributes()
+        .font(Fonts.SFProDisplay.font(weight: .W500, size: 17.scale))
+        .textColor(UIColor(integralRed: 255, green: 213, blue: 0))
 }

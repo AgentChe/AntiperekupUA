@@ -127,9 +127,7 @@ private extension OnboardingLanguageView {
     func makeTitleLabel() -> UILabel {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.text = "choose_language".localized
-        view.textColor = .white
-        view.textAlignment = .center
+        view.attributedText = "choose_language".localized.attributed(with: .title)
         addSubview(view)
         return view
     }
@@ -137,10 +135,9 @@ private extension OnboardingLanguageView {
     func makeButton(title: String) -> UIButton {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.setTitle(title, for: .normal)
         view.layer.cornerRadius = 14.scale
-        view.setTitleColor(.white, for: .normal)
-        view.setTitleColor(UIColor(integralRed: 77, green: 140, blue: 207), for: .selected)
+        view.setAttributedTitle(title.attributed(with: .buttonInitial), for: .normal)
+        view.setAttributedTitle(title.attributed(with: .buttonSelected), for: .selected)
         addSubview(view)
         return view
     }
@@ -148,7 +145,7 @@ private extension OnboardingLanguageView {
     func makeTermsLabel() -> UILabel {
         let view = UILabel()
         let attrs = TextAttributes()
-            .font(UIFont.systemFont(ofSize: 16.scale))
+            .font(Fonts.SFProDisplay.font(weight: .W500, size: 16.scale))
             .lineHeight(28.scale)
             .textColor(.white)
             .textAlignment(.center)
@@ -183,8 +180,7 @@ private extension OnboardingLanguageView {
     
     func makeStartButton() -> UIButton {
         let view = UIButton()
-        view.setTitle("start".localized, for: .normal)
-        view.setTitleColor(UIColor(integralRed: 255, green: 213, blue: 0), for: .normal)
+        view.setAttributedTitle("start".localized.attributed(with: .start), for: .normal)
         view.translatesAutoresizingMaskIntoConstraints = false
         addSubview(view)
         return view
@@ -192,8 +188,22 @@ private extension OnboardingLanguageView {
 }
 
 private extension TextAttributes {
-    static let termsButtonAttr = TextAttributes()
+    static let buttonInitial = TextAttributes()
+        .font(Fonts.SFProDisplay.font(weight: .W400, size: 20.scale))
         .textColor(.white)
-        .font(UIFont.systemFont(ofSize: 16.scale))
-        .underlineStyle(.single)
+        .textAlignment(.center)
+    
+    static let buttonSelected = TextAttributes()
+        .font(Fonts.SFProDisplay.font(weight: .W400, size: 20.scale))
+        .textColor(UIColor(integralRed: 0, green: 91, blue: 187))
+        .textAlignment(.center)
+    
+    static let title = TextAttributes()
+        .font(Fonts.SFProDisplay.font(weight: .W500, size: 18.scale))
+        .textColor(.white)
+        .textAlignment(.center)
+    
+    static let start = TextAttributes()
+        .font(Fonts.SFProDisplay.font(weight: .W500, size: 17.scale))
+        .textColor(UIColor(integralRed: 255, green: 213, blue: 0))
 }

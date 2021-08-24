@@ -77,7 +77,7 @@ private extension MainErrorCell {
 
 private extension TextAttributes {
     static let error = TextAttributes()
-        .font(UIFont.systemFont(ofSize: 15.scale))
+        .font(Fonts.SFProText.font(weight: .W500, size: 15.scale))
         .lineHeight(20.scale)
         .textColor(.black)
         .textAlignment(.center)

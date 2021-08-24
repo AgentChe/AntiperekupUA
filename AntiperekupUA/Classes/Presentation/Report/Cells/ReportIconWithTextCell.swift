@@ -95,7 +95,7 @@ private extension ReportIconWithTextCell {
 
 private extension TextAttributes {
     static let text = TextAttributes()
-        .font(UIFont.systemFont(ofSize: 15.scale))
+        .font(Fonts.SFProText.font(weight: .W600, size: 15.scale))
 }
 
 private extension ReportIconWithTextModel.IconType {

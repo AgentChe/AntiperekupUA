@@ -66,12 +66,12 @@ private extension MainHistoryHeaderView {
 
 private extension TextAttributes {
     static let title = TextAttributes()
-        .font(UIFont.systemFont(ofSize: 17.scale))
+        .font(Fonts.SFProText.font(weight: .W500, size: 17.scale))
         .lineHeight(24.scale)
         .textColor(UIColor(integralRed: 2, green: 2, blue: 2))
     
     static let button = TextAttributes()
-        .font(UIFont.systemFont(ofSize: 13.scale))
+        .font(Fonts.SFProText.font(weight: .W400, size: 13.scale))
         .lineHeight(16.scale)
         .textColor(UIColor(integralRed: 206, green: 206, blue: 208))
 }

@@ -55,7 +55,7 @@ private extension ReportCommentActionCell {
 
 private extension TextAttributes {
     static let button = TextAttributes()
-        .font(UIFont.systemFont(ofSize: 14.scale))
+        .font(Fonts.SFProText.font(weight: .W600, size: 14.scale))
         .lineHeight(16.scale)
         .textAlignment(.center)
         .textColor(UIColor(integralRed: 112, green: 160, blue: 172))

@@ -60,7 +60,7 @@ private extension ReportDescriptionCell {
 
 private extension TextAttributes {
     static let description = TextAttributes()
-        .font(UIFont.systemFont(ofSize: 13.scale))
+        .font(Fonts.SFProText.font(weight: .W400, size: 13.scale))
         .lineHeight(20.scale)
         .textColor(.black)
         .textAlignment(.left)

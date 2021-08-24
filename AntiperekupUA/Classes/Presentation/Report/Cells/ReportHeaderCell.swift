@@ -52,7 +52,7 @@ private extension ReportHeaderCell {
 
 private extension TextAttributes {
     static let title = TextAttributes()
-        .font(UIFont.systemFont(ofSize: 15.scale))
+        .font(Fonts.SFProText.font(weight: .W600, size: 15.scale))
         .textColor(.black)
         .textAlignment(.center)
 }

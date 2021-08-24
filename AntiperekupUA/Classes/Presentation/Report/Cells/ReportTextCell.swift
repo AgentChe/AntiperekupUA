@@ -60,7 +60,7 @@ private extension ReportTextCell {
 
 private extension TextAttributes {
     static let text = TextAttributes()
-        .font(UIFont.systemFont(ofSize: 11.scale, weight: .regular))
+        .font(Fonts.SFProText.font(weight: .W400, size: 11.scale))
         .lineHeight(18.scale)
         .textColor(UIColor(integralRed: 142, green: 143, blue: 142))
 }

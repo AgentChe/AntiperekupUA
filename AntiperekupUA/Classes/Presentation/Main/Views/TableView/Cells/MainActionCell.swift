@@ -129,7 +129,7 @@ private extension MainTableAction {
 
 private extension TextAttributes {
     static let title = TextAttributes()
-        .font(UIFont.systemFont(ofSize: 13.scale))
+        .font(Fonts.SFProText.font(weight: .W400, size: 13.scale))
         .lineHeight(20.scale)
         .textColor(.black)
 }

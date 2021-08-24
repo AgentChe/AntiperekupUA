@@ -95,7 +95,7 @@ private extension ReportLockedCell {
 
 private extension TextAttributes {
     static let title = TextAttributes()
-        .font(UIFont.systemFont(ofSize: 14.scale))
+        .font(Fonts.SFProDisplay.font(weight: .W400, size: 18.scale))
         .textColor(.black)
         .textAlignment(.center)
 }

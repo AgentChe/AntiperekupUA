@@ -98,12 +98,12 @@ private extension ReportValueCell {
 
 private extension TextAttributes {
     static let title = TextAttributes()
-        .font(UIFont.systemFont(ofSize: 12.scale))
+        .font(Fonts.SFProText.font(weight: .W400, size: 12.scale))
         .textColor(.black)
         .textAlignment(.left)
     
     static let value = TextAttributes()
-        .font(UIFont.systemFont(ofSize: 12.scale, weight: .bold))
+        .font(Fonts.SFProText.font(weight: .W700, size: 12.scale))
         .textColor(.black)
         .textAlignment(.right)
 }

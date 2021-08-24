@@ -98,13 +98,13 @@ private extension ReportErrorCell {
 
 private extension TextAttributes {
     static let errorMessage = TextAttributes()
-        .font(UIFont.systemFont(ofSize: 11.scale))
+        .font(Fonts.SFProText.font(weight: .W400, size: 11.scale))
         .lineHeight(18.scale)
         .textAlignment(.center)
         .textColor(UIColor(integralRed: 142, green: 143, blue: 142))
     
     static let title = TextAttributes()
-        .font(UIFont.systemFont(ofSize: 14.scale))
+        .font(Fonts.SFProText.font(weight: .W600, size: 14.scale))
         .lineHeight(17.scale)
         .textAlignment(.center)
         .textColor(UIColor(integralRed: 240, green: 134, blue: 129))

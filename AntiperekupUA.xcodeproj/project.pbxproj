@@ -87,6 +87,12 @@
 		86C11F7D26AD7D2C00D7A47E /* OnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C11F7C26AD7D2C00D7A47E /* OnboardingManager.swift */; };
 		86C11F7F26AD7D3700D7A47E /* OnboardingManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C11F7E26AD7D3700D7A47E /* OnboardingManagerCore.swift */; };
 		86C11F8226ADAE9600D7A47E /* MainSegmentControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C11F8126ADAE9600D7A47E /* MainSegmentControlView.swift */; };
+		86D5A2D826D55B0D007FAB12 /* SFProText-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D5A2D226D55B0C007FAB12 /* SFProText-Bold.ttf */; };
+		86D5A2D926D55B0D007FAB12 /* SFProText-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D5A2D326D55B0C007FAB12 /* SFProText-Medium.ttf */; };
+		86D5A2DA26D55B0D007FAB12 /* SFProText-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D5A2D426D55B0C007FAB12 /* SFProText-Semibold.ttf */; };
+		86D5A2DC26D55B0D007FAB12 /* SFProDisplay-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D5A2D626D55B0D007FAB12 /* SFProDisplay-Medium.ttf */; };
+		86D5A2DD26D55B0D007FAB12 /* SFProText-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D5A2D726D55B0D007FAB12 /* SFProText-Regular.ttf */; };
+		86D5A2DF26D565E5007FAB12 /* SFProDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D5A2DE26D565E5007FAB12 /* SFProDisplay-Regular.ttf */; };
 		86D5B9F526C444160084AFE9 /* ReportSeparatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5B9F426C444160084AFE9 /* ReportSeparatorCell.swift */; };
 		86D5B9F726C44B2F0084AFE9 /* ReportTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5B9F626C44B2F0084AFE9 /* ReportTextCell.swift */; };
 		86D5B9F926C453880084AFE9 /* ReportHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5B9F826C453880084AFE9 /* ReportHeaderCell.swift */; };
@@ -206,6 +212,12 @@
 		86C11F7C26AD7D2C00D7A47E /* OnboardingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingManager.swift; sourceTree = "<group>"; };
 		86C11F7E26AD7D3700D7A47E /* OnboardingManagerCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingManagerCore.swift; sourceTree = "<group>"; };
 		86C11F8126ADAE9600D7A47E /* MainSegmentControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSegmentControlView.swift; sourceTree = "<group>"; };
+		86D5A2D226D55B0C007FAB12 /* SFProText-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Bold.ttf"; sourceTree = "<group>"; };
+		86D5A2D326D55B0C007FAB12 /* SFProText-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Medium.ttf"; sourceTree = "<group>"; };
+		86D5A2D426D55B0C007FAB12 /* SFProText-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Semibold.ttf"; sourceTree = "<group>"; };
+		86D5A2D626D55B0D007FAB12 /* SFProDisplay-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProDisplay-Medium.ttf"; sourceTree = "<group>"; };
+		86D5A2D726D55B0D007FAB12 /* SFProText-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Regular.ttf"; sourceTree = "<group>"; };
+		86D5A2DE26D565E5007FAB12 /* SFProDisplay-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProDisplay-Regular.ttf"; sourceTree = "<group>"; };
 		86D5B9F426C444160084AFE9 /* ReportSeparatorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSeparatorCell.swift; sourceTree = "<group>"; };
 		86D5B9F626C44B2F0084AFE9 /* ReportTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTextCell.swift; sourceTree = "<group>"; };
 		86D5B9F826C453880084AFE9 /* ReportHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportHeaderCell.swift; sourceTree = "<group>"; };
@@ -593,6 +605,12 @@
 		86D1C7CE26AF2DDF0083C7C9 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				86D5A2DE26D565E5007FAB12 /* SFProDisplay-Regular.ttf */,
+				86D5A2D626D55B0D007FAB12 /* SFProDisplay-Medium.ttf */,
+				86D5A2D226D55B0C007FAB12 /* SFProText-Bold.ttf */,
+				86D5A2D326D55B0C007FAB12 /* SFProText-Medium.ttf */,
+				86D5A2D726D55B0D007FAB12 /* SFProText-Regular.ttf */,
+				86D5A2D426D55B0C007FAB12 /* SFProText-Semibold.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -814,10 +832,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86D5A2DD26D55B0D007FAB12 /* SFProText-Regular.ttf in Resources */,
+				86D5A2DA26D55B0D007FAB12 /* SFProText-Semibold.ttf in Resources */,
 				9667E04126A60FEF0098C7F2 /* LaunchScreen.storyboard in Resources */,
+				86D5A2DC26D55B0D007FAB12 /* SFProDisplay-Medium.ttf in Resources */,
 				86BB67D426A7493E00283267 /* Localizable.strings in Resources */,
+				86D5A2D826D55B0D007FAB12 /* SFProText-Bold.ttf in Resources */,
 				9667E03E26A60FEF0098C7F2 /* Assets.xcassets in Resources */,
 				8637EEF726C596BD003AAC30 /* Localizable.stringsdict in Resources */,
+				86D5A2D926D55B0D007FAB12 /* SFProText-Medium.ttf in Resources */,
+				86D5A2DF26D565E5007FAB12 /* SFProDisplay-Regular.ttf in Resources */,
 				9667E08E26A618B80098C7F2 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
