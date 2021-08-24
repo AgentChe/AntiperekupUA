@@ -23,7 +23,7 @@ final class ReportScreenViewModel {
 
 extension ReportScreenViewModel {
     struct Input {
-        
+        let inputValue: Signal<ReportSearchValue>
     }
     
     struct Output {
@@ -31,8 +31,7 @@ extension ReportScreenViewModel {
     }
     
     func configure(input: Input) -> Output {
-        
-        // TODO: Удалить take, после реализации подписок
+    
         let isActiveSubscription = paygateService.isActiveSubscription()
             .asObservable()
             .map(!)
@@ -40,8 +39,7 @@ extension ReportScreenViewModel {
         
         let searchValue = Observable.just(searchValue)
         
-        let baseData = makeBaseData(searchValue: searchValue)
-            .distinctUntilChanged()
+        let baseData = makeBaseData(searchValue: searchValue, inputValue: input.inputValue)
             .share(replay: 1, scope: .forever)
         
         let mainAndHistory = makeMainAndHistorySection(baseData: baseData)
@@ -73,62 +71,77 @@ extension ReportScreenViewModel {
 // MARK: Private
 private extension ReportScreenViewModel {
     
-    func makeBaseData(searchValue: Observable<ReportSearchValue>) -> Observable<BaseData> {
-        searchValue
-            .flatMapLatest { [reportService] searchValue -> Observable<BaseData> in
-                let baseData: Observable<BaseData>
-                switch searchValue {
+    func makeBaseData(searchValue: Observable<ReportSearchValue>, inputValue: Signal<ReportSearchValue>) -> Observable<BaseData> {
+        let baseData = searchValue
+            .flatMapLatest { [reportService] value -> Observable<BaseData> in
+                switch value {
                 case let .vin(value):
-                    baseData = reportService
+                    return reportService
                         .getRegNumberByVin(vin: value)
                         .asObservable()
-                        .map { BaseData(vin: value, regNumber: $0?.regNumber, technicalPassport: nil) }
-                        .startWith(BaseData(vin: value, regNumber: nil, technicalPassport: nil))
+                        .map { BaseData(vin: value, regNumber: $0?.regNumber, isEditableVin: false, isEditableNumber: true) }
                 case let .regNumber(value):
                     // TODO: После реализации WebView поправить конфигурацию данных
-                    baseData = .just(BaseData(vin: nil, regNumber: value, technicalPassport: nil))
+                    return .just(BaseData(regNumber: value, isEditableVin: true, isEditableNumber: false))
                 case let .technicalPassport(series, number):
-                    baseData = reportService
+                    return reportService
                         .getVinAndRegNumberByRegDoc(series: series, number: number)
                         .asObservable()
-                        .map { BaseData(vin: $0?.vin, regNumber: $0?.regNumber, technicalPassport: "\(series)\(number)") }
-                        .startWith(BaseData(vin: nil, regNumber: nil, technicalPassport: "\(series)\(number)"))
+                        .map { BaseData(vin: $0?.vin, regNumber: $0?.regNumber, technicalPassport: "\(series)\(number)", isEditableVin: true, isEditableNumber: true) }
                 }
-                
-                return baseData
             }
-            .scan(BaseData(vin: nil, regNumber: nil, technicalPassport: nil)) { old, new in
-                return BaseData(
-                    vin: new.vin ?? old.vin,
-                    regNumber: new.regNumber ?? old.regNumber,
-                    technicalPassport: new.technicalPassport ?? old.technicalPassport
-                )
-            }
+        
+        return Observable<Action>
+            .merge(
+                baseData.map { .baseData($0) },
+                inputValue.asObservable().map { .input($0) }
+            )
+            .scan(nil, accumulator: { old, action -> BaseData? in
+                switch action {
+                case let .baseData(data):
+                    return data
+                case let .input(type):
+                    guard var current = old else { return nil }
+                    switch type {
+                    case let .vin(vin):
+                        current.change(vin: vin)
+                    case let .regNumber(number):
+                        current.change(regNumber: number)
+                    case let .technicalPassport(series, number):
+                        current.change(passport: "\(series)\(number)")
+                    }
+
+                    return current
+                }
+            })
+            .compactMap { $0 }
     }
     
     func makeBaseSection(baseData: Observable<BaseData>) -> Observable<Elements> {
-        baseData
+        let headerTitle = "wanted_title".localized
+        
+        return baseData
             .map { model -> Elements in
                 let regNumber = ReportValueWithActionModel(
-                    value: model.regNumber ?? "",
-                    action: model.regNumber.map { $0.contains("_") ? .change : .none } ?? .add,
+                    value: model.regNumber,
+                    action: model.regNumber.isEmpty ? .add : (model.regNumber.contains("_") || model.isEditableNumber) ? .change : .none,
                     fieldType: .regNumber
                 )
                 
                 let vin = ReportValueWithActionModel(
-                    value: model.vin ?? "",
-                    action: model.vin.map { $0.contains("_") ? .change : .none } ?? .add,
+                    value: model.vin,
+                    action: model.vin.isEmpty ? .add : (model.vin.contains("_") || model.isEditableVin) ? .change : .none,
                     fieldType: .vin
                 )
                 
                 let technicalPassport = ReportValueWithActionModel(
-                    value: model.technicalPassport ?? "",
-                    action: model.technicalPassport.map { $0.contains("_") ? .change : .none } ?? .add,
+                    value: model.technicalPassport,
+                    action: model.technicalPassport.isEmpty ? .add : model.technicalPassport.contains("_") ? .change : .none,
                     fieldType: .technicalPassport
                 )
                 
                 let items: [ReportTableItem] = [
-                    .header(.init(title: "basic_information".localized, state: .empty)),
+                    .header(.init(title: headerTitle, state: .empty)),
                     .valueWithAction(regNumber),
                     .valueWithAction(vin),
                     .valueWithAction(technicalPassport)
@@ -136,6 +149,7 @@ private extension ReportScreenViewModel {
                 
                 return items
             }
+            .startWith([.header(.init(title: headerTitle, state: .empty)), .loader])
     }
     
     func makeMainAndHistorySection(baseData: Observable<BaseData>) -> Observable<(main: Elements, history: Elements)> {
@@ -147,32 +161,32 @@ private extension ReportScreenViewModel {
             history: [ReportTableItem.header(.init(title: historyTitle, state: .empty)), .loader]
         )
         
-        return baseData
-            .map { $0.regNumber }
-            .distinctUntilChanged()
-            .flatMapLatest { [reportService] regNumber -> Observable<(main: Elements, history: Elements)>in
-                guard let regNumber = regNumber else {
+        return baseData.debug()
+            .distinctUntilChanged { $0.regNumber == $1.regNumber }
+            .withUnretained(self)
+            .flatMapLatest { base, data -> Observable<(main: Elements, history: Elements)> in
+                
+                guard data.isValidNumber else {
                     let text = String(format: "required_empty_data_warning".localized, "gos_number_type".localized)
                     let mainItems: [ReportTableItem] = [
                         .header(.init(title: mainTitle, state: .error)),
-                        .text(text),
-                        .valueWithAction(.init(value: "", action: .add, fieldType: .regNumber)),
-                        .valueWithAction(.init(value: "", action: .add, fieldType: .technicalPassport))
+                        .text(text)
                     ]
                     
                     let historyItems: [ReportTableItem] = [
                         .header(.init(title: historyTitle, state: .error)),
-                        .text(text),
-                        .valueWithAction(.init(value: "", action: .add, fieldType: .regNumber)),
-                        .valueWithAction(.init(value: "", action: .add, fieldType: .technicalPassport))
+                        .text(text)
                     ]
-                    return .just((main: mainItems, history: historyItems))
+                    
+                    let additional = base.additionalActionItems(baseData: data, for: .regNumber, .technicalPassport)
+                    
+                    return .just((main: mainItems + additional, history: historyItems + additional))
                 }
                 
-                return reportService
-                    .getGovData(regNumber: regNumber)
+                return base.reportService
+                    .getGovData(regNumber: data.regNumber)
                     .asObservable()
-                    .withUnretained(self)
+                    .withUnretained(base)
                     .map { base, model -> (main: Elements, history: Elements) in
                         guard let model = model, model.result else {
                             return (base.errorSection(headerText: mainTitle, message: model?.errorMessage), base.errorSection(headerText: historyTitle, message: model?.errorMessage))
@@ -245,25 +259,22 @@ private extension ReportScreenViewModel {
         
         return baseData
             .distinctUntilChanged { $0.vin == $1.vin && $0.regNumber == $1.regNumber }
-            .flatMapLatest { [reportService] data -> Observable<Elements> in
+            .withUnretained(self)
+            .flatMapLatest { base, data -> Observable<Elements> in
                 
-                let regNumber = data.regNumber ?? ""
-                let vin = data.vin ?? ""
-                let technicalPassport = data.technicalPassport ?? ""
+                let additional = base.additionalActionItems(baseData: data, for: .regNumber, .vin, .technicalPassport)
                 
-                let actionItems: [ReportTableItem] = [
-                    regNumber.isEmpty ? .valueWithAction(.init(value: "", action: .add, fieldType: .regNumber)) : nil,
-                    vin.isEmpty ? .valueWithAction(.init(value: "", action: .add, fieldType: .vin)) : nil,
-                    technicalPassport.isEmpty ? .valueWithAction(.init(value: "", action: .add, fieldType: .technicalPassport)) : nil
-                ].compactMap { $0 }
-                
-                guard !regNumber.isEmpty && !vin.isEmpty else {
-                    let text = String(format: "required_empty_data_warning".localized, "\("gos_number_type".localized)")
-                    let items: [ReportTableItem] = [.header(.init(title: headerTitle, state: .error)), .text(text)] + actionItems
-                    return .just(items)
+                guard data.isValidNumber || data.isValidVin else {
+                    let type = data.isValidNumber ? "vin_code_type".localized : "gos_number_type".localized
+                    let text = String(format: "required_empty_data_warning".localized, type)
+                    let items: [ReportTableItem] = [.header(.init(title: headerTitle, state: .error)), .text(text)]
+                    return .just(items + additional)
                 }
                 
-                return reportService
+                let regNumber = data.isValidNumber ? data.regNumber : ""
+                let vin = data.isValidVin ? data.vin : ""
+                
+                return base.reportService
                     .getWanted(regNumber: regNumber, vin: vin)
                     .asObservable()
                     .withUnretained(self)
@@ -297,9 +308,9 @@ private extension ReportScreenViewModel {
                                 if $1.offset < model.wanted.count - 1 {
                                     $0.append(.separator)
                                 }
-                            } + actionItems
+                            }
                         
-                        return items
+                        return items + additional
                     }
                     .startWith([.header(.init(title: headerTitle, state: .empty)), .loader])
             }
@@ -308,24 +319,26 @@ private extension ReportScreenViewModel {
     
     func makeInterpolSection(baseData: Observable<BaseData>) -> Observable<Elements> {
         let headerTitle = "interpol_title".localized
+        
         return baseData
-            .distinctUntilChanged { $0.vin == $0.vin }
-            .flatMapLatest { [reportService] data -> Observable<Elements> in
+            .distinctUntilChanged { $0.vin == $1.vin }
+            .withUnretained(self)
+            .flatMapLatest { base, data -> Observable<Elements> in
                 
-                guard let vin = data.vin else {
+                guard data.isValidVin else {
                     let text = String(format: "required_empty_data_warning".localized, "vin_code_type".localized)
                     
                     let items: [ReportTableItem] = [
                         .header(.init(title: headerTitle, state: .error)),
-                        .text(text),
-                        .valueWithAction(.init(value: "", action: .add, fieldType: .vin)),
-                        .valueWithAction(.init(value: "", action: .add, fieldType: .technicalPassport))
+                        .text(text)
                     ]
-                    return .just(items)
+                    
+                    let additional = base.additionalActionItems(baseData: data, for: .vin, .technicalPassport)
+                    return .just(items + additional)
                 }
                 
-                return reportService
-                    .getInterpol(vin: vin)
+                return base.reportService
+                    .getInterpol(vin: data.vin)
                     .asObservable()
                     .withUnretained(self)
                     .map { base, model -> Elements in
@@ -367,26 +380,27 @@ private extension ReportScreenViewModel {
     
     func makePhotosSection(baseData: Observable<BaseData>) -> Observable<Elements> {
         let headerTitle = "photos_title".localized
+        
         return baseData
-            .map { $0.regNumber }
-            .distinctUntilChanged()
-            .flatMapLatest { [reportService] regNumber -> Observable<Elements> in
+            .distinctUntilChanged { $0.regNumber == $1.regNumber }
+            .withUnretained(self)
+            .flatMapLatest { base, data -> Observable<Elements> in
                 
-                guard let regNumber = regNumber else {
+                guard data.isValidNumber else {
                     let text = String(format: "required_empty_data_warning".localized, "gos_number_type".localized)
                     
                     let items: [ReportTableItem] = [
                         .header(.init(title: headerTitle, state: .error)),
-                        .text(text),
-                        .valueWithAction(.init(value: "", action: .add, fieldType: .regNumber)),
-                        .valueWithAction(.init(value: "", action: .add, fieldType: .technicalPassport))
+                        .text(text)
                     ]
                     
-                    return .just(items)
+                    let additional = base.additionalActionItems(baseData: data, for: .regNumber, .technicalPassport)
+                    
+                    return .just(items + additional)
                 }
                 
-                return reportService
-                    .getPhotos(regNumber: regNumber)
+                return base.reportService
+                    .getPhotos(regNumber: data.regNumber)
                     .asObservable()
                     .withUnretained(self)
                     .map { base, model -> Elements in
@@ -430,24 +444,29 @@ private extension ReportScreenViewModel {
     func makeMTSBUSection() -> Observable<Elements> {
         // TODO: Реализовать после реализации WebView
         let headerTitle = "mtsbu_title".localized
+        
         return .just([.header(.init(title: headerTitle, state: .empty)), .text("TODO: Реализовать после реализации WebView")])
     }
     
     func makeCommentsSection(baseData: Observable<BaseData>) -> Observable<Elements> {
         let headerTitle = "user_comments".localized
+        
         return baseData
             .distinctUntilChanged { $0.vin == $1.vin && $0.regNumber == $1.regNumber }
             .withUnretained(self)
             .flatMapLatest { base, data -> Observable<Elements> in
-                let actionItems = base.additionalActionItems(baseData: data, for: .regNumber, .vin, .technicalPassport)
-                let regNumber = data.regNumber ?? ""
-                let vin = data.vin ?? ""
                 
-                guard !regNumber.isEmpty || !vin.isEmpty else {
-                    let text = String(format: "required_empty_data_warning".localized, "gos_number_type".localized)
-                    let items: [ReportTableItem] = [.header(.init(title: headerTitle, state: .error)), .text(text)] + actionItems
-                    return .just(items)
+                guard data.isValidNumber || data.isValidVin else {
+                    let type = data.isValidNumber ? "vin_code_type".localized : "gos_number_type".localized
+                    let text = String(format: "required_empty_data_warning".localized, type)
+                    let items: [ReportTableItem] = [.header(.init(title: headerTitle, state: .error)), .text(text)]
+                    
+                    let additional = base.additionalActionItems(baseData: data, for: .regNumber, .vin, .technicalPassport)
+                    return .just(items + additional)
                 }
+                
+                let regNumber = data.isValidNumber ? data.regNumber : ""
+                let vin = data.isValidVin ? data.vin : ""
                 
                 return base.reportService
                     .getComments(regNumber: regNumber, vin: vin)
@@ -518,6 +537,7 @@ private extension ReportScreenViewModel {
                 
                 return riaSection
             }
+            .startWith([])
     }
     
     func makeRIASection(baseData: Observable<BaseData>) -> Observable<Elements> {
@@ -527,15 +547,18 @@ private extension ReportScreenViewModel {
             .distinctUntilChanged { $0.vin == $1.vin && $0.regNumber == $1.regNumber }
             .withUnretained(self)
             .flatMapLatest { base, data -> Observable<Elements> in
-                let actionItems = base.additionalActionItems(baseData: data, for: .regNumber, .vin, .technicalPassport)
-                let regNumber = data.regNumber ?? ""
-                let vin = data.vin ?? ""
                 
-                guard !regNumber.isEmpty || !vin.isEmpty else {
-                    let text = String(format: "required_empty_data_warning".localized, "gos_number_type".localized)
-                    let items: [ReportTableItem] = [.header(.init(title: headerTitle, state: .error)), .text(text)] + actionItems
-                    return .just(items)
+                guard data.isValidNumber || data.isValidVin else {
+                    let type = data.isValidNumber ? "vin_code_type".localized : "gos_number_type".localized
+                    let text = String(format: "required_empty_data_warning".localized, type)
+                    let items: [ReportTableItem] = [.header(.init(title: headerTitle, state: .error)), .text(text)]
+                    let additional = base.additionalActionItems(baseData: data, for: .regNumber, .vin, .technicalPassport)
+                    
+                    return .just(items + additional)
                 }
+                
+                let regNumber = data.isValidNumber ? data.regNumber : ""
+                let vin = data.isValidVin ? data.vin : ""
                 
                 return base.reportService
                     .getRIA(regNumber: regNumber, vin: vin)
@@ -594,15 +617,11 @@ private extension ReportScreenViewModel {
                         return items
                     }
             }
+            .startWith([.header(.init(title: headerTitle, state: .empty)), .loader])
     }
 }
 
 private extension ReportScreenViewModel {
-    struct BaseData: Equatable {
-        let vin: String?
-        let regNumber: String?
-        let technicalPassport: String?
-    }
     
     func errorSection(headerText: String, message: String?) -> Elements {
         return [
@@ -616,32 +635,74 @@ private extension ReportScreenViewModel {
             .compactMap { fieldType -> ReportTableItem? in
                 switch fieldType {
                 case .vin:
-                    let vin = baseData.vin ?? ""
-                    if vin.isEmpty {
+                    if baseData.vin.isEmpty {
                         return .valueWithAction(.init(value: "", action: .add, fieldType: fieldType))
                     }
                     
-                    if vin.contains("_") {
-                        return .valueWithAction(.init(value: vin, action: .change, fieldType: fieldType))
+                    if baseData.vin.contains("_") {
+                        return .valueWithAction(.init(value: baseData.vin, action: .change, fieldType: fieldType))
                     }
                     return nil
                 case .regNumber:
-                    let regNumber = baseData.regNumber ?? ""
-                    if regNumber.isEmpty {
+                    if baseData.regNumber.isEmpty {
                         return .valueWithAction(.init(value: "", action: .add, fieldType: fieldType))
                     }
                     
-                    if regNumber.contains("_") {
-                        return .valueWithAction(.init(value: regNumber, action: .change, fieldType: fieldType))
+                    if baseData.regNumber.contains("_") {
+                        return .valueWithAction(.init(value: baseData.regNumber, action: .change, fieldType: fieldType))
                     }
                     return nil
                 case .technicalPassport:
-                    let technicalPassport = baseData.technicalPassport ?? ""
-                    if technicalPassport.isEmpty {
+                    if baseData.technicalPassport.isEmpty {
                         return .valueWithAction(.init(value: "", action: .add, fieldType: fieldType))
                     }
                     return nil
                 }
             }
     }
+}
+
+private extension ReportScreenViewModel {
+    struct BaseData: Equatable {
+        var vin: String
+        var regNumber: String
+        var technicalPassport: String
+        
+        let isEditableVin: Bool
+        let isEditableNumber: Bool
+        
+        init(vin: String? = nil, regNumber: String? = nil, technicalPassport: String? = nil, isEditableVin: Bool, isEditableNumber: Bool) {
+            self.vin = vin ?? ""
+            self.regNumber = regNumber ?? ""
+            self.technicalPassport = technicalPassport ?? ""
+            self.isEditableVin = isEditableVin
+            self.isEditableNumber = isEditableNumber
+        }
+        
+        mutating func change(vin: String) {
+            self.vin = vin
+        }
+        
+        mutating func change(regNumber: String) {
+            self.regNumber = regNumber
+        }
+        
+        mutating func change(passport: String) {
+            technicalPassport = passport
+        }
+        
+        var isValidVin: Bool {
+            !(vin.isEmpty || vin.contains("_"))
+        }
+        
+        var isValidNumber: Bool {
+            !(regNumber.isEmpty || regNumber.contains("_"))
+        }
+    }
+    
+    enum Action {
+        case baseData(BaseData)
+        case input(ReportSearchValue)
+    }
+
 }

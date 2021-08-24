@@ -40,7 +40,9 @@ final class ReportScreenViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let input = ReportScreenViewModel.Input()
+        let input = ReportScreenViewModel.Input(
+            inputValue: .empty()
+        )
         
         let output = viewModel.configure(input: input)
         
