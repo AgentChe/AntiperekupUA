@@ -24,6 +24,7 @@ final class ReportScreenViewController: UIViewController {
     private let viewModel: ReportScreenViewModel
     
     private let complainIdRelay = PublishRelay<Int>()
+    private let changedValueRelay = PublishRelay<ReportSearchValue>()
     
     init(searchValue: ReportSearchValue) {
         viewModel = ReportScreenViewModel(searchValue: searchValue)
@@ -41,7 +42,8 @@ final class ReportScreenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let input = ReportScreenViewModel.Input(
-            inputValue: .empty()
+            inputValue: changedValueRelay.asSignal(),
+            selectedElement: mainView.tableView.rx.modelSelected(ReportTableItem.self).asSignal()
         )
         
         let output = viewModel.configure(input: input)
@@ -49,6 +51,10 @@ final class ReportScreenViewController: UIViewController {
         output.elements
             .map { $0.map { .init(model: $0.0, items: $0.1) } }
             .drive(mainView.tableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        
+        output.showChangeAlert
+            .emit(to: showChangeAlert)
             .disposed(by: disposeBag)
     }
     
@@ -119,5 +125,34 @@ final class ReportScreenViewController: UIViewController {
 extension ReportScreenViewController {
     static func make(searchValue: ReportSearchValue) -> ReportScreenViewController {
         ReportScreenViewController(searchValue: searchValue)
+    }
+}
+
+
+extension ReportScreenViewController: UIViewControllerTransitioningDelegate {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return ReportAlertAnimation(duration: 0.2, animationType: .present)
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return ReportAlertAnimation(duration: 0.2, animationType: .dismiss)
+    }
+    
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        let presentationController = ReportAlertPresentationController(presentedViewController: presented, presenting: presenting)
+        return presentationController
+    }
+}
+
+private extension ReportScreenViewController {
+    var showChangeAlert: Binder<ReportValueWithActionModel> {
+        Binder(self) { base, model in
+            let alert = ReportAlertScreenViewController.make(model: model) { [weak base] result in
+                base?.changedValueRelay.accept(result)
+            }
+            alert.transitioningDelegate = base
+            alert.modalPresentationStyle = .custom
+            base.present(alert, animated: true)
+        }
     }
 }

@@ -93,6 +93,11 @@
 		86D5A2DC26D55B0D007FAB12 /* SFProDisplay-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D5A2D626D55B0D007FAB12 /* SFProDisplay-Medium.ttf */; };
 		86D5A2DD26D55B0D007FAB12 /* SFProText-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D5A2D726D55B0D007FAB12 /* SFProText-Regular.ttf */; };
 		86D5A2DF26D565E5007FAB12 /* SFProDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D5A2DE26D565E5007FAB12 /* SFProDisplay-Regular.ttf */; };
+		86D5A2E326D568EA007FAB12 /* ReportAlertScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5A2E026D568EA007FAB12 /* ReportAlertScreenViewController.swift */; };
+		86D5A2E426D568EA007FAB12 /* ReportAlertScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5A2E126D568EA007FAB12 /* ReportAlertScreenView.swift */; };
+		86D5A2E526D568EA007FAB12 /* ReportAlertScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5A2E226D568EA007FAB12 /* ReportAlertScreenViewModel.swift */; };
+		86D5A2E926D5722D007FAB12 /* ReportAlertAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5A2E826D5722D007FAB12 /* ReportAlertAnimation.swift */; };
+		86D5A2EB26D65087007FAB12 /* ReportAlertPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5A2EA26D65087007FAB12 /* ReportAlertPresentationController.swift */; };
 		86D5B9F526C444160084AFE9 /* ReportSeparatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5B9F426C444160084AFE9 /* ReportSeparatorCell.swift */; };
 		86D5B9F726C44B2F0084AFE9 /* ReportTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5B9F626C44B2F0084AFE9 /* ReportTextCell.swift */; };
 		86D5B9F926C453880084AFE9 /* ReportHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5B9F826C453880084AFE9 /* ReportHeaderCell.swift */; };
@@ -218,6 +223,11 @@
 		86D5A2D626D55B0D007FAB12 /* SFProDisplay-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProDisplay-Medium.ttf"; sourceTree = "<group>"; };
 		86D5A2D726D55B0D007FAB12 /* SFProText-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Regular.ttf"; sourceTree = "<group>"; };
 		86D5A2DE26D565E5007FAB12 /* SFProDisplay-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProDisplay-Regular.ttf"; sourceTree = "<group>"; };
+		86D5A2E026D568EA007FAB12 /* ReportAlertScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportAlertScreenViewController.swift; sourceTree = "<group>"; };
+		86D5A2E126D568EA007FAB12 /* ReportAlertScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportAlertScreenView.swift; sourceTree = "<group>"; };
+		86D5A2E226D568EA007FAB12 /* ReportAlertScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportAlertScreenViewModel.swift; sourceTree = "<group>"; };
+		86D5A2E826D5722D007FAB12 /* ReportAlertAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportAlertAnimation.swift; sourceTree = "<group>"; };
+		86D5A2EA26D65087007FAB12 /* ReportAlertPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportAlertPresentationController.swift; sourceTree = "<group>"; };
 		86D5B9F426C444160084AFE9 /* ReportSeparatorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSeparatorCell.swift; sourceTree = "<group>"; };
 		86D5B9F626C44B2F0084AFE9 /* ReportTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTextCell.swift; sourceTree = "<group>"; };
 		86D5B9F826C453880084AFE9 /* ReportHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportHeaderCell.swift; sourceTree = "<group>"; };
@@ -428,6 +438,7 @@
 		866B817D26BC470100026E95 /* Report */ = {
 			isa = PBXGroup;
 			children = (
+				86D5A2E626D568F1007FAB12 /* Alert */,
 				8672E59726BC660F007BA792 /* Cells */,
 				8672E58E26BC5CD0007BA792 /* Models */,
 				866B818026BC473900026E95 /* ReportScreenViewController.swift */,
@@ -613,6 +624,26 @@
 				86D5A2D426D55B0C007FAB12 /* SFProText-Semibold.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		86D5A2E626D568F1007FAB12 /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				86D5A2E726D5720B007FAB12 /* Animation */,
+				86D5A2E026D568EA007FAB12 /* ReportAlertScreenViewController.swift */,
+				86D5A2E126D568EA007FAB12 /* ReportAlertScreenView.swift */,
+				86D5A2E226D568EA007FAB12 /* ReportAlertScreenViewModel.swift */,
+			);
+			path = Alert;
+			sourceTree = "<group>";
+		};
+		86D5A2E726D5720B007FAB12 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				86D5A2E826D5722D007FAB12 /* ReportAlertAnimation.swift */,
+				86D5A2EA26D65087007FAB12 /* ReportAlertPresentationController.swift */,
+			);
+			path = Animation;
 			sourceTree = "<group>";
 		};
 		9667E02826A60FEB0098C7F2 = {
@@ -897,6 +928,7 @@
 			files = (
 				86C11F7A26AD5E9400D7A47E /* MainViewModel.swift in Sources */,
 				86B17A4626C1AAE5000E8FED /* GetGovDataRequest.swift in Sources */,
+				86D5A2E526D568EA007FAB12 /* ReportAlertScreenViewModel.swift in Sources */,
 				8603BF0026B6904700A2E4CF /* MainHistoryHeaderView.swift in Sources */,
 				866B819226BC4C7400026E95 /* ReportManager.swift in Sources */,
 				866B81A226BC547B00026E95 /* VinAndRegNumberModel.swift in Sources */,
@@ -929,6 +961,7 @@
 				8637EEFF26C5A181003AAC30 /* GetInterpolRequest.swift in Sources */,
 				866B819526BC4CCA00026E95 /* RegNumberModel.swift in Sources */,
 				864250B826AC1FCF00837F07 /* SplashViewModel.swift in Sources */,
+				86D5A2E926D5722D007FAB12 /* ReportAlertAnimation.swift in Sources */,
 				9667E08A26A6156C0098C7F2 /* AppDelegate.swift in Sources */,
 				863D629A26B0842C00D0A073 /* MainSearchHeaderView.swift in Sources */,
 				864250CF26AC4C2900837F07 /* LanguageModel.swift in Sources */,
@@ -948,6 +981,7 @@
 				86C11F8226ADAE9600D7A47E /* MainSegmentControlView.swift in Sources */,
 				8674241C26C977F600487DF2 /* ReportCommentComplainCell.swift in Sources */,
 				866B818826BC482D00026E95 /* PaygateManager.swift in Sources */,
+				86D5A2E326D568EA007FAB12 /* ReportAlertScreenViewController.swift in Sources */,
 				9667E08026A6156C0098C7F2 /* ScreenSize.swift in Sources */,
 				866B818A26BC488900026E95 /* PaygateManagerCore.swift in Sources */,
 				866B818426BC473900026E95 /* ReportScreenView.swift in Sources */,
@@ -970,11 +1004,13 @@
 				8637EEF126C580C8003AAC30 /* ReportIconWithTextCell.swift in Sources */,
 				8637EEED26C56DE3003AAC30 /* GetWantedRequest.swift in Sources */,
 				9667E07826A6156C0098C7F2 /* UIColorExtension.swift in Sources */,
+				86D5A2EB26D65087007FAB12 /* ReportAlertPresentationController.swift in Sources */,
 				9667E08726A6156C0098C7F2 /* ImagePicker.swift in Sources */,
 				86D5B9F526C444160084AFE9 /* ReportSeparatorCell.swift in Sources */,
 				86A43BA526C846D30036D06B /* ReportLogoCell.swift in Sources */,
 				8603BF0F26B70E0700A2E4CF /* BottomButtonView.swift in Sources */,
 				866B818326BC473900026E95 /* ReportScreenViewController.swift in Sources */,
+				86D5A2E426D568EA007FAB12 /* ReportAlertScreenView.swift in Sources */,
 				864250B626AC1FCF00837F07 /* SplashViewController.swift in Sources */,
 				86B17A4426C0664C000E8FED /* GovDataModel.swift in Sources */,
 				86A43BA326C817B60036D06B /* ReportLoadingCell.swift in Sources */,

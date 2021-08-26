@@ -24,10 +24,12 @@ final class ReportScreenViewModel {
 extension ReportScreenViewModel {
     struct Input {
         let inputValue: Signal<ReportSearchValue>
+        let selectedElement: Signal<ReportTableItem>
     }
     
     struct Output {
         let elements: Driver<[DataSource]>
+        let showChangeAlert: Signal<ReportValueWithActionModel>
     }
     
     func configure(input: Input) -> Output {
@@ -61,8 +63,19 @@ extension ReportScreenViewModel {
             }
             .asDriver(onErrorJustReturn: [])
         
+        let showChangeAlert = input.selectedElement
+            .asObservable()
+            .compactMap { element -> ReportValueWithActionModel? in
+                guard case let .valueWithAction(model) = element, model.action != .none else { return nil }
+                
+                return model
+            }
+            .asSignal(onErrorSignalWith: .empty())
         
-        return Output(elements: elements)
+        return Output(
+            elements: elements,
+            showChangeAlert: showChangeAlert
+        )
     }
     
     
@@ -79,7 +92,16 @@ private extension ReportScreenViewModel {
                     return reportService
                         .getRegNumberByVin(vin: value)
                         .asObservable()
-                        .map { BaseData(vin: value, regNumber: $0?.regNumber, isEditableVin: false, isEditableNumber: true) }
+                        .map { model in
+                            let regNumber = model?.regNumber ?? ""
+                            
+                            return BaseData(
+                                vin: value,
+                                regNumber: regNumber,
+                                isEditableVin: false,
+                                isEditableNumber: regNumber.isEmpty || regNumber.contains("_")
+                            )
+                        }
                 case let .regNumber(value):
                     // TODO: После реализации WebView поправить конфигурацию данных
                     return .just(BaseData(regNumber: value, isEditableVin: true, isEditableNumber: false))
@@ -87,7 +109,17 @@ private extension ReportScreenViewModel {
                     return reportService
                         .getVinAndRegNumberByRegDoc(series: series, number: number)
                         .asObservable()
-                        .map { BaseData(vin: $0?.vin, regNumber: $0?.regNumber, technicalPassport: "\(series)\(number)", isEditableVin: true, isEditableNumber: true) }
+                        .map { model in
+                            let vin = model?.vin ?? ""
+                            let regNumber = model?.regNumber ?? ""
+                            return BaseData(
+                                vin: vin,
+                                regNumber: regNumber,
+                                technicalPassport: "\(series)\(number)",
+                                isEditableVin: vin.isEmpty || vin.contains("_"),
+                                isEditableNumber: regNumber.isEmpty || regNumber.contains("_")
+                            )
+                        }
                 }
             }
         
