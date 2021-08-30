@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import SwiftyStoreKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,6 +19,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = SplashViewController()
         window?.makeKeyAndVisible()
+        
+        SwiftyStoreKit.completeTransactions { purchases in
+            for purchase in purchases {
+                let state = purchase.transaction.transactionState
+                if state == .purchased || state == .restored {
+                    SwiftyStoreKit.finishTransaction(purchase.transaction)
+                }
+            }
+        }
         
         Messaging.messaging().delegate = self
         UINavigationBar.appearance().shadowImage = UIColor.black.withAlphaComponent(0.3).navigationShadow()

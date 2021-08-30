@@ -12,7 +12,7 @@ final class ReportScreenViewModel {
     typealias DataSource = (String, [ReportTableItem])
     typealias Elements = [ReportTableItem]
     
-    private lazy var paygateService = PaygateManagerCore()
+    private lazy var paygateService = PurchaseManagerCore()
     private lazy var reportService = ReportManagerCore()
     private let searchValue: ReportSearchValue
     
@@ -30,13 +30,13 @@ extension ReportScreenViewModel {
     struct Output {
         let elements: Driver<[DataSource]>
         let showChangeAlert: Signal<ReportValueWithActionModel>
+        let showPaygate: Signal<Void>
     }
     
     func configure(input: Input) -> Output {
     
         let isActiveSubscription = paygateService.isActiveSubscription()
             .asObservable()
-            .map(!)
             .share(replay: 1)
         
         let searchValue = Observable.just(searchValue)
@@ -72,9 +72,18 @@ extension ReportScreenViewModel {
             }
             .asSignal(onErrorSignalWith: .empty())
         
+        let showPaygate = input.selectedElement
+            .asObservable()
+            .compactMap { element -> Void? in
+                guard case .locked = element else { return nil }
+                return ()
+            }
+            .asSignal(onErrorSignalWith: .empty())
+        
         return Output(
             elements: elements,
-            showChangeAlert: showChangeAlert
+            showChangeAlert: showChangeAlert,
+            showPaygate: showPaygate
         )
     }
     
@@ -193,7 +202,7 @@ private extension ReportScreenViewModel {
             history: [ReportTableItem.header(.init(title: historyTitle, state: .empty)), .loader]
         )
         
-        return baseData.debug()
+        return baseData
             .distinctUntilChanged { $0.regNumber == $1.regNumber }
             .withUnretained(self)
             .flatMapLatest { base, data -> Observable<(main: Elements, history: Elements)> in

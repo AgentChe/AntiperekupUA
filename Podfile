@@ -13,11 +13,12 @@ target 'AntiperekupUA' do
   
   pod 'Kingfisher'
   
-  pod 'NotificationBannerSwift'
-  
   pod 'Firebase/Analytics'
   pod 'Firebase/Crashlytics'
   pod 'Firebase/Messaging'
+  
+  pod 'SwiftyStoreKit'
+  
 end
 
 post_install do |pi|

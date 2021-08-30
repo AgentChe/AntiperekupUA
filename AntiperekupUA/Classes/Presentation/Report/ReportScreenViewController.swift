@@ -56,6 +56,10 @@ final class ReportScreenViewController: UIViewController {
         output.showChangeAlert
             .emit(to: showChangeAlert)
             .disposed(by: disposeBag)
+        
+        output.showPaygate
+            .emit(to: showPaygate)
+            .disposed(by: disposeBag)
     }
     
     private lazy var configureCell: ConfigureCell = { _, tableView, indexPath, item in
@@ -153,6 +157,12 @@ private extension ReportScreenViewController {
             alert.transitioningDelegate = base
             alert.modalPresentationStyle = .custom
             base.present(alert, animated: true)
+        }
+    }
+    
+    var showPaygate: Binder<Void> {
+        Binder(self) { base, _ in
+            base.present(PaygateScreenViewController.make(), animated: true)
         }
     }
 }

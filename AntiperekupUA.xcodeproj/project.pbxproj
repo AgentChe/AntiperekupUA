@@ -23,6 +23,13 @@
 		8637EEF726C596BD003AAC30 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 8637EEF926C596BD003AAC30 /* Localizable.stringsdict */; };
 		8637EEFF26C5A181003AAC30 /* GetInterpolRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637EEFE26C5A181003AAC30 /* GetInterpolRequest.swift */; };
 		8637EF0126C5A329003AAC30 /* InterpolModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637EF0026C5A329003AAC30 /* InterpolModel.swift */; };
+		863B7D1A26DA9A73008A1BAD /* IAP_ProductIDs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 863B7D1926DA9A73008A1BAD /* IAP_ProductIDs.plist */; };
+		863B7D2326DAA404008A1BAD /* IAPManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863B7D1C26DAA403008A1BAD /* IAPManagerCore.swift */; };
+		863B7D2426DAA404008A1BAD /* IAPErrorHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863B7D1D26DAA403008A1BAD /* IAPErrorHelper.swift */; };
+		863B7D2526DAA404008A1BAD /* IAPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863B7D1E26DAA404008A1BAD /* IAPError.swift */; };
+		863B7D2726DAA404008A1BAD /* IAPProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863B7D2026DAA404008A1BAD /* IAPProduct.swift */; };
+		863B7D2926DAA404008A1BAD /* IAPActionResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863B7D2226DAA404008A1BAD /* IAPActionResult.swift */; };
+		863B7D2C26DABEC2008A1BAD /* PaygateProductModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863B7D2B26DABEC2008A1BAD /* PaygateProductModel.swift */; };
 		863D629126B0675800D0A073 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863D629026B0675800D0A073 /* SearchView.swift */; };
 		863D629526B078FC00D0A073 /* MainTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863D629426B078FC00D0A073 /* MainTableView.swift */; };
 		863D629826B079E900D0A073 /* MainTableItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863D629726B079E900D0A073 /* MainTableItem.swift */; };
@@ -49,8 +56,7 @@
 		866B818326BC473900026E95 /* ReportScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B818026BC473900026E95 /* ReportScreenViewController.swift */; };
 		866B818426BC473900026E95 /* ReportScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B818126BC473900026E95 /* ReportScreenView.swift */; };
 		866B818526BC473900026E95 /* ReportScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B818226BC473900026E95 /* ReportScreenViewModel.swift */; };
-		866B818826BC482D00026E95 /* PaygateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B818726BC482D00026E95 /* PaygateManager.swift */; };
-		866B818A26BC488900026E95 /* PaygateManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B818926BC488900026E95 /* PaygateManagerCore.swift */; };
+		866B818A26BC488900026E95 /* PurchaseManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B818926BC488900026E95 /* PurchaseManagerCore.swift */; };
 		866B818D26BC48EA00026E95 /* GetPaygateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B818C26BC48EA00026E95 /* GetPaygateRequest.swift */; };
 		866B818F26BC496E00026E95 /* GetPaygateRequestMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B818E26BC496E00026E95 /* GetPaygateRequestMapper.swift */; };
 		866B819226BC4C7400026E95 /* ReportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B819126BC4C7400026E95 /* ReportManager.swift */; };
@@ -74,6 +80,8 @@
 		86A43BA526C846D30036D06B /* ReportLogoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A43BA426C846D20036D06B /* ReportLogoCell.swift */; };
 		86A43BA726C84AF00036D06B /* GetPhotoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A43BA626C84AF00036D06B /* GetPhotoRequest.swift */; };
 		86A43BA926C84B270036D06B /* PhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A43BA826C84B270036D06B /* PhotoModel.swift */; };
+		86ADBEA626DBA2A8001C8BFF /* PaygateScreenLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86ADBEA526DBA2A8001C8BFF /* PaygateScreenLoadingView.swift */; };
+		86ADBEA826DBAE8A001C8BFF /* CheckPaygateStatusModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86ADBEA726DBAE8A001C8BFF /* CheckPaygateStatusModel.swift */; };
 		86B17A4426C0664C000E8FED /* GovDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B17A4326C0664C000E8FED /* GovDataModel.swift */; };
 		86B17A4626C1AAE5000E8FED /* GetGovDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B17A4526C1AAE5000E8FED /* GetGovDataRequest.swift */; };
 		86BB67C026A7426300283267 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BB67BD26A7426300283267 /* OnboardingViewController.swift */; };
@@ -98,6 +106,16 @@
 		86D5A2E526D568EA007FAB12 /* ReportAlertScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5A2E226D568EA007FAB12 /* ReportAlertScreenViewModel.swift */; };
 		86D5A2E926D5722D007FAB12 /* ReportAlertAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5A2E826D5722D007FAB12 /* ReportAlertAnimation.swift */; };
 		86D5A2EB26D65087007FAB12 /* ReportAlertPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5A2EA26D65087007FAB12 /* ReportAlertPresentationController.swift */; };
+		86D5A2F026D793C0007FAB12 /* PaygateScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5A2ED26D793C0007FAB12 /* PaygateScreenViewController.swift */; };
+		86D5A2F126D793C0007FAB12 /* PaygateScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5A2EE26D793C0007FAB12 /* PaygateScreenView.swift */; };
+		86D5A2F226D793C0007FAB12 /* PaygateScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5A2EF26D793C0007FAB12 /* PaygateScreenViewModel.swift */; };
+		86D5A2F426D7941E007FAB12 /* SFProDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D5A2F326D7941E007FAB12 /* SFProDisplay-Bold.ttf */; };
+		86D5A2F726D7A416007FAB12 /* PaygateCheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5A2F626D7A416007FAB12 /* PaygateCheckView.swift */; };
+		86D5A2F926D7A73C007FAB12 /* PaygateProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5A2F826D7A73C007FAB12 /* PaygateProductView.swift */; };
+		86D5A2FB26D7B794007FAB12 /* CheckPaygateStatusRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5A2FA26D7B793007FAB12 /* CheckPaygateStatusRequest.swift */; };
+		86D5A2FD26D7B8C2007FAB12 /* PaygateSaleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5A2FC26D7B8C2007FAB12 /* PaygateSaleView.swift */; };
+		86D5A2FF26D7C141007FAB12 /* SFProDisplay-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D5A2FE26D7C140007FAB12 /* SFProDisplay-Semibold.ttf */; };
+		86D5A30126D7C253007FAB12 /* Oswald-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D5A30026D7C253007FAB12 /* Oswald-Regular.ttf */; };
 		86D5B9F526C444160084AFE9 /* ReportSeparatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5B9F426C444160084AFE9 /* ReportSeparatorCell.swift */; };
 		86D5B9F726C44B2F0084AFE9 /* ReportTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5B9F626C44B2F0084AFE9 /* ReportTextCell.swift */; };
 		86D5B9F926C453880084AFE9 /* ReportHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5B9F826C453880084AFE9 /* ReportHeaderCell.swift */; };
@@ -125,7 +143,6 @@
 		9667E08626A6156C0098C7F2 /* Weak.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9667E06726A6156C0098C7F2 /* Weak.swift */; };
 		9667E08726A6156C0098C7F2 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9667E06926A6156C0098C7F2 /* ImagePicker.swift */; };
 		9667E08826A6156C0098C7F2 /* RxActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9667E06A26A6156C0098C7F2 /* RxActivityIndicator.swift */; };
-		9667E08926A6156C0098C7F2 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9667E06B26A6156C0098C7F2 /* Toast.swift */; };
 		9667E08A26A6156C0098C7F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9667E06C26A6156C0098C7F2 /* AppDelegate.swift */; };
 		9667E08B26A6156C0098C7F2 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9667E07026A6156C0098C7F2 /* FirebaseManager.swift */; };
 		9667E08E26A618B80098C7F2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9667E08D26A618B80098C7F2 /* GoogleService-Info.plist */; };
@@ -152,6 +169,13 @@
 		8637EEFB26C596E8003AAC30 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		8637EEFE26C5A181003AAC30 /* GetInterpolRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetInterpolRequest.swift; sourceTree = "<group>"; };
 		8637EF0026C5A329003AAC30 /* InterpolModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterpolModel.swift; sourceTree = "<group>"; };
+		863B7D1926DA9A73008A1BAD /* IAP_ProductIDs.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = IAP_ProductIDs.plist; sourceTree = "<group>"; };
+		863B7D1C26DAA403008A1BAD /* IAPManagerCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPManagerCore.swift; sourceTree = "<group>"; };
+		863B7D1D26DAA403008A1BAD /* IAPErrorHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPErrorHelper.swift; sourceTree = "<group>"; };
+		863B7D1E26DAA404008A1BAD /* IAPError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPError.swift; sourceTree = "<group>"; };
+		863B7D2026DAA404008A1BAD /* IAPProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPProduct.swift; sourceTree = "<group>"; };
+		863B7D2226DAA404008A1BAD /* IAPActionResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IAPActionResult.swift; sourceTree = "<group>"; };
+		863B7D2B26DABEC2008A1BAD /* PaygateProductModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaygateProductModel.swift; sourceTree = "<group>"; };
 		863D629026B0675800D0A073 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		863D629426B078FC00D0A073 /* MainTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableView.swift; sourceTree = "<group>"; };
 		863D629726B079E900D0A073 /* MainTableItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableItem.swift; sourceTree = "<group>"; };
@@ -178,8 +202,7 @@
 		866B818026BC473900026E95 /* ReportScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportScreenViewController.swift; sourceTree = "<group>"; };
 		866B818126BC473900026E95 /* ReportScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportScreenView.swift; sourceTree = "<group>"; };
 		866B818226BC473900026E95 /* ReportScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportScreenViewModel.swift; sourceTree = "<group>"; };
-		866B818726BC482D00026E95 /* PaygateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaygateManager.swift; sourceTree = "<group>"; };
-		866B818926BC488900026E95 /* PaygateManagerCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaygateManagerCore.swift; sourceTree = "<group>"; };
+		866B818926BC488900026E95 /* PurchaseManagerCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseManagerCore.swift; sourceTree = "<group>"; };
 		866B818C26BC48EA00026E95 /* GetPaygateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPaygateRequest.swift; sourceTree = "<group>"; };
 		866B818E26BC496E00026E95 /* GetPaygateRequestMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPaygateRequestMapper.swift; sourceTree = "<group>"; };
 		866B819126BC4C7400026E95 /* ReportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportManager.swift; sourceTree = "<group>"; };
@@ -203,6 +226,8 @@
 		86A43BA426C846D20036D06B /* ReportLogoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportLogoCell.swift; sourceTree = "<group>"; };
 		86A43BA626C84AF00036D06B /* GetPhotoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPhotoRequest.swift; sourceTree = "<group>"; };
 		86A43BA826C84B270036D06B /* PhotoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoModel.swift; sourceTree = "<group>"; };
+		86ADBEA526DBA2A8001C8BFF /* PaygateScreenLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaygateScreenLoadingView.swift; sourceTree = "<group>"; };
+		86ADBEA726DBAE8A001C8BFF /* CheckPaygateStatusModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPaygateStatusModel.swift; sourceTree = "<group>"; };
 		86B17A4326C0664C000E8FED /* GovDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovDataModel.swift; sourceTree = "<group>"; };
 		86B17A4526C1AAE5000E8FED /* GetGovDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetGovDataRequest.swift; sourceTree = "<group>"; };
 		86BB67BD26A7426300283267 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
@@ -228,6 +253,16 @@
 		86D5A2E226D568EA007FAB12 /* ReportAlertScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportAlertScreenViewModel.swift; sourceTree = "<group>"; };
 		86D5A2E826D5722D007FAB12 /* ReportAlertAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportAlertAnimation.swift; sourceTree = "<group>"; };
 		86D5A2EA26D65087007FAB12 /* ReportAlertPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportAlertPresentationController.swift; sourceTree = "<group>"; };
+		86D5A2ED26D793C0007FAB12 /* PaygateScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaygateScreenViewController.swift; sourceTree = "<group>"; };
+		86D5A2EE26D793C0007FAB12 /* PaygateScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaygateScreenView.swift; sourceTree = "<group>"; };
+		86D5A2EF26D793C0007FAB12 /* PaygateScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaygateScreenViewModel.swift; sourceTree = "<group>"; };
+		86D5A2F326D7941E007FAB12 /* SFProDisplay-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProDisplay-Bold.ttf"; sourceTree = "<group>"; };
+		86D5A2F626D7A416007FAB12 /* PaygateCheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaygateCheckView.swift; sourceTree = "<group>"; };
+		86D5A2F826D7A73C007FAB12 /* PaygateProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaygateProductView.swift; sourceTree = "<group>"; };
+		86D5A2FA26D7B793007FAB12 /* CheckPaygateStatusRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPaygateStatusRequest.swift; sourceTree = "<group>"; };
+		86D5A2FC26D7B8C2007FAB12 /* PaygateSaleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaygateSaleView.swift; sourceTree = "<group>"; };
+		86D5A2FE26D7C140007FAB12 /* SFProDisplay-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProDisplay-Semibold.ttf"; sourceTree = "<group>"; };
+		86D5A30026D7C253007FAB12 /* Oswald-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Oswald-Regular.ttf"; sourceTree = "<group>"; };
 		86D5B9F426C444160084AFE9 /* ReportSeparatorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSeparatorCell.swift; sourceTree = "<group>"; };
 		86D5B9F626C44B2F0084AFE9 /* ReportTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTextCell.swift; sourceTree = "<group>"; };
 		86D5B9F826C453880084AFE9 /* ReportHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportHeaderCell.swift; sourceTree = "<group>"; };
@@ -257,7 +292,6 @@
 		9667E06726A6156C0098C7F2 /* Weak.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weak.swift; sourceTree = "<group>"; };
 		9667E06926A6156C0098C7F2 /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		9667E06A26A6156C0098C7F2 /* RxActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxActivityIndicator.swift; sourceTree = "<group>"; };
-		9667E06B26A6156C0098C7F2 /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		9667E06C26A6156C0098C7F2 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9667E07026A6156C0098C7F2 /* FirebaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		9667E08C26A6180F0098C7F2 /* AntiperekupUA.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AntiperekupUA.entitlements; sourceTree = "<group>"; };
@@ -321,6 +355,26 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		863B7D1B26DAA3D7008A1BAD /* IAP */ = {
+			isa = PBXGroup;
+			children = (
+				863B7D2226DAA404008A1BAD /* IAPActionResult.swift */,
+				863B7D1E26DAA404008A1BAD /* IAPError.swift */,
+				863B7D1D26DAA403008A1BAD /* IAPErrorHelper.swift */,
+				863B7D1C26DAA403008A1BAD /* IAPManagerCore.swift */,
+				863B7D2026DAA404008A1BAD /* IAPProduct.swift */,
+			);
+			path = IAP;
+			sourceTree = "<group>";
+		};
+		863B7D2A26DABEAA008A1BAD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				863B7D2B26DABEC2008A1BAD /* PaygateProductModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		863D629626B079D700D0A073 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -354,6 +408,7 @@
 		864250BB26AC3CF300837F07 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				863B7D1B26DAA3D7008A1BAD /* IAP */,
 				866B819026BC4BF000026E95 /* Report */,
 				866B818626BC481000026E95 /* Paygate */,
 				86C11F7B26AD7D1B00D7A47E /* Onboarding */,
@@ -451,9 +506,9 @@
 		866B818626BC481000026E95 /* Paygate */ = {
 			isa = PBXGroup;
 			children = (
+				86ADBEA926DBAED7001C8BFF /* Model */,
 				866B818B26BC48C400026E95 /* Request */,
-				866B818726BC482D00026E95 /* PaygateManager.swift */,
-				866B818926BC488900026E95 /* PaygateManagerCore.swift */,
+				866B818926BC488900026E95 /* PurchaseManagerCore.swift */,
 			);
 			path = Paygate;
 			sourceTree = "<group>";
@@ -463,6 +518,7 @@
 			children = (
 				866B818C26BC48EA00026E95 /* GetPaygateRequest.swift */,
 				866B818E26BC496E00026E95 /* GetPaygateRequestMapper.swift */,
+				86D5A2FA26D7B793007FAB12 /* CheckPaygateStatusRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -540,9 +596,18 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		86ADBEA926DBAED7001C8BFF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				86ADBEA726DBAE8A001C8BFF /* CheckPaygateStatusModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		86BB67BB26A741B200283267 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				86D5A2EC26D7939A007FAB12 /* Paygate */,
 				866B817D26BC470100026E95 /* Report */,
 				86C11F7426AD5E7800D7A47E /* Main */,
 				864250B226AC1FA600837F07 /* Splash */,
@@ -616,6 +681,9 @@
 		86D1C7CE26AF2DDF0083C7C9 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				86D5A30026D7C253007FAB12 /* Oswald-Regular.ttf */,
+				86D5A2FE26D7C140007FAB12 /* SFProDisplay-Semibold.ttf */,
+				86D5A2F326D7941E007FAB12 /* SFProDisplay-Bold.ttf */,
 				86D5A2DE26D565E5007FAB12 /* SFProDisplay-Regular.ttf */,
 				86D5A2D626D55B0D007FAB12 /* SFProDisplay-Medium.ttf */,
 				86D5A2D226D55B0C007FAB12 /* SFProText-Bold.ttf */,
@@ -644,6 +712,29 @@
 				86D5A2EA26D65087007FAB12 /* ReportAlertPresentationController.swift */,
 			);
 			path = Animation;
+			sourceTree = "<group>";
+		};
+		86D5A2EC26D7939A007FAB12 /* Paygate */ = {
+			isa = PBXGroup;
+			children = (
+				863B7D2A26DABEAA008A1BAD /* Model */,
+				86D5A2F526D7A3FD007FAB12 /* Views */,
+				86D5A2ED26D793C0007FAB12 /* PaygateScreenViewController.swift */,
+				86D5A2EE26D793C0007FAB12 /* PaygateScreenView.swift */,
+				86D5A2EF26D793C0007FAB12 /* PaygateScreenViewModel.swift */,
+			);
+			path = Paygate;
+			sourceTree = "<group>";
+		};
+		86D5A2F526D7A3FD007FAB12 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				86D5A2F626D7A416007FAB12 /* PaygateCheckView.swift */,
+				86D5A2F826D7A73C007FAB12 /* PaygateProductView.swift */,
+				86D5A2FC26D7B8C2007FAB12 /* PaygateSaleView.swift */,
+				86ADBEA526DBA2A8001C8BFF /* PaygateScreenLoadingView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		9667E02826A60FEB0098C7F2 = {
@@ -683,6 +774,7 @@
 				9667E08D26A618B80098C7F2 /* GoogleService-Info.plist */,
 				9667E03F26A60FEF0098C7F2 /* LaunchScreen.storyboard */,
 				9667E03D26A60FEF0098C7F2 /* Assets.xcassets */,
+				863B7D1926DA9A73008A1BAD /* IAP_ProductIDs.plist */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -774,7 +866,6 @@
 			children = (
 				9667E06926A6156C0098C7F2 /* ImagePicker.swift */,
 				9667E06A26A6156C0098C7F2 /* RxActivityIndicator.swift */,
-				9667E06B26A6156C0098C7F2 /* Toast.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -867,8 +958,12 @@
 				86D5A2DA26D55B0D007FAB12 /* SFProText-Semibold.ttf in Resources */,
 				9667E04126A60FEF0098C7F2 /* LaunchScreen.storyboard in Resources */,
 				86D5A2DC26D55B0D007FAB12 /* SFProDisplay-Medium.ttf in Resources */,
+				86D5A2FF26D7C141007FAB12 /* SFProDisplay-Semibold.ttf in Resources */,
 				86BB67D426A7493E00283267 /* Localizable.strings in Resources */,
+				863B7D1A26DA9A73008A1BAD /* IAP_ProductIDs.plist in Resources */,
+				86D5A30126D7C253007FAB12 /* Oswald-Regular.ttf in Resources */,
 				86D5A2D826D55B0D007FAB12 /* SFProText-Bold.ttf in Resources */,
+				86D5A2F426D7941E007FAB12 /* SFProDisplay-Bold.ttf in Resources */,
 				9667E03E26A60FEF0098C7F2 /* Assets.xcassets in Resources */,
 				8637EEF726C596BD003AAC30 /* Localizable.stringsdict in Resources */,
 				86D5A2D926D55B0D007FAB12 /* SFProText-Medium.ttf in Resources */,
@@ -930,6 +1025,7 @@
 				86B17A4626C1AAE5000E8FED /* GetGovDataRequest.swift in Sources */,
 				86D5A2E526D568EA007FAB12 /* ReportAlertScreenViewModel.swift in Sources */,
 				8603BF0026B6904700A2E4CF /* MainHistoryHeaderView.swift in Sources */,
+				86D5A2F226D793C0007FAB12 /* PaygateScreenViewModel.swift in Sources */,
 				866B819226BC4C7400026E95 /* ReportManager.swift in Sources */,
 				866B81A226BC547B00026E95 /* VinAndRegNumberModel.swift in Sources */,
 				9667E07E26A6156C0098C7F2 /* Scalable.swift in Sources */,
@@ -959,6 +1055,7 @@
 				9667E07426A6156C0098C7F2 /* PaddingLabel.swift in Sources */,
 				8674241826C91BE600487DF2 /* CommentsModel.swift in Sources */,
 				8637EEFF26C5A181003AAC30 /* GetInterpolRequest.swift in Sources */,
+				86D5A2F126D793C0007FAB12 /* PaygateScreenView.swift in Sources */,
 				866B819526BC4CCA00026E95 /* RegNumberModel.swift in Sources */,
 				864250B826AC1FCF00837F07 /* SplashViewModel.swift in Sources */,
 				86D5A2E926D5722D007FAB12 /* ReportAlertAnimation.swift in Sources */,
@@ -967,11 +1064,13 @@
 				864250CF26AC4C2900837F07 /* LanguageModel.swift in Sources */,
 				863D629126B0675800D0A073 /* SearchView.swift in Sources */,
 				8674242026C98DA000487DF2 /* RIAModel.swift in Sources */,
+				86D5A2FD26D7B8C2007FAB12 /* PaygateSaleView.swift in Sources */,
 				863D629526B078FC00D0A073 /* MainTableView.swift in Sources */,
 				9667E07C26A6156C0098C7F2 /* APIRequestBody.swift in Sources */,
 				86BB67C726A7439700283267 /* OnboardingBaseView.swift in Sources */,
 				864250D626AC51DF00837F07 /* UpdateTokenRequest.swift in Sources */,
 				86BB67C126A7426300283267 /* OnboardingView.swift in Sources */,
+				863B7D2726DAA404008A1BAD /* IAPProduct.swift in Sources */,
 				8672E59926BC662E007BA792 /* ReportValueCell.swift in Sources */,
 				866B819E26BC538400026E95 /* GetVinAndRegNumberRequest.swift in Sources */,
 				864250B026AC174C00837F07 /* OnboardingWebView.swift in Sources */,
@@ -980,18 +1079,21 @@
 				860B55B226CADE580022E316 /* ReportLockedCell.swift in Sources */,
 				86C11F8226ADAE9600D7A47E /* MainSegmentControlView.swift in Sources */,
 				8674241C26C977F600487DF2 /* ReportCommentComplainCell.swift in Sources */,
-				866B818826BC482D00026E95 /* PaygateManager.swift in Sources */,
 				86D5A2E326D568EA007FAB12 /* ReportAlertScreenViewController.swift in Sources */,
 				9667E08026A6156C0098C7F2 /* ScreenSize.swift in Sources */,
-				866B818A26BC488900026E95 /* PaygateManagerCore.swift in Sources */,
+				866B818A26BC488900026E95 /* PurchaseManagerCore.swift in Sources */,
 				866B818426BC473900026E95 /* ReportScreenView.swift in Sources */,
 				866B819726BC518600026E95 /* ReportManagerCore.swift in Sources */,
+				863B7D2926DAA404008A1BAD /* IAPActionResult.swift in Sources */,
+				86ADBEA626DBA2A8001C8BFF /* PaygateScreenLoadingView.swift in Sources */,
 				864250BD26AC3D0A00837F07 /* SessionManager.swift in Sources */,
 				8674241426C91B0C00487DF2 /* AddCommentRequest.swift in Sources */,
 				86BB67C026A7426300283267 /* OnboardingViewController.swift in Sources */,
 				864250CA26AC4B3400837F07 /* LanguageManagerCore.swift in Sources */,
 				866B818D26BC48EA00026E95 /* GetPaygateRequest.swift in Sources */,
 				86C11F7926AD5E9400D7A47E /* MainView.swift in Sources */,
+				86D5A2F026D793C0007FAB12 /* PaygateScreenViewController.swift in Sources */,
+				863B7D2526DAA404008A1BAD /* IAPError.swift in Sources */,
 				86DF738026CC31680034D9A1 /* ReportDescriptionCell.swift in Sources */,
 				9667E08126A6156C0098C7F2 /* Fonts.swift in Sources */,
 				8646B2C926BD7DF700A5A545 /* ReportSearchValue.swift in Sources */,
@@ -1002,6 +1104,7 @@
 				864250B726AC1FCF00837F07 /* SplashView.swift in Sources */,
 				864250C326AC3FB400837F07 /* APIRequestBodyExtension.swift in Sources */,
 				8637EEF126C580C8003AAC30 /* ReportIconWithTextCell.swift in Sources */,
+				863B7D2426DAA404008A1BAD /* IAPErrorHelper.swift in Sources */,
 				8637EEED26C56DE3003AAC30 /* GetWantedRequest.swift in Sources */,
 				9667E07826A6156C0098C7F2 /* UIColorExtension.swift in Sources */,
 				86D5A2EB26D65087007FAB12 /* ReportAlertPresentationController.swift in Sources */,
@@ -1009,7 +1112,9 @@
 				86D5B9F526C444160084AFE9 /* ReportSeparatorCell.swift in Sources */,
 				86A43BA526C846D30036D06B /* ReportLogoCell.swift in Sources */,
 				8603BF0F26B70E0700A2E4CF /* BottomButtonView.swift in Sources */,
+				86D5A2F926D7A73C007FAB12 /* PaygateProductView.swift in Sources */,
 				866B818326BC473900026E95 /* ReportScreenViewController.swift in Sources */,
+				86D5A2F726D7A416007FAB12 /* PaygateCheckView.swift in Sources */,
 				86D5A2E426D568EA007FAB12 /* ReportAlertScreenView.swift in Sources */,
 				864250B626AC1FCF00837F07 /* SplashViewController.swift in Sources */,
 				86B17A4426C0664C000E8FED /* GovDataModel.swift in Sources */,
@@ -1020,14 +1125,17 @@
 				9667E07726A6156C0098C7F2 /* GradientView.swift in Sources */,
 				9667E08826A6156C0098C7F2 /* RxActivityIndicator.swift in Sources */,
 				9667E07326A6156C0098C7F2 /* PaddingTextField.swift in Sources */,
+				863B7D2C26DABEC2008A1BAD /* PaygateProductModel.swift in Sources */,
 				864250D826AC71A100837F07 /* UpdateTokenResponseMapper.swift in Sources */,
+				86D5A2FB26D7B794007FAB12 /* CheckPaygateStatusRequest.swift in Sources */,
 				8674241626C91B8D00487DF2 /* ComplainCommentRequest.swift in Sources */,
 				9667E08526A6156C0098C7F2 /* NetworkError.swift in Sources */,
 				9667E07D26A6156C0098C7F2 /* RestAPITransport.swift in Sources */,
+				86ADBEA826DBAE8A001C8BFF /* CheckPaygateStatusModel.swift in Sources */,
 				9667E07F26A6156C0098C7F2 /* TextAttributes.swift in Sources */,
 				8674241026C9031C00487DF2 /* ReportPhotoCell.swift in Sources */,
-				9667E08926A6156C0098C7F2 /* Toast.swift in Sources */,
 				864250AF26AC174C00837F07 /* OnboardingWebViewController.swift in Sources */,
+				863B7D2326DAA404008A1BAD /* IAPManagerCore.swift in Sources */,
 				8603BEF726B557CE00A2E4CF /* MainTableAction.swift in Sources */,
 				864250AA26AC150000837F07 /* UITapGestureRecognizerExtension.swift in Sources */,
 				9667E07926A6156C0098C7F2 /* UIViewRxExtension.swift in Sources */,
