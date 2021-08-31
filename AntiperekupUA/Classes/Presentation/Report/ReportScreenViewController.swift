@@ -42,6 +42,7 @@ final class ReportScreenViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         let input = ReportScreenViewModel.Input(
             inputValue: changedValueRelay.asSignal(),
             selectedElement: mainView.tableView.rx.modelSelected(ReportTableItem.self).asSignal(),
@@ -59,7 +60,11 @@ final class ReportScreenViewController: UIViewController {
             .emit(to: showChangeAlert)
             .disposed(by: disposeBag)
         
-        output.showPaygate
+        output.isActiveSubscription
+            .drive(mainView.paygateView.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        mainView.paygateView.tap
             .emit(to: showPaygate)
             .disposed(by: disposeBag)
     }
@@ -131,6 +136,9 @@ final class ReportScreenViewController: UIViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportTitleCell.self), for: indexPath) as! ReportTitleCell
             cell.setup(for: value)
             return cell
+        case .retry:
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportRetryCell.self), for: indexPath) as! ReportRetryCell
+            return cell
         }
     }
 }
@@ -138,7 +146,9 @@ final class ReportScreenViewController: UIViewController {
 // MARK: Make
 extension ReportScreenViewController {
     static func make(searchValue: ReportSearchValue) -> ReportScreenViewController {
-        ReportScreenViewController(searchValue: searchValue)
+        let controller = ReportScreenViewController(searchValue: searchValue)
+        controller.title = "report".localized
+        return controller
     }
 }
 

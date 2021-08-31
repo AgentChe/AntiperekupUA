@@ -8,6 +8,7 @@ import UIKit
 
 final class ReportScreenView: UIView {
     lazy var tableView = makeTableView()
+    lazy var paygateView = makeBottomButton()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,6 +38,7 @@ private extension ReportScreenView {
         tableView.register(ReportDescriptionCell.self, forCellReuseIdentifier: String(describing: ReportDescriptionCell.self))
         tableView.register(ReportImagesCarouselCell.self, forCellReuseIdentifier: String(describing: ReportImagesCarouselCell.self))
         tableView.register(ReportTitleCell.self, forCellReuseIdentifier: String(describing: ReportTitleCell.self))
+        tableView.register(ReportRetryCell.self, forCellReuseIdentifier: String(describing: ReportRetryCell.self))
     }
 }
 
@@ -47,7 +49,14 @@ private extension ReportScreenView {
             tableView.topAnchor.constraint(equalTo: topAnchor),
             tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            paygateView.heightAnchor.constraint(equalToConstant: 48.scale),
+            paygateView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            paygateView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            paygateView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }
@@ -62,6 +71,15 @@ private extension ReportScreenView {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = UIColor(integralRed: 242, green: 242, blue: 242)
         view.separatorStyle = .none
+        view.contentInset.bottom = 48.scale
+        addSubview(view)
+        return view
+    }
+    
+    func makeBottomButton() -> BottomButtonView {
+        let view = BottomButtonView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.setup(title: "activate_access_for_month".localized.uppercased(), isHiddenBottomLine: true)
         addSubview(view)
         return view
     }

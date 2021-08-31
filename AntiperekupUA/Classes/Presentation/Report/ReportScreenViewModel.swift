@@ -31,7 +31,7 @@ extension ReportScreenViewModel {
     struct Output {
         let elements: Driver<[DataSource]>
         let showChangeAlert: Signal<ReportValueWithActionModel>
-        let showPaygate: Signal<Void>
+        let isActiveSubscription: Driver<Bool>
     }
     
     func configure(input: Input) -> Output {
@@ -47,7 +47,22 @@ extension ReportScreenViewModel {
         
         let searchValue = Observable.just(searchValue)
         
-        let baseData = makeBaseData(searchValue: searchValue, inputValue: input.inputValue)
+        let retryTrigger = input.selectedElement
+            .asObservable()
+            .compactMap { element -> Void? in
+                guard case .retry = element else { return nil }
+                return ()
+            }
+        
+        let baseDataResult = makeBaseData(
+            searchValue: searchValue,
+            inputValue: input.inputValue,
+            retryTrigger: retryTrigger
+        )
+        .share(replay: 1, scope: .forever)
+        
+        let baseData = baseDataResult
+            .compactMap { $0.element }
             .share(replay: 1, scope: .forever)
         
         let mainAndHistory = makeMainAndHistorySection(baseData: baseData)
@@ -60,7 +75,7 @@ extension ReportScreenViewModel {
         
         let freeSections = Observable
             .combineLatest([
-                makeBaseSection(baseData: baseData),
+                makeBaseSection(baseData: baseDataResult),
                 mainAndHistory.map { $0.main },
                 mainAndHistory.map { $0.history },
                 makeWantedSection(baseData: baseData),
@@ -74,7 +89,8 @@ extension ReportScreenViewModel {
             }
         
         let elements = Observable
-            .combineLatest(freeSections, lockedSections) { $0 + $1 }.asDriver(onErrorDriveWith: .empty())
+            .combineLatest(freeSections, lockedSections) { $0 + $1 }
+            .asDriver(onErrorDriveWith: .empty())
         
         let showChangeAlert = input.selectedElement
             .asObservable()
@@ -85,18 +101,10 @@ extension ReportScreenViewModel {
             }
             .asSignal(onErrorSignalWith: .empty())
         
-        let showPaygate = input.selectedElement
-            .asObservable()
-            .compactMap { element -> Void? in
-                guard case .locked = element else { return nil }
-                return ()
-            }
-            .asSignal(onErrorSignalWith: .empty())
-        
         return Output(
             elements: elements,
             showChangeAlert: showChangeAlert,
-            showPaygate: showPaygate
+            isActiveSubscription: isActiveSubscription.asDriver(onErrorJustReturn: false)
         )
     }
     
@@ -106,12 +114,18 @@ extension ReportScreenViewModel {
 // MARK: Private
 private extension ReportScreenViewModel {
     
-    func makeBaseData(searchValue: Observable<ReportSearchValue>, inputValue: Signal<ReportSearchValue>) -> Observable<BaseData> {
+    func makeBaseData(
+        searchValue: Observable<ReportSearchValue>,
+        inputValue: Signal<ReportSearchValue>,
+        retryTrigger: Observable<Void>
+    ) -> Observable<Event<BaseData>> {
         let baseData = searchValue
-            .flatMapLatest { [reportService] value -> Observable<BaseData> in
+            .flatMapLatest { [reportService] value -> Observable<Event<BaseData>> in
+                let result: Observable<BaseData>
+                
                 switch value {
                 case let .vin(value):
-                    return reportService
+                    result = reportService
                         .getRegNumberByVin(vin: value)
                         .asObservable()
                         .map { model in
@@ -124,11 +138,12 @@ private extension ReportScreenViewModel {
                                 isEditableNumber: regNumber.isEmpty || regNumber.contains("_")
                             )
                         }
+                        .startWith(BaseData(vin: value, regNumber: nil, technicalPassport: nil, isEditableVin: false, isEditableNumber: true))
                 case let .regNumber(value):
                     // TODO: После реализации WebView поправить конфигурацию данных
-                    return .just(BaseData(regNumber: value, isEditableVin: true, isEditableNumber: false))
+                    result = .just(BaseData(regNumber: value, isEditableVin: true, isEditableNumber: false))
                 case let .technicalPassport(series, number):
-                    return reportService
+                    result = reportService
                         .getVinAndRegNumberByRegDoc(series: series, number: number)
                         .asObservable()
                         .map { model in
@@ -142,12 +157,27 @@ private extension ReportScreenViewModel {
                                 isEditableNumber: regNumber.isEmpty || regNumber.contains("_")
                             )
                         }
+                        .startWith(BaseData(vin: nil, regNumber: nil, technicalPassport: "\(series)\(number)", isEditableVin: true, isEditableNumber: true))
                 }
+                
+                return result
+                    .materialize()
+                    .flatMap { event -> Observable<Event<BaseData>> in
+                        guard case let .error(error) = event else {
+                            return .just(event)
+                        }
+                        
+                        let second: Observable<Event<BaseData>> = .error(error)
+                        return .just(event).concat(second)
+                    }
+                    .retry(when: { $0.flatMap { _ in retryTrigger } })
+                    .debug()
             }
+            .share(replay: 1)
         
-        return Observable<Action>
+        let successResult = Observable<Action>
             .merge(
-                baseData.map { .baseData($0) },
+                baseData.compactMap { $0.element.map { .baseData($0) } },
                 inputValue.asObservable().map { .input($0) }
             )
             .scan(nil, accumulator: { old, action -> BaseData? in
@@ -168,40 +198,63 @@ private extension ReportScreenViewModel {
                     return current
                 }
             })
-            .compactMap { $0 }
+            .compactMap { $0.map { Event.next($0) } }
+        
+        return Observable.merge(successResult, baseData.filter { $0.error != nil }).debug()
     }
     
-    func makeBaseSection(baseData: Observable<BaseData>) -> Observable<Elements> {
-        let headerTitle = "wanted_title".localized
+    func makeBaseSection(baseData: Observable<Event<BaseData>>) -> Observable<Elements> {
+        let headerTitle = "basic_information".localized
         
         return baseData
-            .map { model -> Elements in
-                let regNumber = ReportValueWithActionModel(
-                    value: model.regNumber,
-                    action: model.regNumber.isEmpty ? .add : (model.regNumber.contains("_") || model.isEditableNumber) ? .change : .none,
-                    fieldType: .regNumber
-                )
+            .compactMap { event -> Elements? in
+                switch event {
+                case let .next(model):
+                    let regNumber = ReportValueWithActionModel(
+                        value: model.regNumber,
+                        action: model.regNumber.isEmpty ? .add : (model.regNumber.contains("_") || model.isEditableNumber) ? .change : .none,
+                        fieldType: .regNumber
+                    )
+                    
+                    let vin = ReportValueWithActionModel(
+                        value: model.vin,
+                        action: model.vin.isEmpty ? .add : (model.vin.contains("_") || model.isEditableVin) ? .change : .none,
+                        fieldType: .vin
+                    )
+                    
+                    let technicalPassport = ReportValueWithActionModel(
+                        value: model.technicalPassport,
+                        action: model.technicalPassport.isEmpty ? .add : model.technicalPassport.contains("_") ? .change : .none,
+                        fieldType: .technicalPassport
+                    )
+                    
+                    return [
+                        .header(title: headerTitle, state: .empty),
+                        .valueWithAction(regNumber),
+                        .valueWithAction(vin),
+                        .valueWithAction(technicalPassport)
+                    ]
+                case let .error(error):
+                    var errorMessage: String {
+                        switch (error as NSError).code {
+                        case NSURLErrorNotConnectedToInternet:
+                            return "network_error".localized
+                        case NSURLErrorTimedOut:
+                            return "timeout_error".localized
+                        default:
+                            return ""
+                        }
+                    }
+                    
+                    return [
+                        .header(title: headerTitle, state: .error),
+                        .error(message: errorMessage),
+                        .retry
+                    ]
+                case .completed:
+                    return nil
+                }
                 
-                let vin = ReportValueWithActionModel(
-                    value: model.vin,
-                    action: model.vin.isEmpty ? .add : (model.vin.contains("_") || model.isEditableVin) ? .change : .none,
-                    fieldType: .vin
-                )
-                
-                let technicalPassport = ReportValueWithActionModel(
-                    value: model.technicalPassport,
-                    action: model.technicalPassport.isEmpty ? .add : model.technicalPassport.contains("_") ? .change : .none,
-                    fieldType: .technicalPassport
-                )
-                
-                let items: [ReportTableItem] = [
-                    .header(title: headerTitle, state: .empty),
-                    .valueWithAction(regNumber),
-                    .valueWithAction(vin),
-                    .valueWithAction(technicalPassport)
-                ]
-                
-                return items
             }
             .startWith([.header(title: headerTitle, state: .empty), .loader])
     }
@@ -222,12 +275,12 @@ private extension ReportScreenViewModel {
                 
                 guard data.isValidNumber else {
                     let text = String(format: "required_empty_data_warning".localized, "gos_number_type".localized)
-                    let mainItems: [ReportTableItem] = [
+                    let mainItems: Elements = [
                         .header(title: mainTitle, state: .error),
                         .text(text)
                     ]
                     
-                    let historyItems: [ReportTableItem] = [
+                    let historyItems: Elements = [
                         .header(title: historyTitle, state: .error),
                         .text(text)
                     ]
@@ -246,7 +299,7 @@ private extension ReportScreenViewModel {
                             return (base.errorSection(headerText: mainTitle, message: model?.errorMessage), base.errorSection(headerText: historyTitle, message: model?.errorMessage))
                         }
                         
-                        let main: [ReportTableItem] = model.vehicle
+                        let main: Elements = model.vehicle
                             .map { vehicle in
                                 [
                                     .header(title: mainTitle, state: .success),
@@ -263,14 +316,16 @@ private extension ReportScreenViewModel {
                                     .value(title: "gov_data_year".localized, value: vehicle.year),
                                     .value(title: "gov_data_fuel".localized, value: vehicle.fuel),
                                     .value(title: "gov_data_own_weight".localized, value: vehicle.ownWeight),
-                                    .value(title: "gov_data_total_weight".localized, value: vehicle.totalWeight)
+                                    .value(title: "gov_data_total_weight".localized, value: vehicle.totalWeight),
+                                    .description("subs_descr_gov_data".localized)
                                 ].compactMap { $0 }
                             } ?? [
                                 .header(title: mainTitle, state: .error),
-                                .iconWithText(.init(text: "no_gov_data_information_found".localized, iconType: .error))
+                                .iconWithText(.init(text: "no_gov_data_information_found".localized, iconType: .error)),
+                                .description("subs_descr_gov_data".localized)
                             ]
                         
-                        var initialHistory: [ReportTableItem] {
+                        var initialHistory: Elements {
                             let isEmpty = model.records.isEmpty
                             let text = isEmpty ? "no_gov_data_information_found".localized : String(format: "records".localized, model.records.count)
                             
@@ -280,7 +335,7 @@ private extension ReportScreenViewModel {
                             return [header, result]
                         }
                         
-                        let history: [ReportTableItem] = model.records
+                        let history: Elements = model.records
                             .enumerated()
                             .reduce(into: initialHistory) {
                                 $0.append(.value(title: "gov_data_date".localized, value: $1.element.date))
@@ -299,7 +354,7 @@ private extension ReportScreenViewModel {
                                 if $1.offset < model.records.count - 1 {
                                     $0.append(.separator)
                                 }
-                            }
+                            } + [.description("subs_descr_gov_data".localized)]
                         
                         return (main: main, history: history)
                     }
@@ -321,7 +376,7 @@ private extension ReportScreenViewModel {
                 guard data.isValidNumber || data.isValidVin else {
                     let type = data.isValidNumber ? "vin_code_type".localized : "gos_number_type".localized
                     let text = String(format: "required_empty_data_warning".localized, type)
-                    let items: [ReportTableItem] = [.header(title: headerTitle, state: .error), .text(text)]
+                    let items: Elements = [.header(title: headerTitle, state: .error), .text(text)]
                     return .just(items + additional)
                 }
                 
@@ -341,13 +396,14 @@ private extension ReportScreenViewModel {
                             let text = "no_wanted_information_found".localized
                             return [
                                 .header(title: headerTitle, state: .success),
-                                .iconWithText(.init(text: text, iconType : .success))
+                                .iconWithText(.init(text: text, iconType : .success)),
+                                .description("subs_descr_wanted".localized)
                             ]
                         }
                         
                         let recordCount = ReportTableItem.iconWithText(.init(text: String(format: "records_wanted".localized, model.wanted.count), iconType: .error))
                         
-                        let items: [ReportTableItem] = model.wanted
+                        let items: Elements = model.wanted
                             .enumerated()
                             .reduce(into: [.header(title: headerTitle, state: .error), recordCount]) {
                                 $0.append(.value(title: "wanted_ovd".localized, value: $1.element.ovd))
@@ -361,6 +417,8 @@ private extension ReportScreenViewModel {
                                 $0.append(.value(title: "wanted_insert_date".localized, value: $1.element.insertDate))
                                 if $1.offset < model.wanted.count - 1 {
                                     $0.append(.separator)
+                                } else {
+                                    $0.append(.description("subs_descr_wanted".localized))
                                 }
                             }
                         
@@ -382,7 +440,7 @@ private extension ReportScreenViewModel {
                 guard data.isValidVin else {
                     let text = String(format: "required_empty_data_warning".localized, "vin_code_type".localized)
                     
-                    let items: [ReportTableItem] = [
+                    let items: Elements = [
                         .header(title: headerTitle, state: .error),
                         .text(text)
                     ]
@@ -401,16 +459,17 @@ private extension ReportScreenViewModel {
                         }
                         
                         guard !model.interpol.isEmpty else {
-                            let items: [ReportTableItem] = [
+                            let items: Elements = [
                                 .header(title: headerTitle, state: .success),
-                                .iconWithText(.init(text: "no_interpol_information_found".localized, iconType: .success))
+                                .iconWithText(.init(text: "no_interpol_information_found".localized, iconType: .success)),
+                                .description("subs_descr_interpol".localized)
                             ]
                             return items
                         }
                         
                         let recordCount = ReportTableItem.iconWithText(.init(text: String(format: "records_wanted".localized, model.interpol.count), iconType: .error))
                         
-                        let items: [ReportTableItem] = model.interpol
+                        let items: Elements = model.interpol
                             .enumerated()
                             .reduce(into: [.header(title: headerTitle, state: .error), recordCount]) {
                                 $0.append(.value(title: "interpol_vin".localized, value: $1.element.vin))
@@ -422,6 +481,8 @@ private extension ReportScreenViewModel {
                                 $0.append(.value(title: "interpol_make_model".localized, value: $1.element.makeModel))
                                 if $1.offset < model.interpol.count - 1 {
                                     $0.append(.separator)
+                                } else {
+                                    $0.append(.description("subs_descr_interpol".localized))
                                 }
                             }
                         
@@ -443,7 +504,7 @@ private extension ReportScreenViewModel {
                 guard data.isValidNumber else {
                     let text = String(format: "required_empty_data_warning".localized, "gos_number_type".localized)
                     
-                    let items: [ReportTableItem] = [
+                    let items: Elements = [
                         .header(title: headerTitle, state: .error),
                         .text(text)
                     ]
@@ -462,7 +523,7 @@ private extension ReportScreenViewModel {
                             return base.errorSection(headerText: headerTitle, message: model?.errorMessage)
                         }
                         
-                        var initialItems: [ReportTableItem] {
+                        var initialItems: Elements {
                             let isEmpty = model.photos.isEmpty
                             let text = isEmpty ? "no_photos_information_found".localized : String(format: "photos".localized, model.photos.count)
                             
@@ -472,7 +533,7 @@ private extension ReportScreenViewModel {
                             return [header, result]
                         }
                         
-                        let items: [ReportTableItem] = model.photos
+                        let items: Elements = model.photos
                             .enumerated()
                             .reduce(into: initialItems) {
                                 $0.append(.value(title: "photos_make".localized, value: $1.element.make))
@@ -485,7 +546,7 @@ private extension ReportScreenViewModel {
                                 if $1.offset < model.photos.count - 1 {
                                     $0.append(.separator)
                                 }
-                        }
+                        } + [.description("subs_descr_photos".localized)]
                         
                         
                         return items
@@ -513,7 +574,7 @@ private extension ReportScreenViewModel {
                 guard data.isValidNumber || data.isValidVin else {
                     let type = data.isValidNumber ? "vin_code_type".localized : "gos_number_type".localized
                     let text = String(format: "required_empty_data_warning".localized, type)
-                    let items: [ReportTableItem] = [.header(title: headerTitle, state: .error), .text(text)]
+                    let items: Elements = [.header(title: headerTitle, state: .error), .text(text)]
                     
                     let additional = base.additionalActionItems(baseData: data, for: .regNumber, .vin, .technicalPassport)
                     return .just(items + additional)
@@ -531,22 +592,27 @@ private extension ReportScreenViewModel {
                             return base.errorSection(headerText: headerTitle, message: model?.errorMessage)
                         }
                         
+                        let additional: Elements = [
+                            .description("user_comments_desc".localized),
+                            .commentAction
+                        ]
+                        
                         guard !model.comments.isEmpty else {
                             let text = "user_comments_not_found".localized
-                            let items: [ReportTableItem] = [
+                            let items: Elements = [
                                 .header(title: headerTitle, state: .error),
                                 .iconWithText(.init(text: text, iconType : .error))
                             ]
                             
-                            return items
+                            return items + additional
                         }
                         
-                        let initialItems: [ReportTableItem] = [
+                        let initialItems: Elements = [
                             .header(title: headerTitle, state: .success),
                             .iconWithText(.init(text: "user_comments_found".localized, iconType: .success))
                         ]
                         
-                        let items: [ReportTableItem] = model.comments
+                        let items: Elements = model.comments
                             .enumerated()
                             .reduce(into: initialItems) {
                                 $0.append(.complain(id: $1.element.id))
@@ -559,11 +625,6 @@ private extension ReportScreenViewModel {
                                     $0.append(.separator)
                                 }
                             }
-                        
-                        let additional: [ReportTableItem] = [
-                            .description("user_comments_desc".localized),
-                            .commentAction
-                        ]
                         
                         return items + additional
                     }
@@ -586,7 +647,7 @@ private extension ReportScreenViewModel {
                 guard data.isValidVin else {
                     let text = String(format: "required_empty_data_warning".localized, "vin_code_type".localized)
                     
-                    let items: [ReportTableItem] = [
+                    let items: Elements = [
                         .header(title: headerTitle, state: .error),
                         .text(text)
                     ]
@@ -605,10 +666,10 @@ private extension ReportScreenViewModel {
                         }
                         
                         guard !model.records.isEmpty else {
-                            let items: [ReportTableItem] = [
+                            let items: Elements = [
                                 .header(title: headerTitle, state: .success),
                                 .iconWithText(.init(text: "no_preview_information_found".localized, iconType: .success)),
-                                .description("subs_descr_recall".localized)
+                                .description("subs_descr_preview".localized)
                             ]
                             return items
                         }
@@ -641,7 +702,7 @@ private extension ReportScreenViewModel {
                                 if $1.offset < model.records.count - 1 {
                                     $0.append(.separator)
                                 } else {
-                                    $0.append(.description("subs_descr_ria".localized))
+                                    $0.append(.description("subs_descr_preview".localized))
                                 }
                             }
                     }
@@ -655,12 +716,14 @@ private extension ReportScreenViewModel {
         let recallSection = makeRecallSection(baseData: baseData)
         let dsbtSection = makeDSBTSection(baseData: baseData)
         let decodeVinSection = makeDecodeVinSection(baseData: baseData)
+        let decodeComplectationSection = makeComplectationSection(baseData: baseData)
+        let disposalSection = makeDisposalSection()
         
         return isActiveSubscription
             .distinctUntilChanged()
             .flatMapLatest { isActiveSubscription -> Observable<[Elements]> in
                 guard isActiveSubscription else {
-                    let items: [ReportTableItem] = [
+                    let items: Elements = [
                         .locked("ria_title".localized),
                         .locked("recall_title".localized),
                         .locked("dsbt_title".localized),
@@ -670,7 +733,15 @@ private extension ReportScreenViewModel {
                     return .just([items])
                 }
                 
-                return Observable.combineLatest([riaSection, recallSection, dsbtSection, decodeVinSection])
+                return Observable
+                    .combineLatest([
+                        riaSection,
+                        recallSection,
+                        dsbtSection,
+                        decodeVinSection,
+                        decodeComplectationSection,
+                        disposalSection
+                    ])
             }
             .startWith([])
     }
@@ -686,7 +757,7 @@ private extension ReportScreenViewModel {
                 guard data.isValidNumber || data.isValidVin else {
                     let type = data.isValidNumber ? "vin_code_type".localized : "gos_number_type".localized
                     let text = String(format: "required_empty_data_warning".localized, type)
-                    let items: [ReportTableItem] = [.header(title: headerTitle, state: .error), .text(text)]
+                    let items: Elements = [.header(title: headerTitle, state: .error), .text(text)]
                     let additional = base.additionalActionItems(baseData: data, for: .regNumber, .vin, .technicalPassport)
                     
                     return .just(items + additional)
@@ -706,7 +777,7 @@ private extension ReportScreenViewModel {
                         
                         guard !model.data.isEmpty else {
                             let text = "no_ria_information_found".localized
-                            let items: [ReportTableItem] = [
+                            let items: Elements = [
                                 .header(title: headerTitle, state: .error),
                                 .iconWithText(.init(text: text, iconType : .error)),
                                 .description("subs_descr_ria".localized)
@@ -715,7 +786,7 @@ private extension ReportScreenViewModel {
                             return items
                         }
                         
-                        let initialItems: [ReportTableItem] = [
+                        let initialItems: Elements = [
                             .header(title: headerTitle, state: .success),
                             .iconWithText(.init(text: String(format: "records".localized, model.data.count), iconType: .error))
                         ]
@@ -764,7 +835,7 @@ private extension ReportScreenViewModel {
                 guard data.isValidVin else {
                     let text = String(format: "required_empty_data_warning".localized, "vin_code_type".localized)
                     
-                    let items: [ReportTableItem] = [
+                    let items: Elements = [
                         .header(title: headerTitle, state: .error),
                         .text(text)
                     ]
@@ -783,7 +854,7 @@ private extension ReportScreenViewModel {
                         }
                         
                         guard !model.records.isEmpty else {
-                            let items: [ReportTableItem] = [
+                            let items: Elements = [
                                 .header(title: headerTitle, state: .success),
                                 .iconWithText(.init(text: "no_recall_information_found".localized, iconType: .success)),
                                 .description("subs_descr_recall".localized)
@@ -852,7 +923,7 @@ private extension ReportScreenViewModel {
                             return items
                         }
                         
-                        let initialItems: [ReportTableItem] = [
+                        let initialItems: Elements = [
                             .header(title: headerTitle, state: .error),
                             .iconWithText(.init(text: String(format: "records".localized, model.records.count), iconType: .error))
                         ]
@@ -879,7 +950,7 @@ private extension ReportScreenViewModel {
                                 if $1.offset < model.records.count - 1 {
                                     $0.append(.separator)
                                 } else {
-                                    $0.append(.description("subs_descr_ria".localized))
+                                    $0.append(.description("subs_descr_dsbt".localized))
                                 }
                             }
                     }
@@ -898,7 +969,7 @@ private extension ReportScreenViewModel {
                 guard data.isValidVin else {
                     let text = String(format: "required_empty_data_warning".localized, "vin_code_type".localized)
                     
-                    let items: [ReportTableItem] = [
+                    let items: Elements = [
                         .header(title: headerTitle, state: .error),
                         .text(text)
                     ]
@@ -917,7 +988,7 @@ private extension ReportScreenViewModel {
                         }
                         
                         guard !model.records.isEmpty else {
-                            let items: [ReportTableItem] = [
+                            let items: Elements = [
                                 .header(title: headerTitle, state: .success),
                                 .iconWithText(.init(text: "no_decoder_information_found".localized, iconType: .error)),
                                 .description("subs_descr_decoder".localized)
@@ -930,7 +1001,7 @@ private extension ReportScreenViewModel {
                             .flatMap { $0.logoURL }
                             .map { .logo($0) }
                         
-                        let initialItems: [ReportTableItem] = [
+                        let initialItems: Elements = [
                             .header(title: headerTitle, state: .success),
                             .iconWithText(.init(text: "decoder_success".localized, iconType: .success)),
                             logoItem
@@ -946,12 +1017,73 @@ private extension ReportScreenViewModel {
                                 case .logo:
                                     break
                                 }
-                            }
+                            } + [.description("subs_descr_decoder".localized)]
                     }
                     .startWith([.header(title: headerTitle, state: .empty), .loader])
                 
             }
             .startWith([.header(title: headerTitle, state: .empty), .loader])
+    }
+    
+    func makeComplectationSection(baseData: Observable<BaseData>) -> Observable<Elements> {
+        let headerTitle = "complectation_title".localized
+        
+        return baseData
+            .distinctUntilChanged { $0.vin == $1.vin }
+            .withUnretained(self)
+            .flatMapLatest { base, data -> Observable<Elements> in
+                guard data.isValidVin else {
+                    let text = String(format: "required_empty_data_warning".localized, "vin_code_type".localized)
+                    
+                    let items: [ReportTableItem] = [
+                        .header(title: headerTitle, state: .error),
+                        .text(text)
+                    ]
+                    
+                    let additional = base.additionalActionItems(baseData: data, for: .vin, .technicalPassport)
+                    return .just(items + additional)
+                }
+                
+                return base.reportService
+                    .getComplectation(vin: data.vin)
+                    .asObservable()
+                    .withUnretained(base)
+                    .map { base, model -> Elements in
+                        guard let model = model, model.result else {
+                            return base.errorSection(headerText: headerTitle, message: model?.errorMessage)
+                        }
+                        
+                        guard !model.records.isEmpty else {
+                            let items: Elements = [
+                                .header(title: headerTitle, state: .success),
+                                .iconWithText(.init(text: "no_complectation_information_found".localized, iconType: .error)),
+                                .description("subs_descr_complectation".localized)
+                            ]
+                            return items
+                        }
+                        
+                        let initialItems: Elements = [
+                            .header(title: headerTitle, state: .success),
+                            .iconWithText(.init(text: "decoder_success".localized, iconType: .success)),
+                        ]
+                        
+                        return model.records
+                            .reduce(into: initialItems) {
+                                $0.append(.value(title: $1.title, value: $1.value))
+                            } + [.description("subs_descr_complectation".localized)]
+                    }
+                    .startWith([.header(title: headerTitle, state: .empty), .loader])
+                
+            }
+            .startWith([.header(title: headerTitle, state: .empty), .loader])
+    }
+    
+    func makeDisposalSection() -> Observable<Elements> {
+        let items: Elements = [
+            .header(title: "disposal_title".localized, state: .success),
+            .iconWithText(.init(text: "no_disposal_information_found".localized, iconType: .success))
+        ]
+        return .just(items)
     }
 }
 

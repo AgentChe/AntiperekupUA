@@ -1,0 +1,61 @@
+//
+//  ReportRetryCell.swift
+//  AntiperekupUA
+//
+//  Created by Vitaliy Zagorodnov on 31.08.2021.
+//
+import UIKit
+
+final class ReportRetryCell: UITableViewCell {
+    
+    private lazy var retryLabel = makeLabel()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        initialize()
+        makeConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+private extension ReportRetryCell {
+    func initialize() {
+        backgroundColor = .white
+        contentView.backgroundColor = .white
+        selectionStyle = .none
+    }
+}
+
+// MARK: Make constraints
+private extension ReportRetryCell {
+    func makeConstraints() {
+        NSLayoutConstraint.activate([
+            retryLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8.scale),
+            retryLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20.scale),
+            retryLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20.scale),
+            retryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20.scale)
+        ])
+    }
+}
+
+// MARK: Lazy initialization
+private extension ReportRetryCell {
+    func makeLabel() -> UILabel {
+        let view = UILabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.attributedText = "check_repeat".localized.attributed(with: .title)
+        contentView.addSubview(view)
+        return view
+    }
+}
+
+
+private extension TextAttributes {
+    static let title = TextAttributes()
+        .font(Fonts.SFProText.font(weight: .W700, size: 12.scale))
+        .textColor(UIColor(integralRed: 112, green: 160, blue: 172))
+        .textAlignment(.right)
+}

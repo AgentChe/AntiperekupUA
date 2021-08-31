@@ -17,6 +17,11 @@ final class ReportLoadingCell: UITableViewCell {
         makeConstraints()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        loader.startAnimating()
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

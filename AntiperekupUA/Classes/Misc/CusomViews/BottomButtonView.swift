@@ -29,6 +29,10 @@ extension BottomButtonView {
         button.setAttributedTitle(title.attributed(with: .title), for: .normal)
         bottomLine.isHidden = isHiddenBottomLine
     }
+    
+    var tap: Signal<Void> {
+        button.rx.tap.asSignal()
+    }
 }
 
 // MARK: Make constraints
@@ -62,7 +66,7 @@ private extension BottomButtonView {
     func makeButton() -> UIButton {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(integralRed: 160, green: 179, blue: 204)
+        view.backgroundColor = UIColor(integralRed: 221, green: 226, blue: 235)
         addSubview(view)
         return view
     }
@@ -78,7 +82,7 @@ private extension BottomButtonView {
 
 private extension TextAttributes {
     static let title = TextAttributes()
-        .font(UIFont.systemFont(ofSize: 20.scale))
+        .font(Fonts.SFProDisplay.font(weight: .W400, size: 20.scale))
         .lineHeight(24.scale)
         .textColor(UIColor(integralRed: 40, green: 42, blue: 48))
 }

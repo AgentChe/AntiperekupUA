@@ -64,6 +64,7 @@
 		864D460126DE742200B75C70 /* ReportTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864D460026DE742200B75C70 /* ReportTitleCell.swift */; };
 		864D460326DE848900B75C70 /* GetComplectationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864D460226DE848900B75C70 /* GetComplectationRequest.swift */; };
 		864D460526DE84B100B75C70 /* ComplectationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864D460426DE84B100B75C70 /* ComplectationModel.swift */; };
+		864D460726DE8D0C00B75C70 /* ReportRetryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864D460626DE8D0C00B75C70 /* ReportRetryCell.swift */; };
 		866B818326BC473900026E95 /* ReportScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B818026BC473900026E95 /* ReportScreenViewController.swift */; };
 		866B818426BC473900026E95 /* ReportScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B818126BC473900026E95 /* ReportScreenView.swift */; };
 		866B818526BC473900026E95 /* ReportScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B818226BC473900026E95 /* ReportScreenViewModel.swift */; };
@@ -225,6 +226,7 @@
 		864D460026DE742200B75C70 /* ReportTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTitleCell.swift; sourceTree = "<group>"; };
 		864D460226DE848900B75C70 /* GetComplectationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetComplectationRequest.swift; sourceTree = "<group>"; };
 		864D460426DE84B100B75C70 /* ComplectationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplectationModel.swift; sourceTree = "<group>"; };
+		864D460626DE8D0C00B75C70 /* ReportRetryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportRetryCell.swift; sourceTree = "<group>"; };
 		866B818026BC473900026E95 /* ReportScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportScreenViewController.swift; sourceTree = "<group>"; };
 		866B818126BC473900026E95 /* ReportScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportScreenView.swift; sourceTree = "<group>"; };
 		866B818226BC473900026E95 /* ReportScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportScreenViewModel.swift; sourceTree = "<group>"; };
@@ -653,6 +655,7 @@
 				86DF737F26CC31680034D9A1 /* ReportDescriptionCell.swift */,
 				864D45EE26DE11A600B75C70 /* ReportImagesCarouselCell.swift */,
 				864D460026DE742200B75C70 /* ReportTitleCell.swift */,
+				864D460626DE8D0C00B75C70 /* ReportRetryCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1091,6 +1094,7 @@
 				866B81A226BC547B00026E95 /* VinAndRegNumberModel.swift in Sources */,
 				9667E07E26A6156C0098C7F2 /* Scalable.swift in Sources */,
 				8674241A26C9756000487DF2 /* ReportCommentActionCell.swift in Sources */,
+				864D460726DE8D0C00B75C70 /* ReportRetryCell.swift in Sources */,
 				86C11F7D26AD7D2C00D7A47E /* OnboardingManager.swift in Sources */,
 				9667E07626A6156C0098C7F2 /* CircleView.swift in Sources */,
 				9667E07526A6156C0098C7F2 /* GradientButton.swift in Sources */,

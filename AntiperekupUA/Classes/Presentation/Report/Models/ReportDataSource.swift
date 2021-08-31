@@ -63,4 +63,5 @@ enum ReportTableItem {
     case description(String)
     case images([URL])
     case title(String)
+    case retry
 }
