@@ -8,15 +8,10 @@
 import UIKit
 import RxDataSources
 
-struct ReportHeaderModel {
-    let title: String
-    let state: State
-    
-    enum State {
-        case success
-        case error
-        case empty
-    }
+enum ReportHeaderState {
+    case success
+    case error
+    case empty
 }
 
 struct ReportValueModel {
@@ -52,9 +47,9 @@ struct ReportValueWithActionModel {
 }
 
 enum ReportTableItem {
-    case header(ReportHeaderModel)
+    case header(title: String, state: ReportHeaderState)
     case valueWithAction(ReportValueWithActionModel)
-    case value(ReportValueModel)
+    case value(title: String, value: String)
     case separator
     case text(String)
     case iconWithText(ReportIconWithTextModel)
@@ -66,4 +61,6 @@ enum ReportTableItem {
     case complain(id: Int)
     case locked(String)
     case description(String)
+    case images([URL])
+    case title(String)
 }

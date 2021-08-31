@@ -35,6 +35,8 @@ private extension ReportScreenView {
         tableView.register(ReportCommentActionCell.self, forCellReuseIdentifier: String(describing: ReportCommentActionCell.self))
         tableView.register(ReportLockedCell.self, forCellReuseIdentifier: String(describing: ReportLockedCell.self))
         tableView.register(ReportDescriptionCell.self, forCellReuseIdentifier: String(describing: ReportDescriptionCell.self))
+        tableView.register(ReportImagesCarouselCell.self, forCellReuseIdentifier: String(describing: ReportImagesCarouselCell.self))
+        tableView.register(ReportTitleCell.self, forCellReuseIdentifier: String(describing: ReportTitleCell.self))
     }
 }
 

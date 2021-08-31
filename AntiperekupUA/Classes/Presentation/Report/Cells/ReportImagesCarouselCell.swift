@@ -1,0 +1,122 @@
+//
+//  ReportImagesCarouselCell.swift
+//  AntiperekupUA
+//
+//  Created by Vitaliy Zagorodnov on 31.08.2021.
+//
+import UIKit
+
+final class ReportImagesCarouselCell: UITableViewCell {
+    
+    private lazy var carouselView = makeCollectionView()
+    private lazy var separator = makeSeparator()
+    private lazy var titleLabel = makeTitle()
+    private lazy var valueLabel = makeValue()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        initialize()
+        makeConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension ReportImagesCarouselCell {
+    func setup(for elements: [URL]) {
+        carouselView.setup(elements: elements)
+        valueLabel.attributedText = "\(elements.count)".attributed(with: .value)
+    }
+}
+
+private extension ReportImagesCarouselCell {
+    func initialize() {
+        backgroundColor = .white
+        contentView.backgroundColor = .white
+        selectionStyle = .none
+    }
+}
+
+// MARK: Make constraints
+private extension ReportImagesCarouselCell {
+    func makeConstraints() {
+        NSLayoutConstraint.activate([
+            titleLabel.centerYAnchor.constraint(equalTo: valueLabel.centerYAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8.scale),
+            titleLabel.trailingAnchor.constraint(equalTo: valueLabel.leadingAnchor, constant: -8.scale)
+        ])
+        
+        NSLayoutConstraint.activate([
+            valueLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8.scale),
+            valueLabel.heightAnchor.constraint(equalToConstant: 24.scale),
+            valueLabel.widthAnchor.constraint(equalTo: valueLabel.heightAnchor),
+            valueLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8.scale)
+        ])
+        
+        NSLayoutConstraint.activate([
+            separator.topAnchor.constraint(equalTo: valueLabel.bottomAnchor, constant: 8.scale),
+            separator.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            separator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            separator.heightAnchor.constraint(equalToConstant: 1.scale)
+        ])
+        
+        NSLayoutConstraint.activate([
+            carouselView.topAnchor.constraint(equalTo: separator.bottomAnchor, constant: 6.scale),
+            carouselView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            carouselView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            carouselView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16.scale)
+        ])
+    }
+}
+
+// MARK: Lazy initialization
+private extension ReportImagesCarouselCell {
+    func makeCollectionView() -> ReportImageCarouselView {
+        let view = ReportImageCarouselView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        contentView.addSubview(view)
+        return view
+    }
+    
+    func makeTitle() -> UILabel {
+        let view = UILabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.numberOfLines = 1
+        view.attributedText = "photos_title".localized.attributed(with: .title)
+        contentView.addSubview(view)
+        return view
+    }
+    
+    func makeValue() -> UILabel {
+        let view = UILabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor(integralRed: 69, green: 142, blue: 156)
+        view.layer.cornerRadius = 12.scale
+        view.clipsToBounds = true
+        contentView.addSubview(view)
+        return view
+    }
+    
+    func makeSeparator() -> UIView {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor(integralRed: 246, green: 246, blue: 247)
+        contentView.addSubview(view)
+        return view
+    }
+}
+
+private extension TextAttributes {
+    static let title = TextAttributes()
+        .font(Fonts.SFProText.font(weight: .W400, size: 12.scale))
+        .textColor(.black)
+        .textAlignment(.left)
+    
+    static let value = TextAttributes()
+        .font(Fonts.SFProText.font(weight: .W700, size: 12.scale))
+        .textColor(.white)
+        .textAlignment(.center)
+}

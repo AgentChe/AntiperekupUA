@@ -25,6 +25,7 @@ final class ReportScreenViewController: UIViewController {
     
     private let complainIdRelay = PublishRelay<Int>()
     private let changedValueRelay = PublishRelay<ReportSearchValue>()
+    private let didActivateSubscription = PublishRelay<Void>()
     
     init(searchValue: ReportSearchValue) {
         viewModel = ReportScreenViewModel(searchValue: searchValue)
@@ -43,7 +44,8 @@ final class ReportScreenViewController: UIViewController {
         super.viewDidLoad()
         let input = ReportScreenViewModel.Input(
             inputValue: changedValueRelay.asSignal(),
-            selectedElement: mainView.tableView.rx.modelSelected(ReportTableItem.self).asSignal()
+            selectedElement: mainView.tableView.rx.modelSelected(ReportTableItem.self).asSignal(),
+            activateSubscription: didActivateSubscription.asSignal()
         )
         
         let output = viewModel.configure(input: input)
@@ -64,17 +66,17 @@ final class ReportScreenViewController: UIViewController {
     
     private lazy var configureCell: ConfigureCell = { _, tableView, indexPath, item in
         switch item {
-        case let .header(value):
+        case let .header(title, state):
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportHeaderCell.self), for: indexPath) as! ReportHeaderCell
-            cell.setup(for: value)
+            cell.setup(for: title, state: state)
             return cell
         case let .valueWithAction(value):
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportValueCellWithButton.self), for: indexPath) as! ReportValueCellWithButton
             cell.setup(for: value)
             return cell
-        case let .value(value):
+        case let .value(title, value):
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportValueCell.self), for: indexPath) as! ReportValueCell
-            cell.setup(for: value)
+            cell.setup(for: title, value: value)
             return cell
         case .separator:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportSeparatorCell.self), for: indexPath) as! ReportSeparatorCell
@@ -121,6 +123,14 @@ final class ReportScreenViewController: UIViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportDescriptionCell.self), for: indexPath) as! ReportDescriptionCell
             cell.setup(for: value)
             return cell
+        case let .images(value):
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportImagesCarouselCell.self), for: indexPath) as! ReportImagesCarouselCell
+            cell.setup(for: value)
+            return cell
+        case let .title(value):
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportTitleCell.self), for: indexPath) as! ReportTitleCell
+            cell.setup(for: value)
+            return cell
         }
     }
 }
@@ -162,7 +172,10 @@ private extension ReportScreenViewController {
     
     var showPaygate: Binder<Void> {
         Binder(self) { base, _ in
-            base.present(PaygateScreenViewController.make(), animated: true)
+            let controller = PaygateScreenViewController.make { [weak base] in
+                base?.didActivateSubscription.accept(())
+            }
+            base.present(controller, animated: true)
         }
     }
 }

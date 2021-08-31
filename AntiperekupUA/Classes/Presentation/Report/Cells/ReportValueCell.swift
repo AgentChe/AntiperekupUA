@@ -24,9 +24,9 @@ final class ReportValueCell: UITableViewCell {
 }
 
 extension ReportValueCell {
-    func setup(for model: ReportValueModel) {
-        let value = model.title.isEmpty ? "no_data".localized : model.value
-        titleLabel.attributedText = model.title.attributed(with: .title)
+    func setup(for title: String, value: String) {
+        let value = value.isEmpty ? "no_data".localized : value
+        titleLabel.attributedText = title.attributed(with: .title)
         valueLabel.attributedText = value.attributed(with: .value)
     }
 }

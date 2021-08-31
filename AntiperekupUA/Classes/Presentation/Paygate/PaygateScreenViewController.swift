@@ -16,6 +16,8 @@ final class PaygateScreenViewController: UIViewController {
     
     private lazy var viewModel = PaygateScreenViewModel()
     
+    private var didBuyed: (() -> Void)?
+    
     override func loadView() {
         view = mainView
     }
@@ -56,6 +58,7 @@ final class PaygateScreenViewController: UIViewController {
         
         output.productBuyedSignal
             .emit(to: Binder(self) { base, _ in
+                base.didBuyed?()
                 base.dismiss(animated: true)
             })
             .disposed(by: disposeBag)
@@ -94,8 +97,9 @@ private extension PaygateScreenViewController {
 
 // MARK: Make
 extension PaygateScreenViewController {
-    static func make() -> UINavigationController {
+    static func make(didBuyed: @escaping () -> Void) -> UINavigationController {
         let controller = PaygateScreenViewController()
+        controller.didBuyed = didBuyed
         let nc = UINavigationController(rootViewController: controller)
         nc.modalPresentationStyle = .fullScreen
         return nc

@@ -71,4 +71,44 @@ final class ReportManagerCore {
             .callServerApi(requestBody: request)
             .map(RIAModel.map(from:))
     }
+    
+    func getRecall(vin: String) -> Single<RecallVinSubsModel?> {
+        let request = GetRecallVinSubsRequest(vin: vin)
+        
+        return RestAPITransport()
+            .callServerApi(requestBody: request)
+            .map(RecallVinSubsModel.map(from:))
+    }
+    
+    func getAuction(vin: String, isFree: Bool) -> Single<AuctionModel?> {
+        let request = GetAuctionRequest(vin: vin, isFree: isFree)
+        
+        return RestAPITransport()
+            .callServerApi(requestBody: request)
+            .map(AuctionModel.map(from:))
+    }
+    
+    func getDSBT(regNumber: String) -> Single<DSBTModel?> {
+        let request = GetDSBTRequest(regNumber: regNumber)
+        
+        return RestAPITransport()
+            .callServerApi(requestBody: request)
+            .map { DSBTModel.map(from: $0) }
+    }
+    
+    func getDecodeVin(vin: String) -> Single<DecodeVinModel?> {
+        let request = GetDecodeVinRequest(vin: vin)
+        
+        return RestAPITransport()
+            .callServerApi(requestBody: request)
+            .map(DecodeVinModel.map(from:))
+    }
+    
+    func getComplectation(vin: String) -> Single<ComplectationModel?> {
+        let request = GetComplectationRequest(vin: vin)
+        
+        return RestAPITransport()
+            .callServerApi(requestBody: request)
+            .map(ComplectationModel.map(from:))
+    }
 }

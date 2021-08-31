@@ -53,6 +53,17 @@
 		864250D826AC71A100837F07 /* UpdateTokenResponseMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864250D726AC71A100837F07 /* UpdateTokenResponseMapper.swift */; };
 		864250DB26AC71E400837F07 /* UpdateTokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864250DA26AC71E400837F07 /* UpdateTokenModel.swift */; };
 		8646B2C926BD7DF700A5A545 /* ReportSearchValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8646B2C826BD7DF700A5A545 /* ReportSearchValue.swift */; };
+		864D45EF26DE11A600B75C70 /* ReportImagesCarouselCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864D45EE26DE11A600B75C70 /* ReportImagesCarouselCell.swift */; };
+		864D45F226DE124E00B75C70 /* ReportImageCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864D45F126DE124E00B75C70 /* ReportImageCarouselView.swift */; };
+		864D45F526DE1C0000B75C70 /* ReportImageCarouselCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864D45F426DE1C0000B75C70 /* ReportImageCarouselCell.swift */; };
+		864D45F726DE4C9900B75C70 /* ReportCarouselFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864D45F626DE4C9900B75C70 /* ReportCarouselFlowLayout.swift */; };
+		864D45F926DE5E1100B75C70 /* GetDSBTRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864D45F826DE5E1100B75C70 /* GetDSBTRequest.swift */; };
+		864D45FB26DE5E5D00B75C70 /* DSBTModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864D45FA26DE5E5D00B75C70 /* DSBTModel.swift */; };
+		864D45FD26DE645E00B75C70 /* GetDecodeVinRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864D45FC26DE645E00B75C70 /* GetDecodeVinRequest.swift */; };
+		864D45FF26DE66A700B75C70 /* DecodeVinModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864D45FE26DE66A700B75C70 /* DecodeVinModel.swift */; };
+		864D460126DE742200B75C70 /* ReportTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864D460026DE742200B75C70 /* ReportTitleCell.swift */; };
+		864D460326DE848900B75C70 /* GetComplectationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864D460226DE848900B75C70 /* GetComplectationRequest.swift */; };
+		864D460526DE84B100B75C70 /* ComplectationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864D460426DE84B100B75C70 /* ComplectationModel.swift */; };
 		866B818326BC473900026E95 /* ReportScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B818026BC473900026E95 /* ReportScreenViewController.swift */; };
 		866B818426BC473900026E95 /* ReportScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B818126BC473900026E95 /* ReportScreenView.swift */; };
 		866B818526BC473900026E95 /* ReportScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B818226BC473900026E95 /* ReportScreenViewModel.swift */; };
@@ -95,6 +106,10 @@
 		86C11F7D26AD7D2C00D7A47E /* OnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C11F7C26AD7D2C00D7A47E /* OnboardingManager.swift */; };
 		86C11F7F26AD7D3700D7A47E /* OnboardingManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C11F7E26AD7D3700D7A47E /* OnboardingManagerCore.swift */; };
 		86C11F8226ADAE9600D7A47E /* MainSegmentControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C11F8126ADAE9600D7A47E /* MainSegmentControlView.swift */; };
+		86CA220B26DD29B20019C101 /* GetRecallVinSubsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CA220A26DD29B20019C101 /* GetRecallVinSubsRequest.swift */; };
+		86CA220D26DD29EA0019C101 /* RecallVinSubsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CA220C26DD29EA0019C101 /* RecallVinSubsModel.swift */; };
+		86CA220F26DD619A0019C101 /* GetAuctionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CA220E26DD619A0019C101 /* GetAuctionRequest.swift */; };
+		86CA221126DD624B0019C101 /* AuctionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CA221026DD624B0019C101 /* AuctionModel.swift */; };
 		86D5A2D826D55B0D007FAB12 /* SFProText-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D5A2D226D55B0C007FAB12 /* SFProText-Bold.ttf */; };
 		86D5A2D926D55B0D007FAB12 /* SFProText-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D5A2D326D55B0C007FAB12 /* SFProText-Medium.ttf */; };
 		86D5A2DA26D55B0D007FAB12 /* SFProText-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D5A2D426D55B0C007FAB12 /* SFProText-Semibold.ttf */; };
@@ -199,6 +214,17 @@
 		864250D726AC71A100837F07 /* UpdateTokenResponseMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTokenResponseMapper.swift; sourceTree = "<group>"; };
 		864250DA26AC71E400837F07 /* UpdateTokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTokenModel.swift; sourceTree = "<group>"; };
 		8646B2C826BD7DF700A5A545 /* ReportSearchValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportSearchValue.swift; sourceTree = "<group>"; };
+		864D45EE26DE11A600B75C70 /* ReportImagesCarouselCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportImagesCarouselCell.swift; sourceTree = "<group>"; };
+		864D45F126DE124E00B75C70 /* ReportImageCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportImageCarouselView.swift; sourceTree = "<group>"; };
+		864D45F426DE1C0000B75C70 /* ReportImageCarouselCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportImageCarouselCell.swift; sourceTree = "<group>"; };
+		864D45F626DE4C9900B75C70 /* ReportCarouselFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCarouselFlowLayout.swift; sourceTree = "<group>"; };
+		864D45F826DE5E1100B75C70 /* GetDSBTRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDSBTRequest.swift; sourceTree = "<group>"; };
+		864D45FA26DE5E5D00B75C70 /* DSBTModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSBTModel.swift; sourceTree = "<group>"; };
+		864D45FC26DE645E00B75C70 /* GetDecodeVinRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDecodeVinRequest.swift; sourceTree = "<group>"; };
+		864D45FE26DE66A700B75C70 /* DecodeVinModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeVinModel.swift; sourceTree = "<group>"; };
+		864D460026DE742200B75C70 /* ReportTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTitleCell.swift; sourceTree = "<group>"; };
+		864D460226DE848900B75C70 /* GetComplectationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetComplectationRequest.swift; sourceTree = "<group>"; };
+		864D460426DE84B100B75C70 /* ComplectationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplectationModel.swift; sourceTree = "<group>"; };
 		866B818026BC473900026E95 /* ReportScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportScreenViewController.swift; sourceTree = "<group>"; };
 		866B818126BC473900026E95 /* ReportScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportScreenView.swift; sourceTree = "<group>"; };
 		866B818226BC473900026E95 /* ReportScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportScreenViewModel.swift; sourceTree = "<group>"; };
@@ -242,6 +268,10 @@
 		86C11F7C26AD7D2C00D7A47E /* OnboardingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingManager.swift; sourceTree = "<group>"; };
 		86C11F7E26AD7D3700D7A47E /* OnboardingManagerCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingManagerCore.swift; sourceTree = "<group>"; };
 		86C11F8126ADAE9600D7A47E /* MainSegmentControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSegmentControlView.swift; sourceTree = "<group>"; };
+		86CA220A26DD29B20019C101 /* GetRecallVinSubsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetRecallVinSubsRequest.swift; sourceTree = "<group>"; };
+		86CA220C26DD29EA0019C101 /* RecallVinSubsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecallVinSubsModel.swift; sourceTree = "<group>"; };
+		86CA220E26DD619A0019C101 /* GetAuctionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAuctionRequest.swift; sourceTree = "<group>"; };
+		86CA221026DD624B0019C101 /* AuctionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionModel.swift; sourceTree = "<group>"; };
 		86D5A2D226D55B0C007FAB12 /* SFProText-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Bold.ttf"; sourceTree = "<group>"; };
 		86D5A2D326D55B0C007FAB12 /* SFProText-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Medium.ttf"; sourceTree = "<group>"; };
 		86D5A2D426D55B0C007FAB12 /* SFProText-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Semibold.ttf"; sourceTree = "<group>"; };
@@ -490,9 +520,28 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		864D45F026DE123000B75C70 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				864D45F326DE1BE300B75C70 /* Cell */,
+				864D45F126DE124E00B75C70 /* ReportImageCarouselView.swift */,
+				864D45F626DE4C9900B75C70 /* ReportCarouselFlowLayout.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		864D45F326DE1BE300B75C70 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				864D45F426DE1C0000B75C70 /* ReportImageCarouselCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		866B817D26BC470100026E95 /* Report */ = {
 			isa = PBXGroup;
 			children = (
+				864D45F026DE123000B75C70 /* View */,
 				86D5A2E626D568F1007FAB12 /* Alert */,
 				8672E59726BC660F007BA792 /* Cells */,
 				8672E58E26BC5CD0007BA792 /* Models */,
@@ -545,6 +594,11 @@
 				86A43BA826C84B270036D06B /* PhotoModel.swift */,
 				8674241726C91BE600487DF2 /* CommentsModel.swift */,
 				8674241F26C98DA000487DF2 /* RIAModel.swift */,
+				86CA220C26DD29EA0019C101 /* RecallVinSubsModel.swift */,
+				86CA221026DD624B0019C101 /* AuctionModel.swift */,
+				864D45FA26DE5E5D00B75C70 /* DSBTModel.swift */,
+				864D45FE26DE66A700B75C70 /* DecodeVinModel.swift */,
+				864D460426DE84B100B75C70 /* ComplectationModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -562,6 +616,11 @@
 				8674241326C91B0C00487DF2 /* AddCommentRequest.swift */,
 				8674241526C91B8D00487DF2 /* ComplainCommentRequest.swift */,
 				8674241D26C98CF200487DF2 /* GetRIARequest.swift */,
+				86CA220A26DD29B20019C101 /* GetRecallVinSubsRequest.swift */,
+				86CA220E26DD619A0019C101 /* GetAuctionRequest.swift */,
+				864D45F826DE5E1100B75C70 /* GetDSBTRequest.swift */,
+				864D45FC26DE645E00B75C70 /* GetDecodeVinRequest.swift */,
+				864D460226DE848900B75C70 /* GetComplectationRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -592,6 +651,8 @@
 				8674241B26C977F600487DF2 /* ReportCommentComplainCell.swift */,
 				860B55B126CADE580022E316 /* ReportLockedCell.swift */,
 				86DF737F26CC31680034D9A1 /* ReportDescriptionCell.swift */,
+				864D45EE26DE11A600B75C70 /* ReportImagesCarouselCell.swift */,
+				864D460026DE742200B75C70 /* ReportTitleCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1046,8 +1107,10 @@
 				8603BF0426B6D09300A2E4CF /* MainRoute.swift in Sources */,
 				9667E08626A6156C0098C7F2 /* Weak.swift in Sources */,
 				9667E08426A6156C0098C7F2 /* SignError.swift in Sources */,
+				864D45FF26DE66A700B75C70 /* DecodeVinModel.swift in Sources */,
 				86C11F7826AD5E9400D7A47E /* MainViewController.swift in Sources */,
 				86A43BA726C84AF00036D06B /* GetPhotoRequest.swift in Sources */,
+				864D460126DE742200B75C70 /* ReportTitleCell.swift in Sources */,
 				8674241226C91AD400487DF2 /* GetCommentsRequest.swift in Sources */,
 				866B819A26BC51D900026E95 /* GetRegNumberRequest.swift in Sources */,
 				8603BF0226B6C0C700A2E4CF /* MainErrorCell.swift in Sources */,
@@ -1058,6 +1121,7 @@
 				86D5A2F126D793C0007FAB12 /* PaygateScreenView.swift in Sources */,
 				866B819526BC4CCA00026E95 /* RegNumberModel.swift in Sources */,
 				864250B826AC1FCF00837F07 /* SplashViewModel.swift in Sources */,
+				86CA220B26DD29B20019C101 /* GetRecallVinSubsRequest.swift in Sources */,
 				86D5A2E926D5722D007FAB12 /* ReportAlertAnimation.swift in Sources */,
 				9667E08A26A6156C0098C7F2 /* AppDelegate.swift in Sources */,
 				863D629A26B0842C00D0A073 /* MainSearchHeaderView.swift in Sources */,
@@ -1065,9 +1129,12 @@
 				863D629126B0675800D0A073 /* SearchView.swift in Sources */,
 				8674242026C98DA000487DF2 /* RIAModel.swift in Sources */,
 				86D5A2FD26D7B8C2007FAB12 /* PaygateSaleView.swift in Sources */,
+				86CA220F26DD619A0019C101 /* GetAuctionRequest.swift in Sources */,
 				863D629526B078FC00D0A073 /* MainTableView.swift in Sources */,
+				864D45F226DE124E00B75C70 /* ReportImageCarouselView.swift in Sources */,
 				9667E07C26A6156C0098C7F2 /* APIRequestBody.swift in Sources */,
 				86BB67C726A7439700283267 /* OnboardingBaseView.swift in Sources */,
+				86CA221126DD624B0019C101 /* AuctionModel.swift in Sources */,
 				864250D626AC51DF00837F07 /* UpdateTokenRequest.swift in Sources */,
 				86BB67C126A7426300283267 /* OnboardingView.swift in Sources */,
 				863B7D2726DAA404008A1BAD /* IAPProduct.swift in Sources */,
@@ -1084,7 +1151,9 @@
 				866B818A26BC488900026E95 /* PurchaseManagerCore.swift in Sources */,
 				866B818426BC473900026E95 /* ReportScreenView.swift in Sources */,
 				866B819726BC518600026E95 /* ReportManagerCore.swift in Sources */,
+				864D45FB26DE5E5D00B75C70 /* DSBTModel.swift in Sources */,
 				863B7D2926DAA404008A1BAD /* IAPActionResult.swift in Sources */,
+				86CA220D26DD29EA0019C101 /* RecallVinSubsModel.swift in Sources */,
 				86ADBEA626DBA2A8001C8BFF /* PaygateScreenLoadingView.swift in Sources */,
 				864250BD26AC3D0A00837F07 /* SessionManager.swift in Sources */,
 				8674241426C91B0C00487DF2 /* AddCommentRequest.swift in Sources */,
@@ -1100,10 +1169,13 @@
 				863D629826B079E900D0A073 /* MainTableItem.swift in Sources */,
 				866B818F26BC496E00026E95 /* GetPaygateRequestMapper.swift in Sources */,
 				86C11F7F26AD7D3700D7A47E /* OnboardingManagerCore.swift in Sources */,
+				864D45F526DE1C0000B75C70 /* ReportImageCarouselCell.swift in Sources */,
 				8601961426BE83BB000BC812 /* ReportValueCellWithButton.swift in Sources */,
 				864250B726AC1FCF00837F07 /* SplashView.swift in Sources */,
 				864250C326AC3FB400837F07 /* APIRequestBodyExtension.swift in Sources */,
+				864D45FD26DE645E00B75C70 /* GetDecodeVinRequest.swift in Sources */,
 				8637EEF126C580C8003AAC30 /* ReportIconWithTextCell.swift in Sources */,
+				864D460326DE848900B75C70 /* GetComplectationRequest.swift in Sources */,
 				863B7D2426DAA404008A1BAD /* IAPErrorHelper.swift in Sources */,
 				8637EEED26C56DE3003AAC30 /* GetWantedRequest.swift in Sources */,
 				9667E07826A6156C0098C7F2 /* UIColorExtension.swift in Sources */,
@@ -1129,6 +1201,7 @@
 				864250D826AC71A100837F07 /* UpdateTokenResponseMapper.swift in Sources */,
 				86D5A2FB26D7B794007FAB12 /* CheckPaygateStatusRequest.swift in Sources */,
 				8674241626C91B8D00487DF2 /* ComplainCommentRequest.swift in Sources */,
+				864D45F926DE5E1100B75C70 /* GetDSBTRequest.swift in Sources */,
 				9667E08526A6156C0098C7F2 /* NetworkError.swift in Sources */,
 				9667E07D26A6156C0098C7F2 /* RestAPITransport.swift in Sources */,
 				86ADBEA826DBAE8A001C8BFF /* CheckPaygateStatusModel.swift in Sources */,
@@ -1140,9 +1213,12 @@
 				864250AA26AC150000837F07 /* UITapGestureRecognizerExtension.swift in Sources */,
 				9667E07926A6156C0098C7F2 /* UIViewRxExtension.swift in Sources */,
 				8637EEF326C587DA003AAC30 /* ReportErrorCell.swift in Sources */,
+				864D45F726DE4C9900B75C70 /* ReportCarouselFlowLayout.swift in Sources */,
 				8672E59226BC5D16007BA792 /* ReportDataSource.swift in Sources */,
+				864D460526DE84B100B75C70 /* ComplectationModel.swift in Sources */,
 				9667E07B26A6156C0098C7F2 /* GlobalDefinitions.swift in Sources */,
 				8674241E26C98CF200487DF2 /* GetRIARequest.swift in Sources */,
+				864D45EF26DE11A600B75C70 /* ReportImagesCarouselCell.swift in Sources */,
 				864250D326AC503B00837F07 /* LanguageMediatorDelegate.swift in Sources */,
 				863D629C26B08AC100D0A073 /* MainTabType.swift in Sources */,
 			);

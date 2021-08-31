@@ -22,9 +22,9 @@ final class ReportHeaderCell: UITableViewCell {
 }
 
 extension ReportHeaderCell {
-    func setup(for model: ReportHeaderModel) {
-        titleLabel.attributedText = model.title.attributed(with: .title)
-        contentView.backgroundColor = model.state.color
+    func setup(for title: String, state: ReportHeaderState) {
+        titleLabel.attributedText = title.attributed(with: .title)
+        contentView.backgroundColor = state.color
     }
 }
 
@@ -57,7 +57,7 @@ private extension TextAttributes {
         .textAlignment(.center)
 }
 
-private extension ReportHeaderModel.State {
+private extension ReportHeaderState {
     var color: UIColor {
         switch self {
         case .success:

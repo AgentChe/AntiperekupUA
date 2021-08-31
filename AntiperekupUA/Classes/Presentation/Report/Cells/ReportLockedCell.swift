@@ -86,7 +86,7 @@ private extension ReportLockedCell {
     func makeIcon() -> UIImageView {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.tintColor = .black
+        view.tintColor = UIColor(integralRed: 40, green: 42, blue: 48)
         view.image = UIImage(named: "Report.Lock")
         container.addSubview(view)
         return view
@@ -96,6 +96,6 @@ private extension ReportLockedCell {
 private extension TextAttributes {
     static let title = TextAttributes()
         .font(Fonts.SFProDisplay.font(weight: .W400, size: 18.scale))
-        .textColor(.black)
+        .textColor(UIColor(integralRed: 40, green: 42, blue: 48))
         .textAlignment(.center)
 }
