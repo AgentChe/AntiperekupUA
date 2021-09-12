@@ -136,6 +136,7 @@
 		86D5B9F726C44B2F0084AFE9 /* ReportTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5B9F626C44B2F0084AFE9 /* ReportTextCell.swift */; };
 		86D5B9F926C453880084AFE9 /* ReportHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5B9F826C453880084AFE9 /* ReportHeaderCell.swift */; };
 		86DF738026CC31680034D9A1 /* ReportDescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DF737F26CC31680034D9A1 /* ReportDescriptionCell.swift */; };
+		86E521C726ECF41F00BE6AC7 /* ReportDataSourceConfigureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E521C626ECF41F00BE6AC7 /* ReportDataSourceConfigureHelper.swift */; };
 		9667E03E26A60FEF0098C7F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9667E03D26A60FEF0098C7F2 /* Assets.xcassets */; };
 		9667E04126A60FEF0098C7F2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9667E03F26A60FEF0098C7F2 /* LaunchScreen.storyboard */; };
 		9667E07326A6156C0098C7F2 /* PaddingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9667E05026A6156C0098C7F2 /* PaddingTextField.swift */; };
@@ -299,6 +300,7 @@
 		86D5B9F626C44B2F0084AFE9 /* ReportTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTextCell.swift; sourceTree = "<group>"; };
 		86D5B9F826C453880084AFE9 /* ReportHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportHeaderCell.swift; sourceTree = "<group>"; };
 		86DF737F26CC31680034D9A1 /* ReportDescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDescriptionCell.swift; sourceTree = "<group>"; };
+		86E521C626ECF41F00BE6AC7 /* ReportDataSourceConfigureHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDataSourceConfigureHelper.swift; sourceTree = "<group>"; };
 		9667E03126A60FEB0098C7F2 /* AntiperekupUA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AntiperekupUA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9667E03D26A60FEF0098C7F2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9667E04026A60FEF0098C7F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -632,6 +634,7 @@
 			children = (
 				8672E59126BC5D16007BA792 /* ReportDataSource.swift */,
 				8646B2C826BD7DF700A5A545 /* ReportSearchValue.swift */,
+				86E521C626ECF41F00BE6AC7 /* ReportDataSourceConfigureHelper.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1113,6 +1116,7 @@
 				9667E08426A6156C0098C7F2 /* SignError.swift in Sources */,
 				864D45FF26DE66A700B75C70 /* DecodeVinModel.swift in Sources */,
 				86C11F7826AD5E9400D7A47E /* MainViewController.swift in Sources */,
+				86E521C726ECF41F00BE6AC7 /* ReportDataSourceConfigureHelper.swift in Sources */,
 				86A43BA726C84AF00036D06B /* GetPhotoRequest.swift in Sources */,
 				864D460126DE742200B75C70 /* ReportTitleCell.swift in Sources */,
 				8674241226C91AD400487DF2 /* GetCommentsRequest.swift in Sources */,

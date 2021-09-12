@@ -69,7 +69,7 @@ final class ReportScreenViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    private lazy var configureCell: ConfigureCell = { _, tableView, indexPath, item in
+    private lazy var configureCell: ConfigureCell = { [weak self] _, tableView, indexPath, item in
         switch item {
         case let .header(title, state):
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportHeaderCell.self), for: indexPath) as! ReportHeaderCell
