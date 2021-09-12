@@ -63,10 +63,9 @@ private extension MainView {
     
     func makeSegment(name: String) -> MainSegmentItem {
         let view = MainSegmentItem()
-        let normal = TextAttributes.segment.textColor(UIColor(integralRed: 2, green: 2, blue: 2))
-        let selected = TextAttributes.segment.textColor(.white)
-        view.setAttributedTitle(name.attributed(with: normal), for: .normal)
-        view.setAttributedTitle(name.attributed(with: selected), for: .selected)
+        
+        view.setAttributedTitle(name.attributed(with: .initial), for: .normal)
+        view.setAttributedTitle(name.attributed(with: .selected), for: .selected)
         return view
     }
     
@@ -79,7 +78,13 @@ private extension MainView {
 }
 
 private extension TextAttributes {
-    static let segment = TextAttributes()
-        .font(UIFont.systemFont(ofSize: 13.scale))
+    static let initial = TextAttributes()
+        .font(Fonts.SFProText.font(weight: .W400, size: 13.scale))
         .lineHeight(15.scale)
+        .textColor(UIColor(integralRed: 2, green: 2, blue: 2))
+    
+    static let selected = TextAttributes()
+        .font(Fonts.SFProText.font(weight: .W500, size: 13.scale))
+        .lineHeight(15.scale)
+        .textColor(.white)
 }

@@ -11,5 +11,5 @@ enum MainRoute {
     case regValidation(String)
     case checkPassport
     case checkDebets
-    case report
+    case report(ReportSearchValue)
 }

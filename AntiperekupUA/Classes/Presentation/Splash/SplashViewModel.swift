@@ -36,7 +36,7 @@ extension SplashViewModel {
             .compactMap { event -> (String, String)? in
                 switch event {
                 case let .error(error):
-                    return ("TITLE", error.localizedDescription)
+                    return ("error".localized, error.localizedDescription)
                 case let .next(model):
                     guard let model = model, !model.result else {
                         return nil
@@ -45,7 +45,7 @@ extension SplashViewModel {
                         ? "error_message".localized
                         : model.errorMessage
                     
-                    return ("TITLE", message)
+                    return ("error".localized, message)
                 case .completed:
                     return nil
                 }
@@ -57,7 +57,7 @@ extension SplashViewModel {
                 guard case let .next(model) = event, let model = model, !model.messages.isEmpty else { return nil }
                 
                 let message = model.messages.joined(separator: "\n")
-                return ("TITLE", message)
+                return ("error".localized, message)
             }
             .asSignal(onErrorSignalWith: .empty())
         

@@ -41,6 +41,10 @@ final class MainViewController: UIViewController {
             .map { $0.map { .init(model: $0.0, items: $0.1) } }
             .drive(mainView.tableView.items)
             .disposed(by: disposeBag)
+        
+        output.route
+            .emit(to: navigation)
+            .disposed(by: disposeBag)
     }
 }
 
@@ -51,5 +55,23 @@ extension MainViewController {
         let navigationController = UINavigationController(rootViewController: controller)
         controller.title = "ukraine_mvd_database".localized
         return navigationController
+    }
+}
+
+private extension MainViewController {
+    var navigation: Binder<MainRoute> {
+        Binder(self) { base, route in
+            switch route {
+            case .regValidation:
+                break
+            case .checkPassport:
+                break
+            case .checkDebets:
+                break
+            case let .report(searchValue):
+                let controller = ReportScreenViewController.make(searchValue: searchValue)
+                base.navigationController?.pushViewController(controller, animated: true)
+            }
+        }
     }
 }

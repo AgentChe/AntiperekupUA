@@ -9,9 +9,7 @@ import RxSwift
 import RxCocoa
 
 final class MainViewModel {
-    
     typealias TableDataSource = (MainTableHeader, [MainTableItem])
-    
 }
 
 
@@ -26,7 +24,6 @@ extension MainViewModel {
     struct Output {
         let tableData: Driver<[TableDataSource]>
         let searchPlaceholder: Driver<String>
-//        let searchResult: Signal<SearchResult>
         let isError: Driver<Bool>
         let route: Signal<MainRoute>
     }
@@ -143,12 +140,13 @@ private extension MainViewModel {
     var searchResultRoute: (SearchResult) -> MainRoute? {
         return { result -> MainRoute? in
             switch result {
-            case let .regNumber(number):
-                return .regValidation(number)
-            case .vinNumber:
-                return .report
-            case .technicalPassport:
-                return .report
+            case let .regNumber(value):
+                return .report(.regNumber(value))
+//                return .regValidation(value)
+            case let .vinNumber(value):
+                return .report(.vin(value))
+            case let .technicalPassport(series, number):
+                return .report(.technicalPassport(series: series, number: number))
             case .error:
                 return nil
             }

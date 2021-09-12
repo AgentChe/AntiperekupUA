@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UpdateTokenResponseMapper {
+enum UpdateTokenResponseMapper {
     static func map(from response: Any) -> UpdateTokenModel? {
         guard
             let json = response as? [String: Any],
