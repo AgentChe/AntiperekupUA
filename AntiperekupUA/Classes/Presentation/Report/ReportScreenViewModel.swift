@@ -82,15 +82,15 @@ extension ReportScreenViewModel {
         
         let freeSections = Observable
             .combineLatest([
-                makeBaseSection(baseData: baseDataEvent).debug(),
-                mainAndHistory.map { $0.main }.debug(),
-                mainAndHistory.map { $0.history }.debug(),
-                makeWantedSection(baseData: baseData, retryTrigger: retryTrigger).debug(),
-                makeInterpolSection(baseData: baseData, retryTrigger: retryTrigger).debug(),
-                makePhotosSection(baseData: baseData, retryTrigger: retryTrigger).debug(),
-                makeMTSBUSection().debug(),
-                makeCommentsSection(baseData: baseData, retryTrigger: retryTrigger).debug(),
-                makeAuctionSection(baseData: baseData, isActiveSubscription: isActiveSubscription, retryTrigger: retryTrigger).debug()
+                makeBaseSection(baseData: baseDataEvent),
+                mainAndHistory.map { $0.main },
+                mainAndHistory.map { $0.history },
+                makeWantedSection(baseData: baseData, retryTrigger: retryTrigger),
+                makeInterpolSection(baseData: baseData, retryTrigger: retryTrigger),
+                makePhotosSection(baseData: baseData, retryTrigger: retryTrigger),
+                makeMTSBUSection(),
+                makeCommentsSection(baseData: baseData, retryTrigger: retryTrigger),
+                makeAuctionSection(baseData: baseData, isActiveSubscription: isActiveSubscription, retryTrigger: retryTrigger)
             ]) { elements -> [DataSource] in
                 return elements.map { ("", $0) }
             }
@@ -125,7 +125,7 @@ private extension ReportScreenViewModel {
     ) -> Observable<Event<BaseData>> {
         return Observable<Action>
             .merge(
-                baseData.map { .baseData($0) }.debug(),
+                baseData.map { .baseData($0) },
                 inputValue.asObservable().map { .input($0) }
             )
             .scan(nil, accumulator: { old, action -> BaseData? in
@@ -191,8 +191,8 @@ private extension ReportScreenViewModel {
                 }
         }
         
-        return result.debug()
-            .materialize(with: retryTrigger).debug()
+        return result
+            .materialize(with: retryTrigger)
             .startWith(.next(startData))
     }
     
@@ -200,55 +200,7 @@ private extension ReportScreenViewModel {
         let headerTitle = "basic_information".localized
         
         return baseData
-            .compactMap { event -> Elements? in
-                switch event {
-                case let .next(model):
-                    let regNumber = ReportValueWithActionModel(
-                        value: model.regNumber,
-                        action: model.regNumber.isEmpty ? .add : (model.regNumber.contains("_") || model.isEditableNumber) ? .change : .none,
-                        fieldType: .regNumber
-                    )
-                    
-                    let vin = ReportValueWithActionModel(
-                        value: model.vin,
-                        action: model.vin.isEmpty ? .add : (model.vin.contains("_") || model.isEditableVin) ? .change : .none,
-                        fieldType: .vin
-                    )
-                    
-                    let technicalPassport = ReportValueWithActionModel(
-                        value: model.technicalPassport,
-                        action: model.technicalPassport.isEmpty ? .add : model.technicalPassport.contains("_") ? .change : .none,
-                        fieldType: .technicalPassport
-                    )
-                    
-                    return [
-                        .header(title: headerTitle, state: .empty),
-                        .valueWithAction(regNumber),
-                        .valueWithAction(vin),
-                        .valueWithAction(technicalPassport)
-                    ]
-                case let .error(error):
-                    var errorMessage: String {
-                        switch (error as NSError).code {
-                        case NSURLErrorNotConnectedToInternet:
-                            return "network_error".localized
-                        case NSURLErrorTimedOut:
-                            return "timeout_error".localized
-                        default:
-                            return ""
-                        }
-                    }
-                    
-                    return [
-                        .header(title: headerTitle, state: .error),
-                        .error(message: errorMessage),
-                        .retry
-                    ]
-                case .completed:
-                    return nil
-                }
-                
-            }
+            .compactMap { ReportDataSourceConfigureHelper.baseSection(headerTitle: headerTitle, event: $0) }
             .startWith([.header(title: headerTitle, state: .empty), .loader])
     }
     
@@ -263,7 +215,7 @@ private extension ReportScreenViewModel {
         
         return baseData
             .distinctUntilChanged { $0.regNumber == $1.regNumber }
-            .withUnretained(self).debug()
+            .withUnretained(self)
             .flatMapLatest { base, data -> Observable<(main: Elements, history: Elements)> in
                 
                 guard data.isValidNumber else {
@@ -752,7 +704,6 @@ private extension ObservableType {
                 let second: Observable<Event<Element>> = .error(error)
                 return .just(event).concat(second)
             }
-            .retry { $0.debug().flatMap { _ in retryTrigger }}
-            .debug()
+            .retry { $0.flatMap { _ in retryTrigger }}
     }
 }

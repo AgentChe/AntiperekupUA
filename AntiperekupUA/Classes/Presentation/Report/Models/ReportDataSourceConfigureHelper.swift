@@ -11,6 +11,40 @@ import RxSwift
 enum ReportDataSourceConfigureHelper {
     typealias Elements = [ReportTableItem]
     
+    static func baseSection(headerTitle: String, event: Event<ReportScreenViewModel.BaseData>) -> Elements? {
+        switch event {
+        case let .next(model):
+            let regNumber = ReportValueWithActionModel(
+                value: model.regNumber,
+                action: model.regNumber.isEmpty ? .add : (model.regNumber.contains("_") || model.isEditableNumber) ? .change : .none,
+                fieldType: .regNumber
+            )
+            
+            let vin = ReportValueWithActionModel(
+                value: model.vin,
+                action: model.vin.isEmpty ? .add : (model.vin.contains("_") || model.isEditableVin) ? .change : .none,
+                fieldType: .vin
+            )
+            
+            let technicalPassport = ReportValueWithActionModel(
+                value: model.technicalPassport,
+                action: model.technicalPassport.isEmpty ? .add : model.technicalPassport.contains("_") ? .change : .none,
+                fieldType: .technicalPassport
+            )
+            
+            return [
+                .header(title: headerTitle, state: .empty),
+                .valueWithAction(regNumber),
+                .valueWithAction(vin),
+                .valueWithAction(technicalPassport)
+            ]
+        case let .error(error):
+            return Self.errorWithRetry(headerText: headerTitle, error: error)
+        case .completed:
+            return nil
+        }
+    }
+    
     static func mainAndHistory(mainTitle: String, historyTitle: String, event: Event<GovDataModel?>) -> (main: Elements, history: Elements)? {
         switch event {
         case let .error(error):
@@ -371,7 +405,7 @@ enum ReportDataSourceConfigureHelper {
                     $0.append(.value(title: "ria_fuel".localized, value: $1.element.fuel))
                     $0.append(.value(title: "ria_transmission".localized, value: $1.element.transmission))
                     $0.append(.value(title: "ria_price_usd".localized, value: "\($1.element.priceUSD)"))
-                    $0.append(.value(title: "ria_url".localized, value: $1.element.url))
+                    $0.append(.url(title: "ria_url".localized, url: GlobalDefinitions.riaBaseUrl + $1.element.url))
                     $0.append(.value(title: "ria_is_leasing".localized, value: ($1.element.isLeasing ? "ria_is_leasing_yes" : "ria_is_leasing_no").localized))
                     if $1.offset < model.data.count - 1 {
                         $0.append(.separator)
@@ -491,7 +525,7 @@ enum ReportDataSourceConfigureHelper {
             
             guard !model.records.isEmpty else {
                 let items: Elements = [
-                    .header(title: headerTitle, state: .success),
+                    .header(title: headerTitle, state: .error),
                     .iconWithText(.init(text: "no_decoder_information_found".localized, iconType: .error)),
                     .description("subs_descr_decoder".localized)
                 ]
@@ -536,7 +570,7 @@ enum ReportDataSourceConfigureHelper {
             
             guard !model.records.isEmpty else {
                 let items: Elements = [
-                    .header(title: headerTitle, state: .success),
+                    .header(title: headerTitle, state: .error),
                     .iconWithText(.init(text: "no_complectation_information_found".localized, iconType: .error)),
                     .description("subs_descr_complectation".localized)
                 ]
@@ -562,7 +596,7 @@ enum ReportDataSourceConfigureHelper {
     static func errorWithRetry(headerText: String, error: Error) -> Elements {
         return [
             .header(title: headerText, state: .error),
-            .error(message: error.localizedDescription),
+            .error(message: "network_error".localized),
             .retry
         ]
     }

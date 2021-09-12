@@ -26,6 +26,7 @@ final class ReportScreenViewController: UIViewController {
     private let complainIdRelay = PublishRelay<Int>()
     private let changedValueRelay = PublishRelay<ReportSearchValue>()
     private let didActivateSubscription = PublishRelay<Void>()
+    private let openUrlRelay = PublishRelay<URL>()
     
     init(searchValue: ReportSearchValue) {
         viewModel = ReportScreenViewModel(searchValue: searchValue)
@@ -66,6 +67,13 @@ final class ReportScreenViewController: UIViewController {
         
         mainView.paygateView.tap
             .emit(to: showPaygate)
+            .disposed(by: disposeBag)
+        
+        openUrlRelay
+            .observe(on: MainScheduler.instance)
+            .subscribe {
+                UIApplication.shared.open($0)
+            }
             .disposed(by: disposeBag)
     }
     
@@ -138,6 +146,14 @@ final class ReportScreenViewController: UIViewController {
             return cell
         case .retry:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportRetryCell.self), for: indexPath) as! ReportRetryCell
+            return cell
+        case let .url(title, value):
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportURLCell.self), for: indexPath) as! ReportURLCell
+            cell.setup(for: title, value: value) { [weak self] in
+                if let url = $0 {
+                    self?.openUrlRelay.accept(url)
+                }
+            }
             return cell
         }
     }

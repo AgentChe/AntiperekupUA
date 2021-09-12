@@ -88,6 +88,7 @@
 		8674241C26C977F600487DF2 /* ReportCommentComplainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8674241B26C977F600487DF2 /* ReportCommentComplainCell.swift */; };
 		8674241E26C98CF200487DF2 /* GetRIARequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8674241D26C98CF200487DF2 /* GetRIARequest.swift */; };
 		8674242026C98DA000487DF2 /* RIAModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8674241F26C98DA000487DF2 /* RIAModel.swift */; };
+		868B531826EE5934002923F4 /* ReportURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B531726EE5934002923F4 /* ReportURLCell.swift */; };
 		86A43BA326C817B60036D06B /* ReportLoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A43BA226C817B60036D06B /* ReportLoadingCell.swift */; };
 		86A43BA526C846D30036D06B /* ReportLogoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A43BA426C846D20036D06B /* ReportLogoCell.swift */; };
 		86A43BA726C84AF00036D06B /* GetPhotoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A43BA626C84AF00036D06B /* GetPhotoRequest.swift */; };
@@ -251,6 +252,7 @@
 		8674241B26C977F600487DF2 /* ReportCommentComplainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCommentComplainCell.swift; sourceTree = "<group>"; };
 		8674241D26C98CF200487DF2 /* GetRIARequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetRIARequest.swift; sourceTree = "<group>"; };
 		8674241F26C98DA000487DF2 /* RIAModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RIAModel.swift; sourceTree = "<group>"; };
+		868B531726EE5934002923F4 /* ReportURLCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportURLCell.swift; sourceTree = "<group>"; };
 		86A43BA226C817B60036D06B /* ReportLoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportLoadingCell.swift; sourceTree = "<group>"; };
 		86A43BA426C846D20036D06B /* ReportLogoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportLogoCell.swift; sourceTree = "<group>"; };
 		86A43BA626C84AF00036D06B /* GetPhotoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPhotoRequest.swift; sourceTree = "<group>"; };
@@ -659,6 +661,7 @@
 				864D45EE26DE11A600B75C70 /* ReportImagesCarouselCell.swift */,
 				864D460026DE742200B75C70 /* ReportTitleCell.swift */,
 				864D460626DE8D0C00B75C70 /* ReportRetryCell.swift */,
+				868B531726EE5934002923F4 /* ReportURLCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1191,6 +1194,7 @@
 				9667E08726A6156C0098C7F2 /* ImagePicker.swift in Sources */,
 				86D5B9F526C444160084AFE9 /* ReportSeparatorCell.swift in Sources */,
 				86A43BA526C846D30036D06B /* ReportLogoCell.swift in Sources */,
+				868B531826EE5934002923F4 /* ReportURLCell.swift in Sources */,
 				8603BF0F26B70E0700A2E4CF /* BottomButtonView.swift in Sources */,
 				86D5A2F926D7A73C007FAB12 /* PaygateProductView.swift in Sources */,
 				866B818326BC473900026E95 /* ReportScreenViewController.swift in Sources */,

@@ -57,7 +57,8 @@ private extension ReportValueCell {
         
         NSLayoutConstraint.activate([
             titleLabel.centerYAnchor.constraint(equalTo: valueLabel.centerYAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8)
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            titleLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 150.scale)
         ])
         
         NSLayoutConstraint.activate([
@@ -82,7 +83,7 @@ private extension ReportValueCell {
     func makeTitle() -> UILabel {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.numberOfLines = 1
+        view.numberOfLines = 4
         contentView.addSubview(view)
         return view
     }
