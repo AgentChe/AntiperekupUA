@@ -111,4 +111,12 @@ final class ReportManagerCore {
             .callServerApi(requestBody: request)
             .map(ComplectationModel.map(from:))
     }
+    
+    func complainComment(id: Int) -> Single<ComplainCommentModel?> {
+        let request = ComplainCommentRequest(commentId: id)
+        
+        return RestAPITransport()
+            .callServerApi(requestBody: request)
+            .map { .init(from: $0) }
+    }
 }

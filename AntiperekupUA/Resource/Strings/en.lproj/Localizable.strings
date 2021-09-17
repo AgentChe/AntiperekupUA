@@ -368,6 +368,17 @@
 "title" = "Заголовок";
 "comment" = "Комментарий";
 
+"new_comment_theme_mileage" = "Пробег скручен";
+"new_comment_theme_my_car" = "Это мой автомобиль";
+"new_comment_theme_sold_reseller" = "Продает перекуп";
+"new_comment_theme_owner_cheating" = "Хозяин обманывает";
+"new_comment_theme_road_accident" = "Были ДТП";
+"new_comment_theme_taxi" = "Видел в ТАКСИ";
+"new_comment_theme_other" = "Другое";
+"new_comment_theme" = "Тема";
+"new_comment_placeholder" = "Оставьте свой комментарий";
+"new_comment_title_placeholder" = "Введите заголовок";
+
 "premium_access_title" = "Безлимитные запросы";
 "premium_access_subtitle" = "Оформив покупку, Вы получите:";
 "premium_access_info_1" = "Безлимитные запросы";

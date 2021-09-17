@@ -369,6 +369,17 @@
 "title" = "Заголовок";
 "comment" = "Коментар";
 
+"new_comment_theme_mileage" = "Пробіг скручений";
+"new_comment_theme_my_car" = "Це мій автомобіль";
+"new_comment_theme_sold_reseller" = "Продає перекупка";
+"new_comment_theme_owner_cheating" = "Господар обманює";
+"new_comment_theme_road_accident" = "Були ДТП";
+"new_comment_theme_taxi" = "Бачив в ТАКСІ";
+"new_comment_theme_other" = "Інше";
+"new_comment_theme" = "Тема";
+"new_comment_placeholder" = "Залиште свій коментар";
+"new_comment_title_placeholder" = "Введіть заголовок";
+
 "premium_access_title" = "Безлімітні запити";
 "premium_access_subtitle" = "Оформивши покупку, Ви отримаєте:";
 "premium_access_info_1" = "Безлімітні запити";

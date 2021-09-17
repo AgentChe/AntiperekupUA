@@ -206,8 +206,8 @@ private extension PaygateScreenView {
         return view
     }
     
-    func makeLoadingView() -> PaygateScreenLoadingView {
-        let view = PaygateScreenLoadingView()
+    func makeLoadingView() -> ScreenLoadingView {
+        let view = ScreenLoadingView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isHidden = true
         addSubview(view)

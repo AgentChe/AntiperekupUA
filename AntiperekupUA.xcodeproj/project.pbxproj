@@ -71,7 +71,6 @@
 		866B818A26BC488900026E95 /* PurchaseManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B818926BC488900026E95 /* PurchaseManagerCore.swift */; };
 		866B818D26BC48EA00026E95 /* GetPaygateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B818C26BC48EA00026E95 /* GetPaygateRequest.swift */; };
 		866B818F26BC496E00026E95 /* GetPaygateRequestMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B818E26BC496E00026E95 /* GetPaygateRequestMapper.swift */; };
-		866B819226BC4C7400026E95 /* ReportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B819126BC4C7400026E95 /* ReportManager.swift */; };
 		866B819526BC4CCA00026E95 /* RegNumberModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B819426BC4CCA00026E95 /* RegNumberModel.swift */; };
 		866B819726BC518600026E95 /* ReportManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B819626BC518600026E95 /* ReportManagerCore.swift */; };
 		866B819A26BC51D900026E95 /* GetRegNumberRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B819926BC51D900026E95 /* GetRegNumberRequest.swift */; };
@@ -81,7 +80,6 @@
 		8672E59926BC662E007BA792 /* ReportValueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8672E59826BC662E007BA792 /* ReportValueCell.swift */; };
 		8674241026C9031C00487DF2 /* ReportPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8674240F26C9031C00487DF2 /* ReportPhotoCell.swift */; };
 		8674241226C91AD400487DF2 /* GetCommentsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8674241126C91AD400487DF2 /* GetCommentsRequest.swift */; };
-		8674241426C91B0C00487DF2 /* AddCommentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8674241326C91B0C00487DF2 /* AddCommentRequest.swift */; };
 		8674241626C91B8D00487DF2 /* ComplainCommentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8674241526C91B8D00487DF2 /* ComplainCommentRequest.swift */; };
 		8674241826C91BE600487DF2 /* CommentsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8674241726C91BE600487DF2 /* CommentsModel.swift */; };
 		8674241A26C9756000487DF2 /* ReportCommentActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8674241926C9756000487DF2 /* ReportCommentActionCell.swift */; };
@@ -89,11 +87,20 @@
 		8674241E26C98CF200487DF2 /* GetRIARequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8674241D26C98CF200487DF2 /* GetRIARequest.swift */; };
 		8674242026C98DA000487DF2 /* RIAModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8674241F26C98DA000487DF2 /* RIAModel.swift */; };
 		868B531826EE5934002923F4 /* ReportURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B531726EE5934002923F4 /* ReportURLCell.swift */; };
+		868B531E26EE6CCD002923F4 /* NewCommentScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B531B26EE6CCD002923F4 /* NewCommentScreenViewController.swift */; };
+		868B531F26EE6CCD002923F4 /* NewCommentScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B531C26EE6CCD002923F4 /* NewCommentScreenView.swift */; };
+		868B532026EE6CCD002923F4 /* NewCommentScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B531D26EE6CCD002923F4 /* NewCommentScreenViewModel.swift */; };
+		868B532326EE7139002923F4 /* NewCommentCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B532226EE7139002923F4 /* NewCommentCellType.swift */; };
+		868B532826EFC439002923F4 /* NewCommentTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B532726EFC439002923F4 /* NewCommentTheme.swift */; };
+		868B532D26EFC58F002923F4 /* NewCommentThemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B532A26EFC58F002923F4 /* NewCommentThemeViewController.swift */; };
+		868B532E26EFC58F002923F4 /* NewCommentThemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B532B26EFC58F002923F4 /* NewCommentThemeView.swift */; };
+		868B532F26EFC58F002923F4 /* NewCommentThemeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B532C26EFC58F002923F4 /* NewCommentThemeViewModel.swift */; };
+		868B533426EFD411002923F4 /* NewCommentThemeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B533326EFD411002923F4 /* NewCommentThemeCell.swift */; };
 		86A43BA326C817B60036D06B /* ReportLoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A43BA226C817B60036D06B /* ReportLoadingCell.swift */; };
 		86A43BA526C846D30036D06B /* ReportLogoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A43BA426C846D20036D06B /* ReportLogoCell.swift */; };
 		86A43BA726C84AF00036D06B /* GetPhotoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A43BA626C84AF00036D06B /* GetPhotoRequest.swift */; };
 		86A43BA926C84B270036D06B /* PhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A43BA826C84B270036D06B /* PhotoModel.swift */; };
-		86ADBEA626DBA2A8001C8BFF /* PaygateScreenLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86ADBEA526DBA2A8001C8BFF /* PaygateScreenLoadingView.swift */; };
+		86ADBEA626DBA2A8001C8BFF /* ScreenLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86ADBEA526DBA2A8001C8BFF /* ScreenLoadingView.swift */; };
 		86ADBEA826DBAE8A001C8BFF /* CheckPaygateStatusModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86ADBEA726DBAE8A001C8BFF /* CheckPaygateStatusModel.swift */; };
 		86B17A4426C0664C000E8FED /* GovDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B17A4326C0664C000E8FED /* GovDataModel.swift */; };
 		86B17A4626C1AAE5000E8FED /* GetGovDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B17A4526C1AAE5000E8FED /* GetGovDataRequest.swift */; };
@@ -108,6 +115,11 @@
 		86C11F7D26AD7D2C00D7A47E /* OnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C11F7C26AD7D2C00D7A47E /* OnboardingManager.swift */; };
 		86C11F7F26AD7D3700D7A47E /* OnboardingManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C11F7E26AD7D3700D7A47E /* OnboardingManagerCore.swift */; };
 		86C11F8226ADAE9600D7A47E /* MainSegmentControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C11F8126ADAE9600D7A47E /* MainSegmentControlView.swift */; };
+		86C5DD9826F3B78C00104C41 /* CommentManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C5DD9726F3B78C00104C41 /* CommentManagerCore.swift */; };
+		86C5DD9A26F3B7B600104C41 /* AddCommentRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C5DD9926F3B7B600104C41 /* AddCommentRequest.swift */; };
+		86C5DD9D26F3B92000104C41 /* AddCommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C5DD9C26F3B92000104C41 /* AddCommentModel.swift */; };
+		86C5DDA226F5041D00104C41 /* ComplainCommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C5DDA126F5041D00104C41 /* ComplainCommentModel.swift */; };
+		86C5DDA426F50B2E00104C41 /* UIControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C5DDA326F50B2E00104C41 /* UIControllerExtension.swift */; };
 		86CA220B26DD29B20019C101 /* GetRecallVinSubsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CA220A26DD29B20019C101 /* GetRecallVinSubsRequest.swift */; };
 		86CA220D26DD29EA0019C101 /* RecallVinSubsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CA220C26DD29EA0019C101 /* RecallVinSubsModel.swift */; };
 		86CA220F26DD619A0019C101 /* GetAuctionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CA220E26DD619A0019C101 /* GetAuctionRequest.swift */; };
@@ -138,6 +150,9 @@
 		86D5B9F926C453880084AFE9 /* ReportHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D5B9F826C453880084AFE9 /* ReportHeaderCell.swift */; };
 		86DF738026CC31680034D9A1 /* ReportDescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DF737F26CC31680034D9A1 /* ReportDescriptionCell.swift */; };
 		86E521C726ECF41F00BE6AC7 /* ReportDataSourceConfigureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E521C626ECF41F00BE6AC7 /* ReportDataSourceConfigureHelper.swift */; };
+		86FC5F5526F1021100A95B9C /* NewCommentCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FC5F5426F1021100A95B9C /* NewCommentCommentCell.swift */; };
+		86FC5F5726F10B4F00A95B9C /* NewCommentTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FC5F5626F10B4F00A95B9C /* NewCommentTitleCell.swift */; };
+		86FC5F5A26F2655F00A95B9C /* NewCommentHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FC5F5926F2655F00A95B9C /* NewCommentHeaderCell.swift */; };
 		9667E03E26A60FEF0098C7F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9667E03D26A60FEF0098C7F2 /* Assets.xcassets */; };
 		9667E04126A60FEF0098C7F2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9667E03F26A60FEF0098C7F2 /* LaunchScreen.storyboard */; };
 		9667E07326A6156C0098C7F2 /* PaddingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9667E05026A6156C0098C7F2 /* PaddingTextField.swift */; };
@@ -235,7 +250,6 @@
 		866B818926BC488900026E95 /* PurchaseManagerCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseManagerCore.swift; sourceTree = "<group>"; };
 		866B818C26BC48EA00026E95 /* GetPaygateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPaygateRequest.swift; sourceTree = "<group>"; };
 		866B818E26BC496E00026E95 /* GetPaygateRequestMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPaygateRequestMapper.swift; sourceTree = "<group>"; };
-		866B819126BC4C7400026E95 /* ReportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportManager.swift; sourceTree = "<group>"; };
 		866B819426BC4CCA00026E95 /* RegNumberModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegNumberModel.swift; sourceTree = "<group>"; };
 		866B819626BC518600026E95 /* ReportManagerCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportManagerCore.swift; sourceTree = "<group>"; };
 		866B819926BC51D900026E95 /* GetRegNumberRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetRegNumberRequest.swift; sourceTree = "<group>"; };
@@ -245,7 +259,6 @@
 		8672E59826BC662E007BA792 /* ReportValueCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportValueCell.swift; sourceTree = "<group>"; };
 		8674240F26C9031C00487DF2 /* ReportPhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportPhotoCell.swift; sourceTree = "<group>"; };
 		8674241126C91AD400487DF2 /* GetCommentsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCommentsRequest.swift; sourceTree = "<group>"; };
-		8674241326C91B0C00487DF2 /* AddCommentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCommentRequest.swift; sourceTree = "<group>"; };
 		8674241526C91B8D00487DF2 /* ComplainCommentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplainCommentRequest.swift; sourceTree = "<group>"; };
 		8674241726C91BE600487DF2 /* CommentsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsModel.swift; sourceTree = "<group>"; };
 		8674241926C9756000487DF2 /* ReportCommentActionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCommentActionCell.swift; sourceTree = "<group>"; };
@@ -253,11 +266,20 @@
 		8674241D26C98CF200487DF2 /* GetRIARequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetRIARequest.swift; sourceTree = "<group>"; };
 		8674241F26C98DA000487DF2 /* RIAModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RIAModel.swift; sourceTree = "<group>"; };
 		868B531726EE5934002923F4 /* ReportURLCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportURLCell.swift; sourceTree = "<group>"; };
+		868B531B26EE6CCD002923F4 /* NewCommentScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentScreenViewController.swift; sourceTree = "<group>"; };
+		868B531C26EE6CCD002923F4 /* NewCommentScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentScreenView.swift; sourceTree = "<group>"; };
+		868B531D26EE6CCD002923F4 /* NewCommentScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentScreenViewModel.swift; sourceTree = "<group>"; };
+		868B532226EE7139002923F4 /* NewCommentCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentCellType.swift; sourceTree = "<group>"; };
+		868B532726EFC439002923F4 /* NewCommentTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentTheme.swift; sourceTree = "<group>"; };
+		868B532A26EFC58F002923F4 /* NewCommentThemeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentThemeViewController.swift; sourceTree = "<group>"; };
+		868B532B26EFC58F002923F4 /* NewCommentThemeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentThemeView.swift; sourceTree = "<group>"; };
+		868B532C26EFC58F002923F4 /* NewCommentThemeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentThemeViewModel.swift; sourceTree = "<group>"; };
+		868B533326EFD411002923F4 /* NewCommentThemeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentThemeCell.swift; sourceTree = "<group>"; };
 		86A43BA226C817B60036D06B /* ReportLoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportLoadingCell.swift; sourceTree = "<group>"; };
 		86A43BA426C846D20036D06B /* ReportLogoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportLogoCell.swift; sourceTree = "<group>"; };
 		86A43BA626C84AF00036D06B /* GetPhotoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPhotoRequest.swift; sourceTree = "<group>"; };
 		86A43BA826C84B270036D06B /* PhotoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoModel.swift; sourceTree = "<group>"; };
-		86ADBEA526DBA2A8001C8BFF /* PaygateScreenLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaygateScreenLoadingView.swift; sourceTree = "<group>"; };
+		86ADBEA526DBA2A8001C8BFF /* ScreenLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenLoadingView.swift; sourceTree = "<group>"; };
 		86ADBEA726DBAE8A001C8BFF /* CheckPaygateStatusModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckPaygateStatusModel.swift; sourceTree = "<group>"; };
 		86B17A4326C0664C000E8FED /* GovDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovDataModel.swift; sourceTree = "<group>"; };
 		86B17A4526C1AAE5000E8FED /* GetGovDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetGovDataRequest.swift; sourceTree = "<group>"; };
@@ -273,6 +295,11 @@
 		86C11F7C26AD7D2C00D7A47E /* OnboardingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingManager.swift; sourceTree = "<group>"; };
 		86C11F7E26AD7D3700D7A47E /* OnboardingManagerCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingManagerCore.swift; sourceTree = "<group>"; };
 		86C11F8126ADAE9600D7A47E /* MainSegmentControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSegmentControlView.swift; sourceTree = "<group>"; };
+		86C5DD9726F3B78C00104C41 /* CommentManagerCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentManagerCore.swift; sourceTree = "<group>"; };
+		86C5DD9926F3B7B600104C41 /* AddCommentRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCommentRequest.swift; sourceTree = "<group>"; };
+		86C5DD9C26F3B92000104C41 /* AddCommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCommentModel.swift; sourceTree = "<group>"; };
+		86C5DDA126F5041D00104C41 /* ComplainCommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplainCommentModel.swift; sourceTree = "<group>"; };
+		86C5DDA326F50B2E00104C41 /* UIControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIControllerExtension.swift; sourceTree = "<group>"; };
 		86CA220A26DD29B20019C101 /* GetRecallVinSubsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetRecallVinSubsRequest.swift; sourceTree = "<group>"; };
 		86CA220C26DD29EA0019C101 /* RecallVinSubsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecallVinSubsModel.swift; sourceTree = "<group>"; };
 		86CA220E26DD619A0019C101 /* GetAuctionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAuctionRequest.swift; sourceTree = "<group>"; };
@@ -303,6 +330,9 @@
 		86D5B9F826C453880084AFE9 /* ReportHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportHeaderCell.swift; sourceTree = "<group>"; };
 		86DF737F26CC31680034D9A1 /* ReportDescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDescriptionCell.swift; sourceTree = "<group>"; };
 		86E521C626ECF41F00BE6AC7 /* ReportDataSourceConfigureHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDataSourceConfigureHelper.swift; sourceTree = "<group>"; };
+		86FC5F5426F1021100A95B9C /* NewCommentCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentCommentCell.swift; sourceTree = "<group>"; };
+		86FC5F5626F10B4F00A95B9C /* NewCommentTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentTitleCell.swift; sourceTree = "<group>"; };
+		86FC5F5926F2655F00A95B9C /* NewCommentHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentHeaderCell.swift; sourceTree = "<group>"; };
 		9667E03126A60FEB0098C7F2 /* AntiperekupUA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AntiperekupUA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9667E03D26A60FEF0098C7F2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9667E04026A60FEF0098C7F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -444,6 +474,7 @@
 		864250BB26AC3CF300837F07 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				86C5DD9526F3B74700104C41 /* Comment */,
 				863B7D1B26DAA3D7008A1BAD /* IAP */,
 				866B819026BC4BF000026E95 /* Report */,
 				866B818626BC481000026E95 /* Paygate */,
@@ -583,7 +614,6 @@
 			children = (
 				866B819826BC51C900026E95 /* Request */,
 				866B819326BC4C7700026E95 /* Models */,
-				866B819126BC4C7400026E95 /* ReportManager.swift */,
 				866B819626BC518600026E95 /* ReportManagerCore.swift */,
 			);
 			path = Report;
@@ -605,6 +635,7 @@
 				864D45FA26DE5E5D00B75C70 /* DSBTModel.swift */,
 				864D45FE26DE66A700B75C70 /* DecodeVinModel.swift */,
 				864D460426DE84B100B75C70 /* ComplectationModel.swift */,
+				86C5DDA126F5041D00104C41 /* ComplainCommentModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -618,14 +649,13 @@
 				8637EEEC26C56DE3003AAC30 /* GetWantedRequest.swift */,
 				8637EEFE26C5A181003AAC30 /* GetInterpolRequest.swift */,
 				86A43BA626C84AF00036D06B /* GetPhotoRequest.swift */,
-				8674241126C91AD400487DF2 /* GetCommentsRequest.swift */,
-				8674241326C91B0C00487DF2 /* AddCommentRequest.swift */,
-				8674241526C91B8D00487DF2 /* ComplainCommentRequest.swift */,
 				8674241D26C98CF200487DF2 /* GetRIARequest.swift */,
 				86CA220A26DD29B20019C101 /* GetRecallVinSubsRequest.swift */,
 				86CA220E26DD619A0019C101 /* GetAuctionRequest.swift */,
 				864D45F826DE5E1100B75C70 /* GetDSBTRequest.swift */,
+				8674241526C91B8D00487DF2 /* ComplainCommentRequest.swift */,
 				864D45FC26DE645E00B75C70 /* GetDecodeVinRequest.swift */,
+				8674241126C91AD400487DF2 /* GetCommentsRequest.swift */,
 				864D460226DE848900B75C70 /* GetComplectationRequest.swift */,
 			);
 			path = Request;
@@ -666,6 +696,58 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		868B531926EE6AEA002923F4 /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				868B532926EFC579002923F4 /* NewCommentTheme */,
+				868B531A26EE6CA8002923F4 /* NewComment */,
+			);
+			path = Comment;
+			sourceTree = "<group>";
+		};
+		868B531A26EE6CA8002923F4 /* NewComment */ = {
+			isa = PBXGroup;
+			children = (
+				86FC5F5826F2652000A95B9C /* View */,
+				868B533026EFD3E3002923F4 /* Cell */,
+				868B532126EE7124002923F4 /* Model */,
+				868B531B26EE6CCD002923F4 /* NewCommentScreenViewController.swift */,
+				868B531C26EE6CCD002923F4 /* NewCommentScreenView.swift */,
+				868B531D26EE6CCD002923F4 /* NewCommentScreenViewModel.swift */,
+			);
+			path = NewComment;
+			sourceTree = "<group>";
+		};
+		868B532126EE7124002923F4 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				868B532226EE7139002923F4 /* NewCommentCellType.swift */,
+				868B532726EFC439002923F4 /* NewCommentTheme.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		868B532926EFC579002923F4 /* NewCommentTheme */ = {
+			isa = PBXGroup;
+			children = (
+				868B532A26EFC58F002923F4 /* NewCommentThemeViewController.swift */,
+				868B532B26EFC58F002923F4 /* NewCommentThemeView.swift */,
+				868B532C26EFC58F002923F4 /* NewCommentThemeViewModel.swift */,
+			);
+			path = NewCommentTheme;
+			sourceTree = "<group>";
+		};
+		868B533026EFD3E3002923F4 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				868B533326EFD411002923F4 /* NewCommentThemeCell.swift */,
+				86FC5F5426F1021100A95B9C /* NewCommentCommentCell.swift */,
+				86FC5F5926F2655F00A95B9C /* NewCommentHeaderCell.swift */,
+				86FC5F5626F10B4F00A95B9C /* NewCommentTitleCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		86ADBEA926DBAED7001C8BFF /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -677,6 +759,7 @@
 		86BB67BB26A741B200283267 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				868B531926EE6AEA002923F4 /* Comment */,
 				86D5A2EC26D7939A007FAB12 /* Paygate */,
 				866B817D26BC470100026E95 /* Report */,
 				86C11F7426AD5E7800D7A47E /* Main */,
@@ -748,6 +831,32 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		86C5DD9526F3B74700104C41 /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				86C5DD9B26F3B90D00104C41 /* Model */,
+				86C5DD9626F3B75E00104C41 /* Request */,
+				86C5DD9726F3B78C00104C41 /* CommentManagerCore.swift */,
+			);
+			path = Comment;
+			sourceTree = "<group>";
+		};
+		86C5DD9626F3B75E00104C41 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				86C5DD9926F3B7B600104C41 /* AddCommentRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		86C5DD9B26F3B90D00104C41 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				86C5DD9C26F3B92000104C41 /* AddCommentModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		86D1C7CE26AF2DDF0083C7C9 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -802,9 +911,15 @@
 				86D5A2F626D7A416007FAB12 /* PaygateCheckView.swift */,
 				86D5A2F826D7A73C007FAB12 /* PaygateProductView.swift */,
 				86D5A2FC26D7B8C2007FAB12 /* PaygateSaleView.swift */,
-				86ADBEA526DBA2A8001C8BFF /* PaygateScreenLoadingView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		86FC5F5826F2652000A95B9C /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		9667E02826A60FEB0098C7F2 = {
@@ -877,6 +992,7 @@
 		9667E04C26A6156C0098C7F2 /* CusomViews */ = {
 			isa = PBXGroup;
 			children = (
+				86ADBEA526DBA2A8001C8BFF /* ScreenLoadingView.swift */,
 				9667E05026A6156C0098C7F2 /* PaddingTextField.swift */,
 				9667E05126A6156C0098C7F2 /* PaddingLabel.swift */,
 				9667E05226A6156C0098C7F2 /* GradientButton.swift */,
@@ -895,6 +1011,7 @@
 				9667E05726A6156C0098C7F2 /* UIViewRxExtension.swift */,
 				9667E05826A6156C0098C7F2 /* StringExtension.swift */,
 				864250A926AC150000837F07 /* UITapGestureRecognizerExtension.swift */,
+				86C5DDA326F50B2E00104C41 /* UIControllerExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1095,8 +1212,8 @@
 				86B17A4626C1AAE5000E8FED /* GetGovDataRequest.swift in Sources */,
 				86D5A2E526D568EA007FAB12 /* ReportAlertScreenViewModel.swift in Sources */,
 				8603BF0026B6904700A2E4CF /* MainHistoryHeaderView.swift in Sources */,
+				86C5DDA226F5041D00104C41 /* ComplainCommentModel.swift in Sources */,
 				86D5A2F226D793C0007FAB12 /* PaygateScreenViewModel.swift in Sources */,
-				866B819226BC4C7400026E95 /* ReportManager.swift in Sources */,
 				866B81A226BC547B00026E95 /* VinAndRegNumberModel.swift in Sources */,
 				9667E07E26A6156C0098C7F2 /* Scalable.swift in Sources */,
 				8674241A26C9756000487DF2 /* ReportCommentActionCell.swift in Sources */,
@@ -1104,10 +1221,12 @@
 				86C11F7D26AD7D2C00D7A47E /* OnboardingManager.swift in Sources */,
 				9667E07626A6156C0098C7F2 /* CircleView.swift in Sources */,
 				9667E07526A6156C0098C7F2 /* GradientButton.swift in Sources */,
+				86FC5F5526F1021100A95B9C /* NewCommentCommentCell.swift in Sources */,
 				9667E08B26A6156C0098C7F2 /* FirebaseManager.swift in Sources */,
 				864250D126AC4FA100837F07 /* LanguageMediator.swift in Sources */,
 				866B818526BC473900026E95 /* ReportScreenViewModel.swift in Sources */,
 				86BB67C226A7426300283267 /* OnboardingViewModel.swift in Sources */,
+				868B532D26EFC58F002923F4 /* NewCommentThemeViewController.swift in Sources */,
 				9667E08226A6156C0098C7F2 /* Device.swift in Sources */,
 				86D5B9F726C44B2F0084AFE9 /* ReportTextCell.swift in Sources */,
 				9667E07A26A6156C0098C7F2 /* StringExtension.swift in Sources */,
@@ -1121,6 +1240,7 @@
 				86C11F7826AD5E9400D7A47E /* MainViewController.swift in Sources */,
 				86E521C726ECF41F00BE6AC7 /* ReportDataSourceConfigureHelper.swift in Sources */,
 				86A43BA726C84AF00036D06B /* GetPhotoRequest.swift in Sources */,
+				868B532F26EFC58F002923F4 /* NewCommentThemeViewModel.swift in Sources */,
 				864D460126DE742200B75C70 /* ReportTitleCell.swift in Sources */,
 				8674241226C91AD400487DF2 /* GetCommentsRequest.swift in Sources */,
 				866B819A26BC51D900026E95 /* GetRegNumberRequest.swift in Sources */,
@@ -1134,6 +1254,7 @@
 				864250B826AC1FCF00837F07 /* SplashViewModel.swift in Sources */,
 				86CA220B26DD29B20019C101 /* GetRecallVinSubsRequest.swift in Sources */,
 				86D5A2E926D5722D007FAB12 /* ReportAlertAnimation.swift in Sources */,
+				86C5DD9D26F3B92000104C41 /* AddCommentModel.swift in Sources */,
 				9667E08A26A6156C0098C7F2 /* AppDelegate.swift in Sources */,
 				863D629A26B0842C00D0A073 /* MainSearchHeaderView.swift in Sources */,
 				864250CF26AC4C2900837F07 /* LanguageModel.swift in Sources */,
@@ -1152,22 +1273,26 @@
 				8672E59926BC662E007BA792 /* ReportValueCell.swift in Sources */,
 				866B819E26BC538400026E95 /* GetVinAndRegNumberRequest.swift in Sources */,
 				864250B026AC174C00837F07 /* OnboardingWebView.swift in Sources */,
+				868B531F26EE6CCD002923F4 /* NewCommentScreenView.swift in Sources */,
 				86A43BA926C84B270036D06B /* PhotoModel.swift in Sources */,
 				86241FD526A8970D008E5863 /* OnboardingLanguageView.swift in Sources */,
+				86C5DD9A26F3B7B600104C41 /* AddCommentRequest.swift in Sources */,
 				860B55B226CADE580022E316 /* ReportLockedCell.swift in Sources */,
+				868B532E26EFC58F002923F4 /* NewCommentThemeView.swift in Sources */,
+				868B532826EFC439002923F4 /* NewCommentTheme.swift in Sources */,
 				86C11F8226ADAE9600D7A47E /* MainSegmentControlView.swift in Sources */,
 				8674241C26C977F600487DF2 /* ReportCommentComplainCell.swift in Sources */,
 				86D5A2E326D568EA007FAB12 /* ReportAlertScreenViewController.swift in Sources */,
 				9667E08026A6156C0098C7F2 /* ScreenSize.swift in Sources */,
 				866B818A26BC488900026E95 /* PurchaseManagerCore.swift in Sources */,
+				86C5DDA426F50B2E00104C41 /* UIControllerExtension.swift in Sources */,
 				866B818426BC473900026E95 /* ReportScreenView.swift in Sources */,
 				866B819726BC518600026E95 /* ReportManagerCore.swift in Sources */,
 				864D45FB26DE5E5D00B75C70 /* DSBTModel.swift in Sources */,
 				863B7D2926DAA404008A1BAD /* IAPActionResult.swift in Sources */,
 				86CA220D26DD29EA0019C101 /* RecallVinSubsModel.swift in Sources */,
-				86ADBEA626DBA2A8001C8BFF /* PaygateScreenLoadingView.swift in Sources */,
+				86ADBEA626DBA2A8001C8BFF /* ScreenLoadingView.swift in Sources */,
 				864250BD26AC3D0A00837F07 /* SessionManager.swift in Sources */,
-				8674241426C91B0C00487DF2 /* AddCommentRequest.swift in Sources */,
 				86BB67C026A7426300283267 /* OnboardingViewController.swift in Sources */,
 				864250CA26AC4B3400837F07 /* LanguageManagerCore.swift in Sources */,
 				866B818D26BC48EA00026E95 /* GetPaygateRequest.swift in Sources */,
@@ -1175,6 +1300,7 @@
 				86D5A2F026D793C0007FAB12 /* PaygateScreenViewController.swift in Sources */,
 				863B7D2526DAA404008A1BAD /* IAPError.swift in Sources */,
 				86DF738026CC31680034D9A1 /* ReportDescriptionCell.swift in Sources */,
+				86FC5F5726F10B4F00A95B9C /* NewCommentTitleCell.swift in Sources */,
 				9667E08126A6156C0098C7F2 /* Fonts.swift in Sources */,
 				8646B2C926BD7DF700A5A545 /* ReportSearchValue.swift in Sources */,
 				863D629826B079E900D0A073 /* MainTableItem.swift in Sources */,
@@ -1182,13 +1308,16 @@
 				86C11F7F26AD7D3700D7A47E /* OnboardingManagerCore.swift in Sources */,
 				864D45F526DE1C0000B75C70 /* ReportImageCarouselCell.swift in Sources */,
 				8601961426BE83BB000BC812 /* ReportValueCellWithButton.swift in Sources */,
+				868B532026EE6CCD002923F4 /* NewCommentScreenViewModel.swift in Sources */,
 				864250B726AC1FCF00837F07 /* SplashView.swift in Sources */,
 				864250C326AC3FB400837F07 /* APIRequestBodyExtension.swift in Sources */,
 				864D45FD26DE645E00B75C70 /* GetDecodeVinRequest.swift in Sources */,
 				8637EEF126C580C8003AAC30 /* ReportIconWithTextCell.swift in Sources */,
 				864D460326DE848900B75C70 /* GetComplectationRequest.swift in Sources */,
+				86FC5F5A26F2655F00A95B9C /* NewCommentHeaderCell.swift in Sources */,
 				863B7D2426DAA404008A1BAD /* IAPErrorHelper.swift in Sources */,
 				8637EEED26C56DE3003AAC30 /* GetWantedRequest.swift in Sources */,
+				86C5DD9826F3B78C00104C41 /* CommentManagerCore.swift in Sources */,
 				9667E07826A6156C0098C7F2 /* UIColorExtension.swift in Sources */,
 				86D5A2EB26D65087007FAB12 /* ReportAlertPresentationController.swift in Sources */,
 				9667E08726A6156C0098C7F2 /* ImagePicker.swift in Sources */,
@@ -1212,14 +1341,17 @@
 				863B7D2C26DABEC2008A1BAD /* PaygateProductModel.swift in Sources */,
 				864250D826AC71A100837F07 /* UpdateTokenResponseMapper.swift in Sources */,
 				86D5A2FB26D7B794007FAB12 /* CheckPaygateStatusRequest.swift in Sources */,
+				868B531E26EE6CCD002923F4 /* NewCommentScreenViewController.swift in Sources */,
 				8674241626C91B8D00487DF2 /* ComplainCommentRequest.swift in Sources */,
 				864D45F926DE5E1100B75C70 /* GetDSBTRequest.swift in Sources */,
 				9667E08526A6156C0098C7F2 /* NetworkError.swift in Sources */,
 				9667E07D26A6156C0098C7F2 /* RestAPITransport.swift in Sources */,
 				86ADBEA826DBAE8A001C8BFF /* CheckPaygateStatusModel.swift in Sources */,
+				868B533426EFD411002923F4 /* NewCommentThemeCell.swift in Sources */,
 				9667E07F26A6156C0098C7F2 /* TextAttributes.swift in Sources */,
 				8674241026C9031C00487DF2 /* ReportPhotoCell.swift in Sources */,
 				864250AF26AC174C00837F07 /* OnboardingWebViewController.swift in Sources */,
+				868B532326EE7139002923F4 /* NewCommentCellType.swift in Sources */,
 				863B7D2326DAA404008A1BAD /* IAPManagerCore.swift in Sources */,
 				8603BEF726B557CE00A2E4CF /* MainTableAction.swift in Sources */,
 				864250AA26AC150000837F07 /* UITapGestureRecognizerExtension.swift in Sources */,
