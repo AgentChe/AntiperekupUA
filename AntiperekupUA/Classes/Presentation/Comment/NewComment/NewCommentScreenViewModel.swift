@@ -88,11 +88,19 @@ extension NewCommentScreenViewModel {
         
         let showError = addRequestResult
             .compactMap { event -> String? in
-                guard let element = event.element, let model = element, !model.result else {
+                switch event {
+                
+                case let .next(model):
+                    if let model = model {
+                        return model.result ? nil : model.errorMessage
+                    } else {
+                        return nil
+                    }
+                case .error:
+                    return "request_error".localized
+                case .completed:
                     return nil
                 }
-                
-                return model.errorMessage
             }
             .asSignal(onErrorSignalWith: .empty())
         
