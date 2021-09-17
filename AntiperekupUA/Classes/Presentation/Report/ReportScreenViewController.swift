@@ -27,6 +27,7 @@ final class ReportScreenViewController: UIViewController {
     private let changedValueRelay = PublishRelay<ReportSearchValue>()
     private let didActivateSubscription = PublishRelay<Void>()
     private let openUrlRelay = PublishRelay<URL>()
+    private let updateCommentsRelay = PublishRelay<Void>()
     
     init(searchValue: ReportSearchValue) {
         viewModel = ReportScreenViewModel(searchValue: searchValue)
@@ -47,7 +48,9 @@ final class ReportScreenViewController: UIViewController {
         let input = ReportScreenViewModel.Input(
             inputValue: changedValueRelay.asSignal(),
             selectedElement: mainView.tableView.rx.modelSelected(ReportTableItem.self).asSignal(),
-            activateSubscription: didActivateSubscription.asSignal()
+            activateSubscription: didActivateSubscription.asSignal(),
+            updateComments: updateCommentsRelay.asSignal(),
+            complainId: complainIdRelay.asSignal()
         )
         
         let output = viewModel.configure(input: input)
@@ -63,6 +66,14 @@ final class ReportScreenViewController: UIViewController {
         
         output.isActiveSubscription
             .drive(mainView.paygateView.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        output.showNewComment
+            .emit(to: showCommentScreen)
+            .disposed(by: disposeBag)
+        
+        output.showError
+            .emit(to: showError)
             .disposed(by: disposeBag)
         
         mainView.paygateView.tap
@@ -202,6 +213,15 @@ private extension ReportScreenViewController {
                 base?.didActivateSubscription.accept(())
             }
             base.present(controller, animated: true)
+        }
+    }
+    
+    var showCommentScreen: Binder<(regNumber: String, vin: String)> {
+        Binder(self) { base, tuple in
+            let controller = NewCommentScreenViewController.make(vin: tuple.vin, regNumber: tuple.regNumber) { [weak base] in
+                base?.updateCommentsRelay.accept(())
+            }
+            base.navigationController?.pushViewController(controller, animated: true)
         }
     }
 }

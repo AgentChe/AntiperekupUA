@@ -1,12 +1,12 @@
 //
-//  PaygateScreenLoadingView.swift
+//  ScreenLoadingView.swift
 //  AntiperekupUA
 //
 //  Created by Vitaliy Zagorodnov on 29.08.2021.
 //
 import UIKit
 
-final class PaygateScreenLoadingView: UIView {
+final class ScreenLoadingView: UIView {
     
     private lazy var loader = makeLoader()
     
@@ -22,7 +22,7 @@ final class PaygateScreenLoadingView: UIView {
 }
 
 // MARK: Make constraints
-private extension PaygateScreenLoadingView {
+private extension ScreenLoadingView {
     func makeConstraints() {
         NSLayoutConstraint.activate([
             loader.centerYAnchor.constraint(equalTo: centerYAnchor),
@@ -32,7 +32,7 @@ private extension PaygateScreenLoadingView {
 }
 
 // MARK: Lazy initialization
-private extension PaygateScreenLoadingView {
+private extension ScreenLoadingView {
     func makeLoader() -> UIActivityIndicatorView {
         let view = UIActivityIndicatorView()
         view.translatesAutoresizingMaskIntoConstraints = false

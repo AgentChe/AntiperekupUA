@@ -2,7 +2,7 @@
 //  AddCommentRequest.swift
 //  AntiperekupUA
 //
-//  Created by Vitaliy Zagorodnov on 15.08.2021.
+//  Created by Vitaliy Zagorodnov on 16.09.2021.
 //
 
 import Alamofire
@@ -11,13 +11,13 @@ struct AddCommentRequest: APIRequestBody {
     private let regNumber: String
     private let vin: String
     private let title: String
-    private let text: String
+    private let comment: String
     
-    init(regNumber: String, vin: String, title: String, text: String) {
+    init(regNumber: String, vin: String, title: String, comment: String) {
         self.regNumber = regNumber
         self.vin = vin
         self.title = title
-        self.text = text
+        self.comment = comment
     }
     
     var url: String {
@@ -30,10 +30,10 @@ struct AddCommentRequest: APIRequestBody {
     
     var parameters: Parameters? {
         [
-            "reg_number": regNumber,
+            "regnumber": regNumber,
             "vin": vin,
             "title": title,
-            "description": text
+            "description": comment
         ]
     }
     
@@ -45,4 +45,3 @@ struct AddCommentRequest: APIRequestBody {
         URLEncoding.default
     }
 }
-

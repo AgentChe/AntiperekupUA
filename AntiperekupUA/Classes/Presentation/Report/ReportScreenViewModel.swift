@@ -26,12 +26,16 @@ extension ReportScreenViewModel {
         let inputValue: Signal<ReportSearchValue>
         let selectedElement: Signal<ReportTableItem>
         let activateSubscription: Signal<Void>
+        let updateComments: Signal<Void>
+        let complainId: Signal<Int>
     }
     
     struct Output {
         let elements: Driver<[DataSource]>
         let showChangeAlert: Signal<ReportValueWithActionModel>
         let isActiveSubscription: Driver<Bool>
+        let showNewComment: Signal<(regNumber: String, vin: String)>
+        let showError: Signal<String>
     }
     
     func configure(input: Input) -> Output {
@@ -80,6 +84,20 @@ extension ReportScreenViewModel {
             return elements.map { ("", $0) }
         }
         
+        let complainRequest = input.complainId
+            .asObservable()
+            .flatMapFirst { [weak self] id -> Observable<Event<ComplainCommentModel?>> in
+                guard let self = self else { return .empty() }
+                return self.makeComplain(id: id)
+            }
+            .share(replay: 1)
+        
+        let updateCommentSignal = Observable
+            .merge(
+                input.updateComments.asObservable(),
+                complainRequest.compactMap { $0.element != nil ? () : nil}
+            )
+        
         let freeSections = Observable
             .combineLatest([
                 makeBaseSection(baseData: baseDataEvent),
@@ -89,7 +107,7 @@ extension ReportScreenViewModel {
                 makeInterpolSection(baseData: baseData, retryTrigger: retryTrigger),
                 makePhotosSection(baseData: baseData, retryTrigger: retryTrigger),
                 makeMTSBUSection(),
-                makeCommentsSection(baseData: baseData, retryTrigger: retryTrigger),
+                makeCommentsSection(baseData: baseData, retryTrigger: retryTrigger, updateSignal: updateCommentSignal),
                 makeAuctionSection(baseData: baseData, isActiveSubscription: isActiveSubscription, retryTrigger: retryTrigger)
             ]) { elements -> [DataSource] in
                 return elements.map { ("", $0) }
@@ -108,10 +126,39 @@ extension ReportScreenViewModel {
             }
             .asSignal(onErrorSignalWith: .empty())
         
+        let showNewComment = input.selectedElement
+            .asObservable()
+            .withLatestFrom(baseData) { ($0, $1) }
+            .compactMap { item, baseData -> (regNumber: String, vin: String)? in
+                guard case .commentAction = item else { return nil }
+                return (regNumber: baseData.regNumber, vin: baseData.vin)
+            }
+            .asSignal(onErrorSignalWith: .empty())
+        
+        let showError = complainRequest
+            .compactMap { event -> String? in
+                switch event {
+                
+                case let .next(model):
+                    if let model = model {
+                        return model.result ? nil : model.errorMessage
+                    } else {
+                        return nil
+                    }
+                case .error:
+                    return "request_error".localized
+                case .completed:
+                    return nil
+                }
+            }
+            .asSignal(onErrorSignalWith: .empty())
+        
         return Output(
             elements: elements,
             showChangeAlert: showChangeAlert,
-            isActiveSubscription: isActiveSubscription.asDriver(onErrorJustReturn: false)
+            isActiveSubscription: isActiveSubscription.asDriver(onErrorJustReturn: false),
+            showNewComment: showNewComment,
+            showError: showError
         )
     }
 }
@@ -343,11 +390,16 @@ private extension ReportScreenViewModel {
         return .just([.header(title: headerTitle, state: .empty), .text("TODO: Реализовать после реализации WebView")])
     }
     
-    func makeCommentsSection(baseData: Observable<BaseData>, retryTrigger: Observable<Void>) -> Observable<Elements> {
+    func makeCommentsSection(baseData: Observable<BaseData>, retryTrigger: Observable<Void>, updateSignal: Observable<Void>) -> Observable<Elements> {
         let headerTitle = "user_comments".localized
         
-        return baseData
-            .distinctUntilChanged { $0.vin == $1.vin && $0.regNumber == $1.regNumber }
+        let data = baseData.distinctUntilChanged { $0.vin == $1.vin && $0.regNumber == $1.regNumber }
+        
+        return Observable
+            .combineLatest(
+                data,
+                updateSignal.startWith(())
+            ) { data, _ in data }
             .withUnretained(self)
             .flatMapLatest { base, data -> Observable<Elements> in
                 
@@ -608,6 +660,12 @@ private extension ReportScreenViewModel {
 }
 
 private extension ReportScreenViewModel {
+    
+    func makeComplain(id: Int) -> Observable<Event<ComplainCommentModel?>> {
+        return reportService.complainComment(id: id)
+            .asObservable()
+            .materialize()
+    }
     
     func errorSection(headerText: String, message: String?) -> Elements {
         return [
