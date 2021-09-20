@@ -29,8 +29,8 @@ extension MainErrorCell {
 
 private extension MainErrorCell {
     func initialize() {
-        backgroundColor = .white
-        contentView.backgroundColor = .white
+        backgroundColor = .clear
+        contentView.backgroundColor = .clear
         selectionStyle = .none
     }
 }

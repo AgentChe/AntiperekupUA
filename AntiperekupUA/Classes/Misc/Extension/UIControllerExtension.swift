@@ -21,4 +21,14 @@ extension UIViewController {
             base.present(alert, animated: true)
         }
     }
+    
+    func configureBackButton() {
+        let icon = UIImage(named: "ChevronLeft")
+        let action = UIBarButtonItem(image: icon, style: .plain, target: self, action: #selector(backAction))
+        navigationItem.leftBarButtonItem = action
+    }
+    
+    @objc func backAction(_ item: UIBarButtonItem) {
+        navigationController?.popViewController(animated: true)
+    }
 }

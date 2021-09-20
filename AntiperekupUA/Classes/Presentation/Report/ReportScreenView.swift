@@ -23,6 +23,7 @@ final class ReportScreenView: UIView {
 
 private extension ReportScreenView {
     func initialize() {
+        backgroundColor = UIColor(integralRed: 242, green: 242, blue: 242)
         tableView.register(ReportValueCellWithButton.self, forCellReuseIdentifier: String(describing: ReportValueCellWithButton.self))
         tableView.register(ReportValueCell.self, forCellReuseIdentifier: String(describing: ReportValueCell.self))
         tableView.register(ReportSeparatorCell.self, forCellReuseIdentifier: String(describing: ReportSeparatorCell.self))
@@ -49,8 +50,8 @@ private extension ReportScreenView {
     func makeConstraints() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            tableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16.scale),
+            tableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16.scale),
             tableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
         
@@ -66,14 +67,13 @@ private extension ReportScreenView {
 // MARK: Lazy initialization
 private extension ReportScreenView {
     func makeTableView() -> UITableView {
-        let view = UITableView(frame: .zero, style: .insetGrouped)
-        // Т.к. стиль сгруппированный, contentInset работает некорректно
-        view.layoutMargins = UIEdgeInsets(top: 8, left: 16, bottom: 16, right: 16)
+        let view = UITableView()
         view.showsVerticalScrollIndicator = false
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(integralRed: 242, green: 242, blue: 242)
+        view.backgroundColor = .clear
         view.separatorStyle = .none
         view.contentInset.bottom = 48.scale
+        view.contentInset.top = 8.scale
         addSubview(view)
         return view
     }

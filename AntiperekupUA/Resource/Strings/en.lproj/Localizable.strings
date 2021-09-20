@@ -169,6 +169,7 @@
 "wanted_passport_information_found" = "Паспорт недействителен";
 "passport_number_error_numbers" = "Номер паспорта может состоять только из цифр";
 "passport_series_error_numbers" = "Серия паспорта может состоять только из латинских букв";
+"passport_number_and_series_error" = "Серия паспорта может состоять только из латинских букв, а номер - только цифры";
 
 "reg_doc_number_error_numbers" = "Номер документа может состоять только из цифр";
 "reg_doc_series_error_numbers" = "Серия документа может состоять только из латинских букв";

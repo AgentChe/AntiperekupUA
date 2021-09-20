@@ -65,7 +65,8 @@ private extension MainViewController {
             case .regValidation:
                 break
             case .checkPassport:
-                break
+                let controller = PassportCheckScreenViewController.make()
+                base.navigationController?.pushViewController(controller, animated: true)
             case .checkDebets:
                 break
             case let .report(searchValue):
