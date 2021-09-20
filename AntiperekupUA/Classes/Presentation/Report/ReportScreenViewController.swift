@@ -86,6 +86,8 @@ final class ReportScreenViewController: UIViewController {
                 UIApplication.shared.open($0)
             }
             .disposed(by: disposeBag)
+        
+        mainView.tableView.rx.setDelegate(self).disposed(by: disposeBag)
     }
     
     private lazy var configureCell: ConfigureCell = { [weak self] _, tableView, indexPath, item in
@@ -170,11 +172,38 @@ final class ReportScreenViewController: UIViewController {
     }
 }
 
+extension ReportScreenViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if tableView.numberOfRows(inSection: indexPath.section) == 1 {
+            cell.round(corners: [.allCorners], radius: 4.scale)
+        } else {
+            if indexPath.row == 0 {
+                cell.round(corners: [.topLeft, .topRight], radius: 4.scale)
+            } else if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
+                cell.round(corners: [.bottomLeft, .bottomRight], radius: 4.scale)
+            } else {
+                cell.layer.mask = nil
+            }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 16.scale
+    }
+}
+
 // MARK: Make
 extension ReportScreenViewController {
     static func make(searchValue: ReportSearchValue) -> ReportScreenViewController {
         let controller = ReportScreenViewController(searchValue: searchValue)
         controller.title = "report".localized
+        controller.configureBackButton()
         return controller
     }
 }

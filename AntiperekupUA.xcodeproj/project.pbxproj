@@ -16,6 +16,7 @@
 		8603BF0F26B70E0700A2E4CF /* BottomButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8603BF0E26B70E0700A2E4CF /* BottomButtonView.swift */; };
 		860B55B226CADE580022E316 /* ReportLockedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860B55B126CADE580022E316 /* ReportLockedCell.swift */; };
 		86241FD526A8970D008E5863 /* OnboardingLanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86241FD426A8970D008E5863 /* OnboardingLanguageView.swift */; };
+		862F30D726F66E4700365BDA /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862F30D626F66E4700365BDA /* UITableViewExtension.swift */; };
 		8637EEED26C56DE3003AAC30 /* GetWantedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637EEEC26C56DE3003AAC30 /* GetWantedRequest.swift */; };
 		8637EEEF26C56EA6003AAC30 /* WantedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637EEEE26C56EA6003AAC30 /* WantedModel.swift */; };
 		8637EEF126C580C8003AAC30 /* ReportIconWithTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637EEF026C580C8003AAC30 /* ReportIconWithTextCell.swift */; };
@@ -86,6 +87,15 @@
 		8674241C26C977F600487DF2 /* ReportCommentComplainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8674241B26C977F600487DF2 /* ReportCommentComplainCell.swift */; };
 		8674241E26C98CF200487DF2 /* GetRIARequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8674241D26C98CF200487DF2 /* GetRIARequest.swift */; };
 		8674242026C98DA000487DF2 /* RIAModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8674241F26C98DA000487DF2 /* RIAModel.swift */; };
+		86827E1226F618F9007F83CE /* PassportManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86827E1126F618F9007F83CE /* PassportManagerCore.swift */; };
+		86827E1526F6191C007F83CE /* PassportCheckRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86827E1426F6191C007F83CE /* PassportCheckRequest.swift */; };
+		86827E1826F619A0007F83CE /* PassportCheckModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86827E1726F619A0007F83CE /* PassportCheckModel.swift */; };
+		86827E1B26F61D01007F83CE /* PassportCheckTableItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86827E1A26F61D01007F83CE /* PassportCheckTableItem.swift */; };
+		86827E2026F624F9007F83CE /* PassportCheckHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86827E1F26F624F9007F83CE /* PassportCheckHeaderView.swift */; };
+		86827E2226F653F8007F83CE /* PassportCheckResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86827E2126F653F8007F83CE /* PassportCheckResultCell.swift */; };
+		8687330D26F72670001BDF9B /* PassportCheckFieldState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8687330C26F72670001BDF9B /* PassportCheckFieldState.swift */; };
+		8687331326F77777001BDF9B /* CheckResultValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8687331226F77777001BDF9B /* CheckResultValueView.swift */; };
+		8687331526F77AD4001BDF9B /* PassportCheckRecordCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8687331426F77AD4001BDF9B /* PassportCheckRecordCellView.swift */; };
 		868B531826EE5934002923F4 /* ReportURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B531726EE5934002923F4 /* ReportURLCell.swift */; };
 		868B531E26EE6CCD002923F4 /* NewCommentScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B531B26EE6CCD002923F4 /* NewCommentScreenViewController.swift */; };
 		868B531F26EE6CCD002923F4 /* NewCommentScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B531C26EE6CCD002923F4 /* NewCommentScreenView.swift */; };
@@ -120,6 +130,11 @@
 		86C5DD9D26F3B92000104C41 /* AddCommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C5DD9C26F3B92000104C41 /* AddCommentModel.swift */; };
 		86C5DDA226F5041D00104C41 /* ComplainCommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C5DDA126F5041D00104C41 /* ComplainCommentModel.swift */; };
 		86C5DDA426F50B2E00104C41 /* UIControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C5DDA326F50B2E00104C41 /* UIControllerExtension.swift */; };
+		86C5DDA926F514F500104C41 /* PassportCheckScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C5DDA626F514F500104C41 /* PassportCheckScreenViewController.swift */; };
+		86C5DDAA26F514F500104C41 /* PassportCheckScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C5DDA726F514F500104C41 /* PassportCheckScreenView.swift */; };
+		86C5DDAB26F514F500104C41 /* PassportCheckScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C5DDA826F514F500104C41 /* PassportCheckScreenViewModel.swift */; };
+		86C5DDAD26F5157900104C41 /* CheckFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C5DDAC26F5157900104C41 /* CheckFieldView.swift */; };
+		86C5DDB626F51FEC00104C41 /* CheckDescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C5DDB526F51FEC00104C41 /* CheckDescriptionCell.swift */; };
 		86CA220B26DD29B20019C101 /* GetRecallVinSubsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CA220A26DD29B20019C101 /* GetRecallVinSubsRequest.swift */; };
 		86CA220D26DD29EA0019C101 /* RecallVinSubsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CA220C26DD29EA0019C101 /* RecallVinSubsModel.swift */; };
 		86CA220F26DD619A0019C101 /* GetAuctionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CA220E26DD619A0019C101 /* GetAuctionRequest.swift */; };
@@ -194,6 +209,7 @@
 		8603BF0E26B70E0700A2E4CF /* BottomButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButtonView.swift; sourceTree = "<group>"; };
 		860B55B126CADE580022E316 /* ReportLockedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportLockedCell.swift; sourceTree = "<group>"; };
 		86241FD426A8970D008E5863 /* OnboardingLanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingLanguageView.swift; sourceTree = "<group>"; };
+		862F30D626F66E4700365BDA /* UITableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
 		8637EEEC26C56DE3003AAC30 /* GetWantedRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetWantedRequest.swift; sourceTree = "<group>"; };
 		8637EEEE26C56EA6003AAC30 /* WantedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WantedModel.swift; sourceTree = "<group>"; };
 		8637EEF026C580C8003AAC30 /* ReportIconWithTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportIconWithTextCell.swift; sourceTree = "<group>"; };
@@ -265,6 +281,15 @@
 		8674241B26C977F600487DF2 /* ReportCommentComplainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCommentComplainCell.swift; sourceTree = "<group>"; };
 		8674241D26C98CF200487DF2 /* GetRIARequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetRIARequest.swift; sourceTree = "<group>"; };
 		8674241F26C98DA000487DF2 /* RIAModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RIAModel.swift; sourceTree = "<group>"; };
+		86827E1126F618F9007F83CE /* PassportManagerCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassportManagerCore.swift; sourceTree = "<group>"; };
+		86827E1426F6191C007F83CE /* PassportCheckRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassportCheckRequest.swift; sourceTree = "<group>"; };
+		86827E1726F619A0007F83CE /* PassportCheckModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassportCheckModel.swift; sourceTree = "<group>"; };
+		86827E1A26F61D01007F83CE /* PassportCheckTableItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassportCheckTableItem.swift; sourceTree = "<group>"; };
+		86827E1F26F624F9007F83CE /* PassportCheckHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassportCheckHeaderView.swift; sourceTree = "<group>"; };
+		86827E2126F653F8007F83CE /* PassportCheckResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassportCheckResultCell.swift; sourceTree = "<group>"; };
+		8687330C26F72670001BDF9B /* PassportCheckFieldState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassportCheckFieldState.swift; sourceTree = "<group>"; };
+		8687331226F77777001BDF9B /* CheckResultValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckResultValueView.swift; sourceTree = "<group>"; };
+		8687331426F77AD4001BDF9B /* PassportCheckRecordCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassportCheckRecordCellView.swift; sourceTree = "<group>"; };
 		868B531726EE5934002923F4 /* ReportURLCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportURLCell.swift; sourceTree = "<group>"; };
 		868B531B26EE6CCD002923F4 /* NewCommentScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentScreenViewController.swift; sourceTree = "<group>"; };
 		868B531C26EE6CCD002923F4 /* NewCommentScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentScreenView.swift; sourceTree = "<group>"; };
@@ -300,6 +325,11 @@
 		86C5DD9C26F3B92000104C41 /* AddCommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCommentModel.swift; sourceTree = "<group>"; };
 		86C5DDA126F5041D00104C41 /* ComplainCommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplainCommentModel.swift; sourceTree = "<group>"; };
 		86C5DDA326F50B2E00104C41 /* UIControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIControllerExtension.swift; sourceTree = "<group>"; };
+		86C5DDA626F514F500104C41 /* PassportCheckScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassportCheckScreenViewController.swift; sourceTree = "<group>"; };
+		86C5DDA726F514F500104C41 /* PassportCheckScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassportCheckScreenView.swift; sourceTree = "<group>"; };
+		86C5DDA826F514F500104C41 /* PassportCheckScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassportCheckScreenViewModel.swift; sourceTree = "<group>"; };
+		86C5DDAC26F5157900104C41 /* CheckFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckFieldView.swift; sourceTree = "<group>"; };
+		86C5DDB526F51FEC00104C41 /* CheckDescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckDescriptionCell.swift; sourceTree = "<group>"; };
 		86CA220A26DD29B20019C101 /* GetRecallVinSubsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetRecallVinSubsRequest.swift; sourceTree = "<group>"; };
 		86CA220C26DD29EA0019C101 /* RecallVinSubsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecallVinSubsModel.swift; sourceTree = "<group>"; };
 		86CA220E26DD619A0019C101 /* GetAuctionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAuctionRequest.swift; sourceTree = "<group>"; };
@@ -474,6 +504,7 @@
 		864250BB26AC3CF300837F07 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				86827E1026F618E3007F83CE /* Passport */,
 				86C5DD9526F3B74700104C41 /* Comment */,
 				863B7D1B26DAA3D7008A1BAD /* IAP */,
 				866B819026BC4BF000026E95 /* Report */,
@@ -696,6 +727,85 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		86827E1026F618E3007F83CE /* Passport */ = {
+			isa = PBXGroup;
+			children = (
+				86827E1626F61991007F83CE /* Model */,
+				86827E1326F61903007F83CE /* Request */,
+				86827E1126F618F9007F83CE /* PassportManagerCore.swift */,
+			);
+			path = Passport;
+			sourceTree = "<group>";
+		};
+		86827E1326F61903007F83CE /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				86827E1426F6191C007F83CE /* PassportCheckRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		86827E1626F61991007F83CE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				86827E1726F619A0007F83CE /* PassportCheckModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		86827E1926F61CEB007F83CE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				86827E1A26F61D01007F83CE /* PassportCheckTableItem.swift */,
+				8687330C26F72670001BDF9B /* PassportCheckFieldState.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		86827E1C26F624C4007F83CE /* View */ = {
+			isa = PBXGroup;
+			children = (
+				86827E1F26F624F9007F83CE /* PassportCheckHeaderView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8687330E26F7768A001BDF9B /* Check */ = {
+			isa = PBXGroup;
+			children = (
+				8687330F26F77694001BDF9B /* Shared */,
+				86C5DDA526F514D800104C41 /* PassportCheck */,
+			);
+			path = Check;
+			sourceTree = "<group>";
+		};
+		8687330F26F77694001BDF9B /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				8687331126F776D0001BDF9B /* Cell */,
+				8687331026F776A1001BDF9B /* View */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		8687331026F776A1001BDF9B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				86C5DDB526F51FEC00104C41 /* CheckDescriptionCell.swift */,
+				86C5DDAC26F5157900104C41 /* CheckFieldView.swift */,
+				8687331226F77777001BDF9B /* CheckResultValueView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8687331126F776D0001BDF9B /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				86827E2126F653F8007F83CE /* PassportCheckResultCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		868B531926EE6AEA002923F4 /* Comment */ = {
 			isa = PBXGroup;
 			children = (
@@ -759,6 +869,7 @@
 		86BB67BB26A741B200283267 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				8687330E26F7768A001BDF9B /* Check */,
 				868B531926EE6AEA002923F4 /* Comment */,
 				86D5A2EC26D7939A007FAB12 /* Paygate */,
 				866B817D26BC470100026E95 /* Report */,
@@ -855,6 +966,27 @@
 				86C5DD9C26F3B92000104C41 /* AddCommentModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		86C5DDA526F514D800104C41 /* PassportCheck */ = {
+			isa = PBXGroup;
+			children = (
+				86827E1C26F624C4007F83CE /* View */,
+				86827E1926F61CEB007F83CE /* Model */,
+				86C5DDAE26F51A3900104C41 /* Cell */,
+				86C5DDA626F514F500104C41 /* PassportCheckScreenViewController.swift */,
+				86C5DDA726F514F500104C41 /* PassportCheckScreenView.swift */,
+				86C5DDA826F514F500104C41 /* PassportCheckScreenViewModel.swift */,
+			);
+			path = PassportCheck;
+			sourceTree = "<group>";
+		};
+		86C5DDAE26F51A3900104C41 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				8687331426F77AD4001BDF9B /* PassportCheckRecordCellView.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		86D1C7CE26AF2DDF0083C7C9 /* Fonts */ = {
@@ -1012,6 +1144,7 @@
 				9667E05826A6156C0098C7F2 /* StringExtension.swift */,
 				864250A926AC150000837F07 /* UITapGestureRecognizerExtension.swift */,
 				86C5DDA326F50B2E00104C41 /* UIControllerExtension.swift */,
+				862F30D626F66E4700365BDA /* UITableViewExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1211,6 +1344,7 @@
 				86C11F7A26AD5E9400D7A47E /* MainViewModel.swift in Sources */,
 				86B17A4626C1AAE5000E8FED /* GetGovDataRequest.swift in Sources */,
 				86D5A2E526D568EA007FAB12 /* ReportAlertScreenViewModel.swift in Sources */,
+				86C5DDA926F514F500104C41 /* PassportCheckScreenViewController.swift in Sources */,
 				8603BF0026B6904700A2E4CF /* MainHistoryHeaderView.swift in Sources */,
 				86C5DDA226F5041D00104C41 /* ComplainCommentModel.swift in Sources */,
 				86D5A2F226D793C0007FAB12 /* PaygateScreenViewModel.swift in Sources */,
@@ -1220,8 +1354,11 @@
 				864D460726DE8D0C00B75C70 /* ReportRetryCell.swift in Sources */,
 				86C11F7D26AD7D2C00D7A47E /* OnboardingManager.swift in Sources */,
 				9667E07626A6156C0098C7F2 /* CircleView.swift in Sources */,
+				86827E2026F624F9007F83CE /* PassportCheckHeaderView.swift in Sources */,
 				9667E07526A6156C0098C7F2 /* GradientButton.swift in Sources */,
+				86827E2226F653F8007F83CE /* PassportCheckResultCell.swift in Sources */,
 				86FC5F5526F1021100A95B9C /* NewCommentCommentCell.swift in Sources */,
+				86C5DDAB26F514F500104C41 /* PassportCheckScreenViewModel.swift in Sources */,
 				9667E08B26A6156C0098C7F2 /* FirebaseManager.swift in Sources */,
 				864250D126AC4FA100837F07 /* LanguageMediator.swift in Sources */,
 				866B818526BC473900026E95 /* ReportScreenViewModel.swift in Sources */,
@@ -1233,6 +1370,7 @@
 				8637EF0126C5A329003AAC30 /* InterpolModel.swift in Sources */,
 				8603BEF526B551BA00A2E4CF /* MainActionCell.swift in Sources */,
 				86D5B9F926C453880084AFE9 /* ReportHeaderCell.swift in Sources */,
+				86C5DDB626F51FEC00104C41 /* CheckDescriptionCell.swift in Sources */,
 				8603BF0426B6D09300A2E4CF /* MainRoute.swift in Sources */,
 				9667E08626A6156C0098C7F2 /* Weak.swift in Sources */,
 				9667E08426A6156C0098C7F2 /* SignError.swift in Sources */,
@@ -1248,20 +1386,25 @@
 				8637EEEF26C56EA6003AAC30 /* WantedModel.swift in Sources */,
 				9667E07426A6156C0098C7F2 /* PaddingLabel.swift in Sources */,
 				8674241826C91BE600487DF2 /* CommentsModel.swift in Sources */,
+				86827E1226F618F9007F83CE /* PassportManagerCore.swift in Sources */,
 				8637EEFF26C5A181003AAC30 /* GetInterpolRequest.swift in Sources */,
 				86D5A2F126D793C0007FAB12 /* PaygateScreenView.swift in Sources */,
+				8687330D26F72670001BDF9B /* PassportCheckFieldState.swift in Sources */,
 				866B819526BC4CCA00026E95 /* RegNumberModel.swift in Sources */,
 				864250B826AC1FCF00837F07 /* SplashViewModel.swift in Sources */,
 				86CA220B26DD29B20019C101 /* GetRecallVinSubsRequest.swift in Sources */,
+				86827E1B26F61D01007F83CE /* PassportCheckTableItem.swift in Sources */,
 				86D5A2E926D5722D007FAB12 /* ReportAlertAnimation.swift in Sources */,
 				86C5DD9D26F3B92000104C41 /* AddCommentModel.swift in Sources */,
 				9667E08A26A6156C0098C7F2 /* AppDelegate.swift in Sources */,
+				8687331526F77AD4001BDF9B /* PassportCheckRecordCellView.swift in Sources */,
 				863D629A26B0842C00D0A073 /* MainSearchHeaderView.swift in Sources */,
 				864250CF26AC4C2900837F07 /* LanguageModel.swift in Sources */,
 				863D629126B0675800D0A073 /* SearchView.swift in Sources */,
 				8674242026C98DA000487DF2 /* RIAModel.swift in Sources */,
 				86D5A2FD26D7B8C2007FAB12 /* PaygateSaleView.swift in Sources */,
 				86CA220F26DD619A0019C101 /* GetAuctionRequest.swift in Sources */,
+				8687331326F77777001BDF9B /* CheckResultValueView.swift in Sources */,
 				863D629526B078FC00D0A073 /* MainTableView.swift in Sources */,
 				864D45F226DE124E00B75C70 /* ReportImageCarouselView.swift in Sources */,
 				9667E07C26A6156C0098C7F2 /* APIRequestBody.swift in Sources */,
@@ -1298,6 +1441,7 @@
 				866B818D26BC48EA00026E95 /* GetPaygateRequest.swift in Sources */,
 				86C11F7926AD5E9400D7A47E /* MainView.swift in Sources */,
 				86D5A2F026D793C0007FAB12 /* PaygateScreenViewController.swift in Sources */,
+				86C5DDAA26F514F500104C41 /* PassportCheckScreenView.swift in Sources */,
 				863B7D2526DAA404008A1BAD /* IAPError.swift in Sources */,
 				86DF738026CC31680034D9A1 /* ReportDescriptionCell.swift in Sources */,
 				86FC5F5726F10B4F00A95B9C /* NewCommentTitleCell.swift in Sources */,
@@ -1322,12 +1466,14 @@
 				86D5A2EB26D65087007FAB12 /* ReportAlertPresentationController.swift in Sources */,
 				9667E08726A6156C0098C7F2 /* ImagePicker.swift in Sources */,
 				86D5B9F526C444160084AFE9 /* ReportSeparatorCell.swift in Sources */,
+				86C5DDAD26F5157900104C41 /* CheckFieldView.swift in Sources */,
 				86A43BA526C846D30036D06B /* ReportLogoCell.swift in Sources */,
 				868B531826EE5934002923F4 /* ReportURLCell.swift in Sources */,
 				8603BF0F26B70E0700A2E4CF /* BottomButtonView.swift in Sources */,
 				86D5A2F926D7A73C007FAB12 /* PaygateProductView.swift in Sources */,
 				866B818326BC473900026E95 /* ReportScreenViewController.swift in Sources */,
 				86D5A2F726D7A416007FAB12 /* PaygateCheckView.swift in Sources */,
+				86827E1826F619A0007F83CE /* PassportCheckModel.swift in Sources */,
 				86D5A2E426D568EA007FAB12 /* ReportAlertScreenView.swift in Sources */,
 				864250B626AC1FCF00837F07 /* SplashViewController.swift in Sources */,
 				86B17A4426C0664C000E8FED /* GovDataModel.swift in Sources */,
@@ -1339,6 +1485,7 @@
 				9667E08826A6156C0098C7F2 /* RxActivityIndicator.swift in Sources */,
 				9667E07326A6156C0098C7F2 /* PaddingTextField.swift in Sources */,
 				863B7D2C26DABEC2008A1BAD /* PaygateProductModel.swift in Sources */,
+				86827E1526F6191C007F83CE /* PassportCheckRequest.swift in Sources */,
 				864250D826AC71A100837F07 /* UpdateTokenResponseMapper.swift in Sources */,
 				86D5A2FB26D7B794007FAB12 /* CheckPaygateStatusRequest.swift in Sources */,
 				868B531E26EE6CCD002923F4 /* NewCommentScreenViewController.swift in Sources */,
@@ -1357,6 +1504,7 @@
 				864250AA26AC150000837F07 /* UITapGestureRecognizerExtension.swift in Sources */,
 				9667E07926A6156C0098C7F2 /* UIViewRxExtension.swift in Sources */,
 				8637EEF326C587DA003AAC30 /* ReportErrorCell.swift in Sources */,
+				862F30D726F66E4700365BDA /* UITableViewExtension.swift in Sources */,
 				864D45F726DE4C9900B75C70 /* ReportCarouselFlowLayout.swift in Sources */,
 				8672E59226BC5D16007BA792 /* ReportDataSource.swift in Sources */,
 				864D460526DE84B100B75C70 /* ComplectationModel.swift in Sources */,

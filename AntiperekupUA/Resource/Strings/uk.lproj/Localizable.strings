@@ -165,11 +165,12 @@
 "wanted_passport_series_hint" = "Серія";
 "wanted_passport_number_hint" = "Номер";
 
-"wanted_passport_description" = "Пошук виконується по базі МВС. Якщо дані знайдено - паспорт  (втрачений або викрадений). Будьте уважні!";
+"wanted_passport_description" = "Пошук виконується по базі МВС. Якщо дані знайдено - паспорт (втрачений або викрадений). Будьте уважні!";
 "no_wanted_passport_information_found" = "Паспорт не є в базі викрадених паспортів";
 "wanted_passport_information_found" = "Паспорт недійсний";
 "passport_number_error_numbers" = "Номер паспорта може складатися тільки з цифр";
 "passport_series_error_numbers" = "Серія паспорта може складатися тільки з латинських букв";
+"passport_number_and_series_error" = "Серія паспорта може складатися тільки з латинських букв, а номер - тільки цифри";
 
 "reg_doc_number_error_numbers" = "Номер документа може складатися тільки з цифр";
 "reg_doc_series_error_numbers" = "Серія документа може складатися тільки з латинських букв";

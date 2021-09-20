@@ -12,7 +12,7 @@ final class ScreenLoadingView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        backgroundColor = UIColor.black.withAlphaComponent(0.1)
         makeConstraints()
     }
     
@@ -37,7 +37,7 @@ private extension ScreenLoadingView {
         let view = UIActivityIndicatorView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.style = .medium
-        view.color = .white
+        view.color = .black
         view.startAnimating()
         addSubview(view)
         return view

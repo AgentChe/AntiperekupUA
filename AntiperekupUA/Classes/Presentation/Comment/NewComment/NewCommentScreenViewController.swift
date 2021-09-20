@@ -126,7 +126,9 @@ final class NewCommentScreenViewController: UIViewController {
 extension NewCommentScreenViewController {
     static func make(vin: String, regNumber: String, didCommentAdded: @escaping () -> Void) -> NewCommentScreenViewController {
         let controller = NewCommentScreenViewController(vin: vin, regNumber: regNumber)
+        controller.title = "new_comment".localized
         controller.didCommentAdded = didCommentAdded
+        controller.configureBackButton()
         return controller
     }
 }

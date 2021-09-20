@@ -57,6 +57,7 @@ extension NewCommentThemeViewController {
     static func make(selectedTheme: @escaping (NewCommentTheme) -> Void) -> NewCommentThemeViewController {
         let controller = NewCommentThemeViewController()
         controller.selectedTheme = selectedTheme
+        controller.configureBackButton()
         return controller
     }
 }
