@@ -11,6 +11,7 @@ import RxSwift
 final class MainHistoryHeaderView: UIView {
     private lazy var title = makeTitle()
     private lazy var button = makeButton()
+    private lazy var separator = makeSeparator()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,13 +35,20 @@ private extension MainHistoryHeaderView {
     func makeConstraints() {
         NSLayoutConstraint.activate([
             title.topAnchor.constraint(equalTo: topAnchor, constant: 24.scale),
-            title.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 7.scale),
             title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16.scale)
         ])
         
         NSLayoutConstraint.activate([
             button.centerYAnchor.constraint(equalTo: title.centerYAnchor),
             button.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16.scale),
+        ])
+        
+        NSLayoutConstraint.activate([
+            separator.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 7.scale),
+            separator.leadingAnchor.constraint(equalTo: leadingAnchor),
+            separator.trailingAnchor.constraint(equalTo: trailingAnchor),
+            separator.bottomAnchor.constraint(equalTo: bottomAnchor),
+            separator.heightAnchor.constraint(equalToConstant: 1.scale)
         ])
     }
 }
@@ -59,6 +67,14 @@ private extension MainHistoryHeaderView {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.setAttributedTitle("clear".localized.attributed(with: .button), for: .normal)
+        addSubview(view)
+        return view
+    }
+    
+    func makeSeparator() -> UIView {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor(integralRed: 206, green: 206, blue: 208, alpha: 0.6)
         addSubview(view)
         return view
     }

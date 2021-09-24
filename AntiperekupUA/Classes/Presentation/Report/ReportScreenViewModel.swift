@@ -14,7 +14,9 @@ final class ReportScreenViewModel {
     
     private lazy var purchaseService = PurchaseManagerCore()
     private lazy var reportService = ReportManagerCore()
+    private lazy var auditHistoryService = AuditHistoryManagerCore()
     private let searchValue: ReportSearchValue
+    private lazy var date = Date()
     
     init(searchValue: ReportSearchValue) {
         self.searchValue = searchValue
@@ -286,6 +288,17 @@ private extension ReportScreenViewModel {
                     .getGovData(regNumber: data.regNumber)
                     .asObservable()
                     .materialize(with: retryTrigger)
+                    .do(onNext: { [weak self] event in
+                        guard let self = self, let element = event.element else { return }
+                        let model = AuditHistoryModel (
+                            date: self.date,
+                            searchValue: self.searchValue,
+                            brand: element?.vehicle?.brand ?? "",
+                            model: element?.vehicle?.model ?? ""
+                        )
+                        
+                        self.auditHistoryService.save(model: model)
+                    })
                     .compactMap { ReportDataSourceConfigureHelper.mainAndHistory(mainTitle: mainTitle, historyTitle: historyTitle, event: $0) }
                     .startWith(loadingSections)
             }
