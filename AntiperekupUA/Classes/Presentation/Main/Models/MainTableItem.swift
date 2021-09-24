@@ -11,6 +11,14 @@ import RxDataSources
 enum MainTableItem {
     case action(MainTableAction)
     case error(String)
+    case history(MainHistoryItem)
+}
+
+struct MainHistoryItem: Equatable, Hashable {
+    let id: String
+    let date: String
+    let searchValue: String
+    let carInfo: String?
 }
 
 extension MainTableItem: Equatable, Hashable {
@@ -35,6 +43,8 @@ extension MainTableItem: IdentifiableType {
             return action.hashValue
         case let .error(error):
             return error.hashValue
+        case let .history(element):
+            return element.hashValue
         }
     }
 }

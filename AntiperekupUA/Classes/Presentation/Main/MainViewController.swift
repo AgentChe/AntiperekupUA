@@ -24,7 +24,8 @@ final class MainViewController: UIViewController {
             searchValue: mainView.tableView.searchHeader.searchText,
             tabIndex: mainView.segmentView.selectIndex,
             didTapClear: mainView.tableView.historyHeader.didTapClear,
-            itemSelected: mainView.tableView.selectedElement
+            itemSelected: mainView.tableView.selectedElement,
+            deleteHistoryItem: mainView.tableView.deleteHistoryItem
         )
         
         let output = viewModel.configure(input: input)

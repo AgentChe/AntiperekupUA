@@ -87,6 +87,9 @@
 		8674241C26C977F600487DF2 /* ReportCommentComplainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8674241B26C977F600487DF2 /* ReportCommentComplainCell.swift */; };
 		8674241E26C98CF200487DF2 /* GetRIARequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8674241D26C98CF200487DF2 /* GetRIARequest.swift */; };
 		8674242026C98DA000487DF2 /* RIAModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8674241F26C98DA000487DF2 /* RIAModel.swift */; };
+		867450C626FBA565009C64E1 /* AuditHistoryManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867450C526FBA565009C64E1 /* AuditHistoryManagerCore.swift */; };
+		867450C926FBA58B009C64E1 /* AuditHistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867450C826FBA58B009C64E1 /* AuditHistoryModel.swift */; };
+		867450CB26FBB05E009C64E1 /* MainHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867450CA26FBB05E009C64E1 /* MainHistoryCell.swift */; };
 		86827E1226F618F9007F83CE /* PassportManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86827E1126F618F9007F83CE /* PassportManagerCore.swift */; };
 		86827E1526F6191C007F83CE /* PassportCheckRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86827E1426F6191C007F83CE /* PassportCheckRequest.swift */; };
 		86827E1826F619A0007F83CE /* PassportCheckModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86827E1726F619A0007F83CE /* PassportCheckModel.swift */; };
@@ -139,6 +142,8 @@
 		86CA220D26DD29EA0019C101 /* RecallVinSubsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CA220C26DD29EA0019C101 /* RecallVinSubsModel.swift */; };
 		86CA220F26DD619A0019C101 /* GetAuctionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CA220E26DD619A0019C101 /* GetAuctionRequest.swift */; };
 		86CA221126DD624B0019C101 /* AuctionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CA221026DD624B0019C101 /* AuctionModel.swift */; };
+		86CCB02226FCEE2700A21A78 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CCB02126FCEE2600A21A78 /* DateExtension.swift */; };
+		86CCB02426FCF3AE00A21A78 /* AuditHistoryMediator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CCB02326FCF3AE00A21A78 /* AuditHistoryMediator.swift */; };
 		86D5A2D826D55B0D007FAB12 /* SFProText-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D5A2D226D55B0C007FAB12 /* SFProText-Bold.ttf */; };
 		86D5A2D926D55B0D007FAB12 /* SFProText-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D5A2D326D55B0C007FAB12 /* SFProText-Medium.ttf */; };
 		86D5A2DA26D55B0D007FAB12 /* SFProText-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D5A2D426D55B0C007FAB12 /* SFProText-Semibold.ttf */; };
@@ -281,6 +286,9 @@
 		8674241B26C977F600487DF2 /* ReportCommentComplainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCommentComplainCell.swift; sourceTree = "<group>"; };
 		8674241D26C98CF200487DF2 /* GetRIARequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetRIARequest.swift; sourceTree = "<group>"; };
 		8674241F26C98DA000487DF2 /* RIAModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RIAModel.swift; sourceTree = "<group>"; };
+		867450C526FBA565009C64E1 /* AuditHistoryManagerCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuditHistoryManagerCore.swift; sourceTree = "<group>"; };
+		867450C826FBA58B009C64E1 /* AuditHistoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuditHistoryModel.swift; sourceTree = "<group>"; };
+		867450CA26FBB05E009C64E1 /* MainHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainHistoryCell.swift; sourceTree = "<group>"; };
 		86827E1126F618F9007F83CE /* PassportManagerCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassportManagerCore.swift; sourceTree = "<group>"; };
 		86827E1426F6191C007F83CE /* PassportCheckRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassportCheckRequest.swift; sourceTree = "<group>"; };
 		86827E1726F619A0007F83CE /* PassportCheckModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassportCheckModel.swift; sourceTree = "<group>"; };
@@ -334,6 +342,8 @@
 		86CA220C26DD29EA0019C101 /* RecallVinSubsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecallVinSubsModel.swift; sourceTree = "<group>"; };
 		86CA220E26DD619A0019C101 /* GetAuctionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAuctionRequest.swift; sourceTree = "<group>"; };
 		86CA221026DD624B0019C101 /* AuctionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionModel.swift; sourceTree = "<group>"; };
+		86CCB02126FCEE2600A21A78 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		86CCB02326FCF3AE00A21A78 /* AuditHistoryMediator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuditHistoryMediator.swift; sourceTree = "<group>"; };
 		86D5A2D226D55B0C007FAB12 /* SFProText-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Bold.ttf"; sourceTree = "<group>"; };
 		86D5A2D326D55B0C007FAB12 /* SFProText-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Medium.ttf"; sourceTree = "<group>"; };
 		86D5A2D426D55B0C007FAB12 /* SFProText-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Semibold.ttf"; sourceTree = "<group>"; };
@@ -447,6 +457,7 @@
 			children = (
 				8603BEF426B551BA00A2E4CF /* MainActionCell.swift */,
 				8603BF0126B6C0C700A2E4CF /* MainErrorCell.swift */,
+				867450CA26FBB05E009C64E1 /* MainHistoryCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -504,6 +515,7 @@
 		864250BB26AC3CF300837F07 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				867450C426FBA537009C64E1 /* AuditService */,
 				86827E1026F618E3007F83CE /* Passport */,
 				86C5DD9526F3B74700104C41 /* Comment */,
 				863B7D1B26DAA3D7008A1BAD /* IAP */,
@@ -725,6 +737,24 @@
 				868B531726EE5934002923F4 /* ReportURLCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		867450C426FBA537009C64E1 /* AuditService */ = {
+			isa = PBXGroup;
+			children = (
+				867450C726FBA576009C64E1 /* Model */,
+				867450C526FBA565009C64E1 /* AuditHistoryManagerCore.swift */,
+				86CCB02326FCF3AE00A21A78 /* AuditHistoryMediator.swift */,
+			);
+			path = AuditService;
+			sourceTree = "<group>";
+		};
+		867450C726FBA576009C64E1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				867450C826FBA58B009C64E1 /* AuditHistoryModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		86827E1026F618E3007F83CE /* Passport */ = {
@@ -1145,6 +1175,7 @@
 				864250A926AC150000837F07 /* UITapGestureRecognizerExtension.swift */,
 				86C5DDA326F50B2E00104C41 /* UIControllerExtension.swift */,
 				862F30D626F66E4700365BDA /* UITableViewExtension.swift */,
+				86CCB02126FCEE2600A21A78 /* DateExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1345,6 +1376,7 @@
 				86B17A4626C1AAE5000E8FED /* GetGovDataRequest.swift in Sources */,
 				86D5A2E526D568EA007FAB12 /* ReportAlertScreenViewModel.swift in Sources */,
 				86C5DDA926F514F500104C41 /* PassportCheckScreenViewController.swift in Sources */,
+				867450C926FBA58B009C64E1 /* AuditHistoryModel.swift in Sources */,
 				8603BF0026B6904700A2E4CF /* MainHistoryHeaderView.swift in Sources */,
 				86C5DDA226F5041D00104C41 /* ComplainCommentModel.swift in Sources */,
 				86D5A2F226D793C0007FAB12 /* PaygateScreenViewModel.swift in Sources */,
@@ -1445,6 +1477,7 @@
 				863B7D2526DAA404008A1BAD /* IAPError.swift in Sources */,
 				86DF738026CC31680034D9A1 /* ReportDescriptionCell.swift in Sources */,
 				86FC5F5726F10B4F00A95B9C /* NewCommentTitleCell.swift in Sources */,
+				86CCB02226FCEE2700A21A78 /* DateExtension.swift in Sources */,
 				9667E08126A6156C0098C7F2 /* Fonts.swift in Sources */,
 				8646B2C926BD7DF700A5A545 /* ReportSearchValue.swift in Sources */,
 				863D629826B079E900D0A073 /* MainTableItem.swift in Sources */,
@@ -1466,6 +1499,7 @@
 				86D5A2EB26D65087007FAB12 /* ReportAlertPresentationController.swift in Sources */,
 				9667E08726A6156C0098C7F2 /* ImagePicker.swift in Sources */,
 				86D5B9F526C444160084AFE9 /* ReportSeparatorCell.swift in Sources */,
+				867450CB26FBB05E009C64E1 /* MainHistoryCell.swift in Sources */,
 				86C5DDAD26F5157900104C41 /* CheckFieldView.swift in Sources */,
 				86A43BA526C846D30036D06B /* ReportLogoCell.swift in Sources */,
 				868B531826EE5934002923F4 /* ReportURLCell.swift in Sources */,
@@ -1474,6 +1508,7 @@
 				866B818326BC473900026E95 /* ReportScreenViewController.swift in Sources */,
 				86D5A2F726D7A416007FAB12 /* PaygateCheckView.swift in Sources */,
 				86827E1826F619A0007F83CE /* PassportCheckModel.swift in Sources */,
+				86CCB02426FCF3AE00A21A78 /* AuditHistoryMediator.swift in Sources */,
 				86D5A2E426D568EA007FAB12 /* ReportAlertScreenView.swift in Sources */,
 				864250B626AC1FCF00837F07 /* SplashViewController.swift in Sources */,
 				86B17A4426C0664C000E8FED /* GovDataModel.swift in Sources */,
@@ -1509,6 +1544,7 @@
 				8672E59226BC5D16007BA792 /* ReportDataSource.swift in Sources */,
 				864D460526DE84B100B75C70 /* ComplectationModel.swift in Sources */,
 				9667E07B26A6156C0098C7F2 /* GlobalDefinitions.swift in Sources */,
+				867450C626FBA565009C64E1 /* AuditHistoryManagerCore.swift in Sources */,
 				8674241E26C98CF200487DF2 /* GetRIARequest.swift in Sources */,
 				864D45EF26DE11A600B75C70 /* ReportImagesCarouselCell.swift in Sources */,
 				864250D326AC503B00837F07 /* LanguageMediatorDelegate.swift in Sources */,

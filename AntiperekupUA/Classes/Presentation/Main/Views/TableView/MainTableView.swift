@@ -17,11 +17,15 @@ final class MainTableView: UIView {
     
     typealias Section = AnimatableSectionModel<MainTableHeader, MainTableItem>
     private typealias ConfigureCell = RxTableViewSectionedAnimatedDataSource<Section>.ConfigureCell
+    private typealias CanEditRowAtIndexPath = (TableViewSectionedDataSource<Section>, IndexPath) -> Bool
     
     private lazy var dataSource = RxTableViewSectionedAnimatedDataSource<Section>(
         animationConfiguration: AnimationConfiguration(insertAnimation: .top, reloadAnimation: .none, deleteAnimation: .fade),
-        configureCell: configureCell
+        configureCell: configureCell,
+        canEditRowAtIndexPath: canEditRowAtIndexPath
     )
+    
+    private let deletedHistoryItemRelay = PublishRelay<MainHistoryItem>()
     
     private let disposeBag = DisposeBag()
     
@@ -45,7 +49,19 @@ final class MainTableView: UIView {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MainErrorCell.self), for: indexPath) as! MainErrorCell
             cell.setup(error: error)
             return cell
+        case let .history(element):
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MainHistoryCell.self), for: indexPath) as! MainHistoryCell
+            cell.setup(from: element)
+            return cell
         }
+    }
+    
+    private lazy var canEditRowAtIndexPath: CanEditRowAtIndexPath = { dataSource, indexPath -> Bool in
+        guard case .history = dataSource[indexPath] else {
+            return false
+        }
+        
+        return true
     }
 }
 
@@ -57,12 +73,17 @@ extension MainTableView {
     var selectedElement: Signal<Section.Item> {
         tableView.rx.modelSelected(Section.Item.self).asSignal()
     }
+    
+    var deleteHistoryItem: Signal<MainHistoryItem> {
+        deletedHistoryItemRelay.asSignal()
+    }
 }
 
 private extension MainTableView {
     func initialize() {
         tableView.register(MainActionCell.self, forCellReuseIdentifier: String(describing: MainActionCell.self))
         tableView.register(MainErrorCell.self, forCellReuseIdentifier: String(describing: MainErrorCell.self))
+        tableView.register(MainHistoryCell.self, forCellReuseIdentifier: String(describing: MainHistoryCell.self))
         tableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
     }
@@ -78,6 +99,15 @@ extension MainTableView: UITableViewDelegate {
         case .history:
             return historyHeader
         }
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "remove".localized, handler: { [weak self] _,_,_ in
+            guard case let .history(item) = self?.dataSource[indexPath] else { return }
+            self?.deletedHistoryItemRelay.accept(item)
+        })
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
 }
 

@@ -10,6 +10,9 @@ import RxCocoa
 
 final class MainViewModel {
     typealias TableDataSource = (MainTableHeader, [MainTableItem])
+    
+    private lazy var auditHistoryService = AuditHistoryManagerCore()
+    private lazy var disposeBag = DisposeBag()
 }
 
 
@@ -19,6 +22,7 @@ extension MainViewModel {
         let tabIndex: Signal<Int>
         let didTapClear: Signal<Void>
         let itemSelected: Signal<MainTableItem>
+        let deleteHistoryItem: Signal<MainHistoryItem>
     }
     
     struct Output {
@@ -58,18 +62,7 @@ extension MainViewModel {
             .startWith(false)
             .asDriver(onErrorDriveWith: .empty())
         
-        let mainDataSource: [TableDataSource] = [(.action, [.action(.debets), .action(.passport)]), (.history, [])]
-        
-        let tableData = searchResult
-            .map { result -> [TableDataSource] in
-                switch result {
-                case let .error(error):
-                    return [(.error, [.error(error)])] + mainDataSource
-                default:
-                    return mainDataSource
-                }
-            }
-            .startWith(mainDataSource)
+        let tableData = buildTableData(searchResult: searchResult)
             .asDriver(onErrorJustReturn: [])
         
         let itemRoute = input.itemSelected
@@ -83,6 +76,12 @@ extension MainViewModel {
             .merge(itemRoute, searchRoute)
             .asSignal(onErrorSignalWith: .empty())
         
+        input.deleteHistoryItem.asObservable()
+            .subscribe(onNext: { [weak self] item in
+                self?.auditHistoryService.delete(by: item.id)
+            })
+            .disposed(by: disposeBag)
+        
         return Output(
             tableData: tableData,
             searchPlaceholder: searchPlaceholder,
@@ -93,6 +92,46 @@ extension MainViewModel {
 }
 
 private extension MainViewModel {
+    func buildTableData(searchResult: Observable<SearchResult>) -> Observable<[TableDataSource]> {
+        let mainDataTableData = AuditHistoryMediator.shared.rxItemsChange
+            .asObservable()
+            .startWith(())
+            .map { [auditHistoryService] _ -> [TableDataSource] in
+                let historyElements = auditHistoryService.getAuditHistory()
+                    .map { model -> MainTableItem in
+                        let carInfo: String?
+                        if !model.brand.isEmpty && !model.model.isEmpty {
+                            carInfo = "\(model.brand), \(model.model)"
+                        } else {
+                            carInfo = nil
+                        }
+                        
+                        let item = MainHistoryItem(
+                            id: model.id,
+                            date: model.date.relativeDate,
+                            searchValue: model.searchValue,
+                            carInfo: carInfo
+                        )
+                        
+                        return .history(item)
+                    }
+                return [(.action, [.action(.debets), .action(.passport)]), (.history, historyElements)]
+            }
+        
+        let searchResultDataSource = searchResult
+            .map { result -> [TableDataSource] in
+                switch result {
+                case let .error(error):
+                    return [(.error, [.error(error)])]
+                default:
+                    return []
+                }
+            }
+            .startWith([])
+        
+        return Observable
+            .combineLatest(searchResultDataSource, mainDataTableData) { $0 + $1 }
+    }
     
     var textValidation: (String, MainTabType) -> SearchResult {
         return { text, type -> SearchResult in
@@ -122,7 +161,7 @@ private extension MainViewModel {
     }
     
     var itemRoute: (MainTableItem) -> MainRoute? {
-        return { item in
+        return { [weak self] item in
             switch item {
             case let .action(action):
                 switch action {
@@ -133,6 +172,23 @@ private extension MainViewModel {
                 }
             case .error:
                 return nil
+            case let .history(element):
+                guard let item = self?.auditHistoryService.getItem(by: element.id) else {
+                    return nil
+                }
+                let result: ReportSearchValue
+                switch item.searchType {
+                case .regNumber:
+                    result = .regNumber(item.searchValue)
+                case .vin:
+                    result = .vin(item.searchValue)
+                case .technicalPassport:
+                    let series = String(item.searchValue.prefix(3))
+                    let number = String(item.searchValue.suffix(item.searchValue.count - series.count))
+                    result =  .technicalPassport(series: series, number: number)
+                }
+                
+                return .report(result)
             }
         }
     }
