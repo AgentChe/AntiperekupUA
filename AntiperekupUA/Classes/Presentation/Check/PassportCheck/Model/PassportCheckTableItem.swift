@@ -1,5 +1,5 @@
 //
-//  PassportCheckTableCellType.swift
+//  PassportCheckTableItem.swift
 //  AntiperekupUA
 //
 //  Created by Vitaliy Zagorodnov on 18.09.2021.

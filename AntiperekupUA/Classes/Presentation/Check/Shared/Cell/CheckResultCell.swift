@@ -1,12 +1,12 @@
 //
-//  PassportCheckResultCell.swift
+//  CheckResultCell.swift
 //  AntiperekupUA
 //
 //  Created by Vitaliy Zagorodnov on 18.09.2021.
 //
 import UIKit
 
-final class PassportCheckResultCell: UITableViewCell {
+final class CheckResultCell: UITableViewCell {
     
     private lazy var iconView = makeImageView()
     private lazy var messageLabel = makeLabel()
@@ -22,7 +22,7 @@ final class PassportCheckResultCell: UITableViewCell {
     }
 }
 
-extension PassportCheckResultCell {
+extension CheckResultCell {
     func setup(for message: String, isError: Bool) {
         let color = isError
             ? UIColor(integralRed: 215, green: 87, blue: 72)
@@ -38,7 +38,7 @@ extension PassportCheckResultCell {
     }
 }
 
-private extension PassportCheckResultCell {
+private extension CheckResultCell {
     func initialize() {
         backgroundColor = UIColor(integralRed: 242, green: 242, blue: 242)
         contentView.backgroundColor = UIColor(integralRed: 242, green: 242, blue: 242)
@@ -47,7 +47,7 @@ private extension PassportCheckResultCell {
 }
 
 // MARK: Make constraints
-private extension PassportCheckResultCell {
+private extension CheckResultCell {
     func makeConstraints() {
         NSLayoutConstraint.activate([
             iconView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 36.scale),
@@ -66,7 +66,7 @@ private extension PassportCheckResultCell {
 }
 
 // MARK: Lazy initialization
-private extension PassportCheckResultCell {
+private extension CheckResultCell {
     func makeImageView() -> UIImageView {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false

@@ -12,5 +12,6 @@ final class GlobalDefinitions {
     static let key1 = "azNicHJYUnl3RDlDelhyQg=="
     static let key2 = "QlpaMkRHdlN2VXdONVF2Qg=="
     static let mtsbu = "https://policy-web.mtsbu.ua"
+    static let searchDebtors = "https://erb.minjust.gov.ua/#/search-debtors"
     static let riaBaseUrl = "https://auto.ria.com"
 }

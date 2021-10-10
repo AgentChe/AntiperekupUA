@@ -35,7 +35,7 @@ extension PassportCheckHeaderView {
         
         return checkButton.rx.tap
             .withLatestFrom(fieldData)
-            .map { (series: $0.0 ?? "", number: $0.1 ?? "") }.debug()
+            .map { (series: $0.0 ?? "", number: $0.1 ?? "") }
             .asSignal(onErrorSignalWith: .empty())
     }
     

@@ -11,7 +11,7 @@ import RxCocoa
 final class PassportCheckScreenViewModel {
     typealias TableDataSource = (PassportCheckHeader, [PassportCheckTableItem])
     private lazy var passportManager = PassportManagerCore()
-    private var activityIndicator = RxActivityIndicator()
+    private lazy var activityIndicator = RxActivityIndicator()
 }
 
 extension PassportCheckScreenViewModel {
@@ -37,7 +37,7 @@ extension PassportCheckScreenViewModel {
                     numberState: (1...9).contains(data.number.count) ? .initial : .error,
                     number: data.number
                 )
-            }.debug()
+            }
             .share(replay: 1)
         
         let fieldData = fieldsState

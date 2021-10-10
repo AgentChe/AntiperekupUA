@@ -78,7 +78,7 @@ final class PassportCheckScreenViewController: UIViewController {
             cell.setup(for: record)
             return cell
         case let .result(message,  isError):
-            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: PassportCheckResultCell.self), for: indexPath) as! PassportCheckResultCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: CheckResultCell.self), for: indexPath) as! CheckResultCell
             cell.setup(for: message, isError: isError)
             return cell
         }
