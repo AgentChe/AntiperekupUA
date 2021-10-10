@@ -133,25 +133,3 @@ private extension PassportCheckRecordCell {
         return view
     }
 }
-
-
-#if DEBUG
-import SwiftUI
-@available(iOS 13.0, *)
-struct PassportCheckRecordCell_Previews: PreviewProvider {
-    
-    struct PassportCheckRecordCellRepresentable: UIViewRepresentable {
-        func makeUIView(context: Context) -> PassportCheckRecordCell {
-            let view = PassportCheckRecordCell()
-            return view
-        }
-        func updateUIView(_ uiView: PassportCheckRecordCell, context: Context) {
-            
-        }
-    }
-
-    static var previews: some View {
-        return PassportCheckRecordCellRepresentable().frame(width: 343, height: 165, alignment: .center)
-    }
-}
-#endif

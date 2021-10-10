@@ -69,7 +69,8 @@ private extension MainViewController {
                 let controller = PassportCheckScreenViewController.make()
                 base.navigationController?.pushViewController(controller, animated: true)
             case .checkDebets:
-                break
+                let controller = DebtsCheckScreenViewController.make()
+                base.navigationController?.pushViewController(controller, animated: true)
             case let .report(searchValue):
                 let controller = ReportScreenViewController.make(searchValue: searchValue)
                 base.navigationController?.pushViewController(controller, animated: true)

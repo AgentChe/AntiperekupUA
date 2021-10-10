@@ -14,6 +14,10 @@
 		8603BF0226B6C0C700A2E4CF /* MainErrorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8603BF0126B6C0C700A2E4CF /* MainErrorCell.swift */; };
 		8603BF0426B6D09300A2E4CF /* MainRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8603BF0326B6D09300A2E4CF /* MainRoute.swift */; };
 		8603BF0F26B70E0700A2E4CF /* BottomButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8603BF0E26B70E0700A2E4CF /* BottomButtonView.swift */; };
+		8609009226FF153500ACE9C6 /* DebtsCheckRecordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8609009126FF153500ACE9C6 /* DebtsCheckRecordCell.swift */; };
+		8609009726FF4F6F00ACE9C6 /* DebtsCheckModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8609009626FF4F6F00ACE9C6 /* DebtsCheckModel.swift */; };
+		8609009926FF514E00ACE9C6 /* DebtsManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8609009826FF514E00ACE9C6 /* DebtsManagerCore.swift */; };
+		8609009C26FF51AE00ACE9C6 /* DebtsCheckRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8609009B26FF51AE00ACE9C6 /* DebtsCheckRequest.swift */; };
 		860B55B226CADE580022E316 /* ReportLockedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860B55B126CADE580022E316 /* ReportLockedCell.swift */; };
 		86241FD526A8970D008E5863 /* OnboardingLanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86241FD426A8970D008E5863 /* OnboardingLanguageView.swift */; };
 		862F30D726F66E4700365BDA /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862F30D626F66E4700365BDA /* UITableViewExtension.swift */; };
@@ -66,6 +70,11 @@
 		864D460326DE848900B75C70 /* GetComplectationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864D460226DE848900B75C70 /* GetComplectationRequest.swift */; };
 		864D460526DE84B100B75C70 /* ComplectationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864D460426DE84B100B75C70 /* ComplectationModel.swift */; };
 		864D460726DE8D0C00B75C70 /* ReportRetryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864D460626DE8D0C00B75C70 /* ReportRetryCell.swift */; };
+		865F78FC26FE4E9B006183B1 /* DebtsCheckScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F78F926FE4E9B006183B1 /* DebtsCheckScreenViewController.swift */; };
+		865F78FD26FE4E9B006183B1 /* DebtsCheckScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F78FA26FE4E9B006183B1 /* DebtsCheckScreenView.swift */; };
+		865F78FE26FE4E9B006183B1 /* DebtsCheckScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F78FB26FE4E9B006183B1 /* DebtsCheckScreenViewModel.swift */; };
+		865F790126FE4ECA006183B1 /* DebtsCheckHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F790026FE4ECA006183B1 /* DebtsCheckHeaderView.swift */; };
+		865F790426FE534E006183B1 /* DebtsCheckFieldData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865F790326FE534E006183B1 /* DebtsCheckFieldData.swift */; };
 		866B818326BC473900026E95 /* ReportScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B818026BC473900026E95 /* ReportScreenViewController.swift */; };
 		866B818426BC473900026E95 /* ReportScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B818126BC473900026E95 /* ReportScreenView.swift */; };
 		866B818526BC473900026E95 /* ReportScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866B818226BC473900026E95 /* ReportScreenViewModel.swift */; };
@@ -95,10 +104,11 @@
 		86827E1826F619A0007F83CE /* PassportCheckModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86827E1726F619A0007F83CE /* PassportCheckModel.swift */; };
 		86827E1B26F61D01007F83CE /* PassportCheckTableItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86827E1A26F61D01007F83CE /* PassportCheckTableItem.swift */; };
 		86827E2026F624F9007F83CE /* PassportCheckHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86827E1F26F624F9007F83CE /* PassportCheckHeaderView.swift */; };
-		86827E2226F653F8007F83CE /* PassportCheckResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86827E2126F653F8007F83CE /* PassportCheckResultCell.swift */; };
+		86827E2226F653F8007F83CE /* CheckResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86827E2126F653F8007F83CE /* CheckResultCell.swift */; };
 		8687330D26F72670001BDF9B /* PassportCheckFieldState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8687330C26F72670001BDF9B /* PassportCheckFieldState.swift */; };
 		8687331326F77777001BDF9B /* CheckResultValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8687331226F77777001BDF9B /* CheckResultValueView.swift */; };
 		8687331526F77AD4001BDF9B /* PassportCheckRecordCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8687331426F77AD4001BDF9B /* PassportCheckRecordCellView.swift */; };
+		868782512713464C00E0C7C0 /* DebtsCheckCaptcha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868782502713464C00E0C7C0 /* DebtsCheckCaptcha.swift */; };
 		868B531826EE5934002923F4 /* ReportURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B531726EE5934002923F4 /* ReportURLCell.swift */; };
 		868B531E26EE6CCD002923F4 /* NewCommentScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B531B26EE6CCD002923F4 /* NewCommentScreenViewController.swift */; };
 		868B531F26EE6CCD002923F4 /* NewCommentScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B531C26EE6CCD002923F4 /* NewCommentScreenView.swift */; };
@@ -122,6 +132,7 @@
 		86BB67C226A7426300283267 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BB67BF26A7426300283267 /* OnboardingViewModel.swift */; };
 		86BB67C726A7439700283267 /* OnboardingBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BB67C626A7439700283267 /* OnboardingBaseView.swift */; };
 		86BB67D426A7493E00283267 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 86BB67D626A7493E00283267 /* Localizable.strings */; };
+		86BBE1F527023D05008F1029 /* DebtsCheckWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86BBE1F427023D05008F1029 /* DebtsCheckWebView.swift */; };
 		86C11F7826AD5E9400D7A47E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C11F7526AD5E9400D7A47E /* MainViewController.swift */; };
 		86C11F7926AD5E9400D7A47E /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C11F7626AD5E9400D7A47E /* MainView.swift */; };
 		86C11F7A26AD5E9400D7A47E /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C11F7726AD5E9400D7A47E /* MainViewModel.swift */; };
@@ -142,6 +153,8 @@
 		86CA220D26DD29EA0019C101 /* RecallVinSubsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CA220C26DD29EA0019C101 /* RecallVinSubsModel.swift */; };
 		86CA220F26DD619A0019C101 /* GetAuctionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CA220E26DD619A0019C101 /* GetAuctionRequest.swift */; };
 		86CA221126DD624B0019C101 /* AuctionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CA221026DD624B0019C101 /* AuctionModel.swift */; };
+		86CB850727005B2D003175B1 /* DebetsCheckTableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CB850627005B2D003175B1 /* DebetsCheckTableData.swift */; };
+		86CB85092700A6B6003175B1 /* DebtsCheckFieldState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CB85082700A6B6003175B1 /* DebtsCheckFieldState.swift */; };
 		86CCB02226FCEE2700A21A78 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CCB02126FCEE2600A21A78 /* DateExtension.swift */; };
 		86CCB02426FCF3AE00A21A78 /* AuditHistoryMediator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CCB02326FCF3AE00A21A78 /* AuditHistoryMediator.swift */; };
 		86D5A2D826D55B0D007FAB12 /* SFProText-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D5A2D226D55B0C007FAB12 /* SFProText-Bold.ttf */; };
@@ -173,6 +186,7 @@
 		86FC5F5526F1021100A95B9C /* NewCommentCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FC5F5426F1021100A95B9C /* NewCommentCommentCell.swift */; };
 		86FC5F5726F10B4F00A95B9C /* NewCommentTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FC5F5626F10B4F00A95B9C /* NewCommentTitleCell.swift */; };
 		86FC5F5A26F2655F00A95B9C /* NewCommentHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FC5F5926F2655F00A95B9C /* NewCommentHeaderCell.swift */; };
+		8A6783046D86085AFB964C54 /* Pods_AntiperekupUA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6BCB27637C97EF31A2D5228 /* Pods_AntiperekupUA.framework */; };
 		9667E03E26A60FEF0098C7F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9667E03D26A60FEF0098C7F2 /* Assets.xcassets */; };
 		9667E04126A60FEF0098C7F2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9667E03F26A60FEF0098C7F2 /* LaunchScreen.storyboard */; };
 		9667E07326A6156C0098C7F2 /* PaddingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9667E05026A6156C0098C7F2 /* PaddingTextField.swift */; };
@@ -199,12 +213,11 @@
 		9667E08A26A6156C0098C7F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9667E06C26A6156C0098C7F2 /* AppDelegate.swift */; };
 		9667E08B26A6156C0098C7F2 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9667E07026A6156C0098C7F2 /* FirebaseManager.swift */; };
 		9667E08E26A618B80098C7F2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9667E08D26A618B80098C7F2 /* GoogleService-Info.plist */; };
-		BC1CECB2B0E2927E42C3D44F /* Pods_AntiperekupUA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27EB71CF45A59AC600F69116 /* Pods_AntiperekupUA.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		27EB71CF45A59AC600F69116 /* Pods_AntiperekupUA.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AntiperekupUA.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5E7C257D32632EF7B14E0FF7 /* Pods-AntiperekupUA.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AntiperekupUA.debug.xcconfig"; path = "Target Support Files/Pods-AntiperekupUA/Pods-AntiperekupUA.debug.xcconfig"; sourceTree = "<group>"; };
+		267A6D4832D4B8054DAF18BB /* Pods-AntiperekupUA.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AntiperekupUA.debug.xcconfig"; path = "Target Support Files/Pods-AntiperekupUA/Pods-AntiperekupUA.debug.xcconfig"; sourceTree = "<group>"; };
+		3C4688D6840B4C64A792357A /* Pods-AntiperekupUA.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AntiperekupUA.release.xcconfig"; path = "Target Support Files/Pods-AntiperekupUA/Pods-AntiperekupUA.release.xcconfig"; sourceTree = "<group>"; };
 		8601961326BE83BB000BC812 /* ReportValueCellWithButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportValueCellWithButton.swift; sourceTree = "<group>"; };
 		8603BEF426B551BA00A2E4CF /* MainActionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainActionCell.swift; sourceTree = "<group>"; };
 		8603BEF626B557CE00A2E4CF /* MainTableAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableAction.swift; sourceTree = "<group>"; };
@@ -212,6 +225,10 @@
 		8603BF0126B6C0C700A2E4CF /* MainErrorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainErrorCell.swift; sourceTree = "<group>"; };
 		8603BF0326B6D09300A2E4CF /* MainRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRoute.swift; sourceTree = "<group>"; };
 		8603BF0E26B70E0700A2E4CF /* BottomButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButtonView.swift; sourceTree = "<group>"; };
+		8609009126FF153500ACE9C6 /* DebtsCheckRecordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebtsCheckRecordCell.swift; sourceTree = "<group>"; };
+		8609009626FF4F6F00ACE9C6 /* DebtsCheckModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebtsCheckModel.swift; sourceTree = "<group>"; };
+		8609009826FF514E00ACE9C6 /* DebtsManagerCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebtsManagerCore.swift; sourceTree = "<group>"; };
+		8609009B26FF51AE00ACE9C6 /* DebtsCheckRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebtsCheckRequest.swift; sourceTree = "<group>"; };
 		860B55B126CADE580022E316 /* ReportLockedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportLockedCell.swift; sourceTree = "<group>"; };
 		86241FD426A8970D008E5863 /* OnboardingLanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingLanguageView.swift; sourceTree = "<group>"; };
 		862F30D626F66E4700365BDA /* UITableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
@@ -265,6 +282,11 @@
 		864D460226DE848900B75C70 /* GetComplectationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetComplectationRequest.swift; sourceTree = "<group>"; };
 		864D460426DE84B100B75C70 /* ComplectationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplectationModel.swift; sourceTree = "<group>"; };
 		864D460626DE8D0C00B75C70 /* ReportRetryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportRetryCell.swift; sourceTree = "<group>"; };
+		865F78F926FE4E9B006183B1 /* DebtsCheckScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebtsCheckScreenViewController.swift; sourceTree = "<group>"; };
+		865F78FA26FE4E9B006183B1 /* DebtsCheckScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebtsCheckScreenView.swift; sourceTree = "<group>"; };
+		865F78FB26FE4E9B006183B1 /* DebtsCheckScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebtsCheckScreenViewModel.swift; sourceTree = "<group>"; };
+		865F790026FE4ECA006183B1 /* DebtsCheckHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebtsCheckHeaderView.swift; sourceTree = "<group>"; };
+		865F790326FE534E006183B1 /* DebtsCheckFieldData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebtsCheckFieldData.swift; sourceTree = "<group>"; };
 		866B818026BC473900026E95 /* ReportScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportScreenViewController.swift; sourceTree = "<group>"; };
 		866B818126BC473900026E95 /* ReportScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportScreenView.swift; sourceTree = "<group>"; };
 		866B818226BC473900026E95 /* ReportScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportScreenViewModel.swift; sourceTree = "<group>"; };
@@ -294,10 +316,11 @@
 		86827E1726F619A0007F83CE /* PassportCheckModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassportCheckModel.swift; sourceTree = "<group>"; };
 		86827E1A26F61D01007F83CE /* PassportCheckTableItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassportCheckTableItem.swift; sourceTree = "<group>"; };
 		86827E1F26F624F9007F83CE /* PassportCheckHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassportCheckHeaderView.swift; sourceTree = "<group>"; };
-		86827E2126F653F8007F83CE /* PassportCheckResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassportCheckResultCell.swift; sourceTree = "<group>"; };
+		86827E2126F653F8007F83CE /* CheckResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckResultCell.swift; sourceTree = "<group>"; };
 		8687330C26F72670001BDF9B /* PassportCheckFieldState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassportCheckFieldState.swift; sourceTree = "<group>"; };
 		8687331226F77777001BDF9B /* CheckResultValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckResultValueView.swift; sourceTree = "<group>"; };
 		8687331426F77AD4001BDF9B /* PassportCheckRecordCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassportCheckRecordCellView.swift; sourceTree = "<group>"; };
+		868782502713464C00E0C7C0 /* DebtsCheckCaptcha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebtsCheckCaptcha.swift; sourceTree = "<group>"; };
 		868B531726EE5934002923F4 /* ReportURLCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportURLCell.swift; sourceTree = "<group>"; };
 		868B531B26EE6CCD002923F4 /* NewCommentScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentScreenViewController.swift; sourceTree = "<group>"; };
 		868B531C26EE6CCD002923F4 /* NewCommentScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentScreenView.swift; sourceTree = "<group>"; };
@@ -322,6 +345,7 @@
 		86BB67C626A7439700283267 /* OnboardingBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingBaseView.swift; sourceTree = "<group>"; };
 		86BB67D726A7495300283267 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		86BB67D826A7497100283267 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		86BBE1F427023D05008F1029 /* DebtsCheckWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebtsCheckWebView.swift; sourceTree = "<group>"; };
 		86C11F7526AD5E9400D7A47E /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		86C11F7626AD5E9400D7A47E /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		86C11F7726AD5E9400D7A47E /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
@@ -342,6 +366,8 @@
 		86CA220C26DD29EA0019C101 /* RecallVinSubsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecallVinSubsModel.swift; sourceTree = "<group>"; };
 		86CA220E26DD619A0019C101 /* GetAuctionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAuctionRequest.swift; sourceTree = "<group>"; };
 		86CA221026DD624B0019C101 /* AuctionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionModel.swift; sourceTree = "<group>"; };
+		86CB850627005B2D003175B1 /* DebetsCheckTableData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebetsCheckTableData.swift; sourceTree = "<group>"; };
+		86CB85082700A6B6003175B1 /* DebtsCheckFieldState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebtsCheckFieldState.swift; sourceTree = "<group>"; };
 		86CCB02126FCEE2600A21A78 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		86CCB02326FCF3AE00A21A78 /* AuditHistoryMediator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuditHistoryMediator.swift; sourceTree = "<group>"; };
 		86D5A2D226D55B0C007FAB12 /* SFProText-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SFProText-Bold.ttf"; sourceTree = "<group>"; };
@@ -402,7 +428,7 @@
 		9667E07026A6156C0098C7F2 /* FirebaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		9667E08C26A6180F0098C7F2 /* AntiperekupUA.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AntiperekupUA.entitlements; sourceTree = "<group>"; };
 		9667E08D26A618B80098C7F2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		C51C04DC115CCE5943561A09 /* Pods-AntiperekupUA.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AntiperekupUA.release.xcconfig"; path = "Target Support Files/Pods-AntiperekupUA/Pods-AntiperekupUA.release.xcconfig"; sourceTree = "<group>"; };
+		F6BCB27637C97EF31A2D5228 /* Pods_AntiperekupUA.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AntiperekupUA.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -410,28 +436,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC1CECB2B0E2927E42C3D44F /* Pods_AntiperekupUA.framework in Frameworks */,
+				8A6783046D86085AFB964C54 /* Pods_AntiperekupUA.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0C7970836765BF9EC54DC41B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F6BCB27637C97EF31A2D5228 /* Pods_AntiperekupUA.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		1FE4540AEEF83BA6D206D325 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				5E7C257D32632EF7B14E0FF7 /* Pods-AntiperekupUA.debug.xcconfig */,
-				C51C04DC115CCE5943561A09 /* Pods-AntiperekupUA.release.xcconfig */,
+				267A6D4832D4B8054DAF18BB /* Pods-AntiperekupUA.debug.xcconfig */,
+				3C4688D6840B4C64A792357A /* Pods-AntiperekupUA.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		6C633B22E8582FD117A688FA /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				27EB71CF45A59AC600F69116 /* Pods_AntiperekupUA.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		8603BEF026B53E5000A2E4CF /* Cells */ = {
@@ -460,6 +486,40 @@
 				867450CA26FBB05E009C64E1 /* MainHistoryCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		8609009026FF151100ACE9C6 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				8609009126FF153500ACE9C6 /* DebtsCheckRecordCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		8609009326FF4F4F00ACE9C6 /* Debets */ = {
+			isa = PBXGroup;
+			children = (
+				8609009526FF4F5F00ACE9C6 /* Request */,
+				8609009426FF4F5600ACE9C6 /* Model */,
+				8609009826FF514E00ACE9C6 /* DebtsManagerCore.swift */,
+			);
+			path = Debets;
+			sourceTree = "<group>";
+		};
+		8609009426FF4F5600ACE9C6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8609009626FF4F6F00ACE9C6 /* DebtsCheckModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		8609009526FF4F5F00ACE9C6 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				8609009B26FF51AE00ACE9C6 /* DebtsCheckRequest.swift */,
+			);
+			path = Request;
 			sourceTree = "<group>";
 		};
 		863B7D1B26DAA3D7008A1BAD /* IAP */ = {
@@ -515,6 +575,7 @@
 		864250BB26AC3CF300837F07 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				8609009326FF4F4F00ACE9C6 /* Debets */,
 				867450C426FBA537009C64E1 /* AuditService */,
 				86827E1026F618E3007F83CE /* Passport */,
 				86C5DD9526F3B74700104C41 /* Comment */,
@@ -616,6 +677,39 @@
 				864D45F426DE1C0000B75C70 /* ReportImageCarouselCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		865F78F826FE4E5F006183B1 /* DebtsCheck */ = {
+			isa = PBXGroup;
+			children = (
+				8609009026FF151100ACE9C6 /* Cell */,
+				865F790226FE5333006183B1 /* Model */,
+				865F78FF26FE4EAF006183B1 /* View */,
+				865F78F926FE4E9B006183B1 /* DebtsCheckScreenViewController.swift */,
+				865F78FA26FE4E9B006183B1 /* DebtsCheckScreenView.swift */,
+				865F78FB26FE4E9B006183B1 /* DebtsCheckScreenViewModel.swift */,
+			);
+			path = DebtsCheck;
+			sourceTree = "<group>";
+		};
+		865F78FF26FE4EAF006183B1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				86BBE1F427023D05008F1029 /* DebtsCheckWebView.swift */,
+				865F790026FE4ECA006183B1 /* DebtsCheckHeaderView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		865F790226FE5333006183B1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				865F790326FE534E006183B1 /* DebtsCheckFieldData.swift */,
+				86CB850627005B2D003175B1 /* DebetsCheckTableData.swift */,
+				86CB85082700A6B6003175B1 /* DebtsCheckFieldState.swift */,
+				868782502713464C00E0C7C0 /* DebtsCheckCaptcha.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		866B817D26BC470100026E95 /* Report */ = {
@@ -804,6 +898,7 @@
 			isa = PBXGroup;
 			children = (
 				8687330F26F77694001BDF9B /* Shared */,
+				865F78F826FE4E5F006183B1 /* DebtsCheck */,
 				86C5DDA526F514D800104C41 /* PassportCheck */,
 			);
 			path = Check;
@@ -831,7 +926,7 @@
 		8687331126F776D0001BDF9B /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				86827E2126F653F8007F83CE /* PassportCheckResultCell.swift */,
+				86827E2126F653F8007F83CE /* CheckResultCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1090,7 +1185,7 @@
 				9667E03326A60FEB0098C7F2 /* AntiperekupUA */,
 				9667E03226A60FEB0098C7F2 /* Products */,
 				1FE4540AEEF83BA6D206D325 /* Pods */,
-				6C633B22E8582FD117A688FA /* Frameworks */,
+				0C7970836765BF9EC54DC41B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1252,11 +1347,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9667E04526A60FEF0098C7F2 /* Build configuration list for PBXNativeTarget "AntiperekupUA" */;
 			buildPhases = (
-				E7DB2C4844E860EB2D961637 /* [CP] Check Pods Manifest.lock */,
+				9B3360CDDBAFA915BC2E3760 /* [CP] Check Pods Manifest.lock */,
 				9667E02D26A60FEB0098C7F2 /* Sources */,
 				9667E02E26A60FEB0098C7F2 /* Frameworks */,
 				9667E02F26A60FEB0098C7F2 /* Resources */,
-				DB9A2E7BC5C01DCD901A39E3 /* [CP] Embed Pods Frameworks */,
+				3F0E5A5A7C11ED0FFF36F874 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1326,7 +1421,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		DB9A2E7BC5C01DCD901A39E3 /* [CP] Embed Pods Frameworks */ = {
+		3F0E5A5A7C11ED0FFF36F874 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1343,7 +1438,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AntiperekupUA/Pods-AntiperekupUA-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E7DB2C4844E860EB2D961637 /* [CP] Check Pods Manifest.lock */ = {
+		9B3360CDDBAFA915BC2E3760 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1373,25 +1468,32 @@
 			buildActionMask = 2147483647;
 			files = (
 				86C11F7A26AD5E9400D7A47E /* MainViewModel.swift in Sources */,
+				86CB850727005B2D003175B1 /* DebetsCheckTableData.swift in Sources */,
 				86B17A4626C1AAE5000E8FED /* GetGovDataRequest.swift in Sources */,
 				86D5A2E526D568EA007FAB12 /* ReportAlertScreenViewModel.swift in Sources */,
 				86C5DDA926F514F500104C41 /* PassportCheckScreenViewController.swift in Sources */,
 				867450C926FBA58B009C64E1 /* AuditHistoryModel.swift in Sources */,
 				8603BF0026B6904700A2E4CF /* MainHistoryHeaderView.swift in Sources */,
 				86C5DDA226F5041D00104C41 /* ComplainCommentModel.swift in Sources */,
+				86BBE1F527023D05008F1029 /* DebtsCheckWebView.swift in Sources */,
 				86D5A2F226D793C0007FAB12 /* PaygateScreenViewModel.swift in Sources */,
+				8609009926FF514E00ACE9C6 /* DebtsManagerCore.swift in Sources */,
 				866B81A226BC547B00026E95 /* VinAndRegNumberModel.swift in Sources */,
 				9667E07E26A6156C0098C7F2 /* Scalable.swift in Sources */,
 				8674241A26C9756000487DF2 /* ReportCommentActionCell.swift in Sources */,
 				864D460726DE8D0C00B75C70 /* ReportRetryCell.swift in Sources */,
+				865F78FC26FE4E9B006183B1 /* DebtsCheckScreenViewController.swift in Sources */,
 				86C11F7D26AD7D2C00D7A47E /* OnboardingManager.swift in Sources */,
 				9667E07626A6156C0098C7F2 /* CircleView.swift in Sources */,
 				86827E2026F624F9007F83CE /* PassportCheckHeaderView.swift in Sources */,
+				8609009226FF153500ACE9C6 /* DebtsCheckRecordCell.swift in Sources */,
 				9667E07526A6156C0098C7F2 /* GradientButton.swift in Sources */,
-				86827E2226F653F8007F83CE /* PassportCheckResultCell.swift in Sources */,
+				86827E2226F653F8007F83CE /* CheckResultCell.swift in Sources */,
 				86FC5F5526F1021100A95B9C /* NewCommentCommentCell.swift in Sources */,
 				86C5DDAB26F514F500104C41 /* PassportCheckScreenViewModel.swift in Sources */,
+				865F78FD26FE4E9B006183B1 /* DebtsCheckScreenView.swift in Sources */,
 				9667E08B26A6156C0098C7F2 /* FirebaseManager.swift in Sources */,
+				865F790426FE534E006183B1 /* DebtsCheckFieldData.swift in Sources */,
 				864250D126AC4FA100837F07 /* LanguageMediator.swift in Sources */,
 				866B818526BC473900026E95 /* ReportScreenViewModel.swift in Sources */,
 				86BB67C226A7426300283267 /* OnboardingViewModel.swift in Sources */,
@@ -1421,6 +1523,7 @@
 				86827E1226F618F9007F83CE /* PassportManagerCore.swift in Sources */,
 				8637EEFF26C5A181003AAC30 /* GetInterpolRequest.swift in Sources */,
 				86D5A2F126D793C0007FAB12 /* PaygateScreenView.swift in Sources */,
+				868782512713464C00E0C7C0 /* DebtsCheckCaptcha.swift in Sources */,
 				8687330D26F72670001BDF9B /* PassportCheckFieldState.swift in Sources */,
 				866B819526BC4CCA00026E95 /* RegNumberModel.swift in Sources */,
 				864250B826AC1FCF00837F07 /* SplashViewModel.swift in Sources */,
@@ -1435,6 +1538,7 @@
 				863D629126B0675800D0A073 /* SearchView.swift in Sources */,
 				8674242026C98DA000487DF2 /* RIAModel.swift in Sources */,
 				86D5A2FD26D7B8C2007FAB12 /* PaygateSaleView.swift in Sources */,
+				865F790126FE4ECA006183B1 /* DebtsCheckHeaderView.swift in Sources */,
 				86CA220F26DD619A0019C101 /* GetAuctionRequest.swift in Sources */,
 				8687331326F77777001BDF9B /* CheckResultValueView.swift in Sources */,
 				863D629526B078FC00D0A073 /* MainTableView.swift in Sources */,
@@ -1459,6 +1563,7 @@
 				8674241C26C977F600487DF2 /* ReportCommentComplainCell.swift in Sources */,
 				86D5A2E326D568EA007FAB12 /* ReportAlertScreenViewController.swift in Sources */,
 				9667E08026A6156C0098C7F2 /* ScreenSize.swift in Sources */,
+				8609009C26FF51AE00ACE9C6 /* DebtsCheckRequest.swift in Sources */,
 				866B818A26BC488900026E95 /* PurchaseManagerCore.swift in Sources */,
 				86C5DDA426F50B2E00104C41 /* UIControllerExtension.swift in Sources */,
 				866B818426BC473900026E95 /* ReportScreenView.swift in Sources */,
@@ -1482,6 +1587,7 @@
 				8646B2C926BD7DF700A5A545 /* ReportSearchValue.swift in Sources */,
 				863D629826B079E900D0A073 /* MainTableItem.swift in Sources */,
 				866B818F26BC496E00026E95 /* GetPaygateRequestMapper.swift in Sources */,
+				86CB85092700A6B6003175B1 /* DebtsCheckFieldState.swift in Sources */,
 				86C11F7F26AD7D3700D7A47E /* OnboardingManagerCore.swift in Sources */,
 				864D45F526DE1C0000B75C70 /* ReportImageCarouselCell.swift in Sources */,
 				8601961426BE83BB000BC812 /* ReportValueCellWithButton.swift in Sources */,
@@ -1517,6 +1623,7 @@
 				864250C826AC4B2700837F07 /* LanguageManager.swift in Sources */,
 				864250DB26AC71E400837F07 /* UpdateTokenModel.swift in Sources */,
 				9667E07726A6156C0098C7F2 /* GradientView.swift in Sources */,
+				8609009726FF4F6F00ACE9C6 /* DebtsCheckModel.swift in Sources */,
 				9667E08826A6156C0098C7F2 /* RxActivityIndicator.swift in Sources */,
 				9667E07326A6156C0098C7F2 /* PaddingTextField.swift in Sources */,
 				863B7D2C26DABEC2008A1BAD /* PaygateProductModel.swift in Sources */,
@@ -1548,6 +1655,7 @@
 				8674241E26C98CF200487DF2 /* GetRIARequest.swift in Sources */,
 				864D45EF26DE11A600B75C70 /* ReportImagesCarouselCell.swift in Sources */,
 				864250D326AC503B00837F07 /* LanguageMediatorDelegate.swift in Sources */,
+				865F78FE26FE4E9B006183B1 /* DebtsCheckScreenViewModel.swift in Sources */,
 				863D629C26B08AC100D0A073 /* MainTabType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1704,7 +1812,7 @@
 		};
 		9667E04626A60FEF0098C7F2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5E7C257D32632EF7B14E0FF7 /* Pods-AntiperekupUA.debug.xcconfig */;
+			baseConfigurationReference = 267A6D4832D4B8054DAF18BB /* Pods-AntiperekupUA.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1729,7 +1837,7 @@
 		};
 		9667E04726A60FEF0098C7F2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C51C04DC115CCE5943561A09 /* Pods-AntiperekupUA.release.xcconfig */;
+			baseConfigurationReference = 3C4688D6840B4C64A792357A /* Pods-AntiperekupUA.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

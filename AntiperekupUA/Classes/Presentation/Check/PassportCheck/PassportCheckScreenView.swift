@@ -26,7 +26,7 @@ private extension PassportCheckScreenView {
     func initialize() {
         backgroundColor = UIColor(integralRed: 242, green: 242, blue: 242)
         tableView.register(MainErrorCell.self, forCellReuseIdentifier: String(describing: MainErrorCell.self))
-        tableView.register(PassportCheckResultCell.self, forCellReuseIdentifier: String(describing: PassportCheckResultCell.self))
+        tableView.register(CheckResultCell.self, forCellReuseIdentifier: String(describing: CheckResultCell.self))
         tableView.register(PassportCheckRecordCell.self, forCellReuseIdentifier: String(describing: PassportCheckRecordCell.self))
         tableView.register(CheckDescriptionCell.self, forCellReuseIdentifier: String(describing: CheckDescriptionCell.self))
     }
