@@ -15,11 +15,11 @@ extension APIRequestBody {
             HTTPHeader(name: "AS-UUID", value: SessionManagerCore.shared.uuid),
             HTTPHeader(name: "AS-SIGN", value: SessionManagerCore.shared.sign),
             HTTPHeader(name: "AS-CLIENT", value: "ios"),
-            HTTPHeader(name: "AS-VERSION", value: UIDevice.appVersion ?? ""),
+            HTTPHeader(name: "AS-VERSION", value: GlobalDefinitions.appVersion),
             HTTPHeader(name: "AS_USER_TYPE", value: "free"),
             HTTPHeader(name: "X-REQUEST_ID", value: UUID().uuidString),
             HTTPHeader(name: "AS-APP-NAME", value: "autocheck_ua_ios"),
-            HTTPHeader(name: "AS-SSAD", value: UIDevice.idfv?.uppercased() ?? ""),
+            HTTPHeader(name: "AS-SSAD", value: GlobalDefinitions.ssad),
         ]
     }
 }

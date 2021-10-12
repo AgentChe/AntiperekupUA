@@ -5,6 +5,8 @@
 //  Created by Andrey Chernyshev on 07.11.2020.
 //
 
+import UIKit
+
 final class GlobalDefinitions {
     static let domainUrl = "https://antiperekup.net"
     static let termsOfServiceUrl = "https://antiperekup.net/privacy_ios.html"
@@ -14,4 +16,6 @@ final class GlobalDefinitions {
     static let mtsbu = "https://policy-web.mtsbu.ua"
     static let searchDebtors = "https://erb.minjust.gov.ua/#/search-debtors"
     static let riaBaseUrl = "https://auto.ria.com"
+    static let ssad = UIDevice.idfv?.uppercased() ?? ""
+    static let appVersion = UIDevice.appVersion ?? ""
 }

@@ -72,6 +72,7 @@ final class PaygateScreenViewController: UIViewController {
         title = "premium_access_title".localized
         let rightItem = UIBarButtonItem(
             image: UIImage(named: "Paygate.Cancel"), style: .done, target: self, action: #selector(didTapClose))
+        rightItem.tintColor = UIColor(integralRed: 2, green: 2, blue: 2, alpha: 0.4)
         navigationItem.rightBarButtonItem = rightItem
         navigationController?.navigationBar.shadowImage = nil
     }
