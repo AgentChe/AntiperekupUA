@@ -109,6 +109,13 @@
 		8687331326F77777001BDF9B /* CheckResultValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8687331226F77777001BDF9B /* CheckResultValueView.swift */; };
 		8687331526F77AD4001BDF9B /* PassportCheckRecordCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8687331426F77AD4001BDF9B /* PassportCheckRecordCellView.swift */; };
 		868782512713464C00E0C7C0 /* DebtsCheckCaptcha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868782502713464C00E0C7C0 /* DebtsCheckCaptcha.swift */; };
+		86878254271366D100E0C7C0 /* SidebarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86878253271366D100E0C7C0 /* SidebarViewModel.swift */; };
+		86878256271366F400E0C7C0 /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86878255271366F400E0C7C0 /* SidebarView.swift */; };
+		868782582713670B00E0C7C0 /* SidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868782572713670B00E0C7C0 /* SidebarViewController.swift */; };
+		8687825B271449C500E0C7C0 /* SidebarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8687825A271449C500E0C7C0 /* SidebarItemView.swift */; };
+		8687825E271479FF00E0C7C0 /* SidebarAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8687825D271479FF00E0C7C0 /* SidebarAnimation.swift */; };
+		8687826027147A2C00E0C7C0 /* SidebarPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8687825F27147A2C00E0C7C0 /* SidebarPresentationController.swift */; };
+		868782622714827100E0C7C0 /* SidebarAnimationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868782612714827100E0C7C0 /* SidebarAnimationDelegate.swift */; };
 		868B531826EE5934002923F4 /* ReportURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B531726EE5934002923F4 /* ReportURLCell.swift */; };
 		868B531E26EE6CCD002923F4 /* NewCommentScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B531B26EE6CCD002923F4 /* NewCommentScreenViewController.swift */; };
 		868B531F26EE6CCD002923F4 /* NewCommentScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B531C26EE6CCD002923F4 /* NewCommentScreenView.swift */; };
@@ -321,6 +328,13 @@
 		8687331226F77777001BDF9B /* CheckResultValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckResultValueView.swift; sourceTree = "<group>"; };
 		8687331426F77AD4001BDF9B /* PassportCheckRecordCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassportCheckRecordCellView.swift; sourceTree = "<group>"; };
 		868782502713464C00E0C7C0 /* DebtsCheckCaptcha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebtsCheckCaptcha.swift; sourceTree = "<group>"; };
+		86878253271366D100E0C7C0 /* SidebarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarViewModel.swift; sourceTree = "<group>"; };
+		86878255271366F400E0C7C0 /* SidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarView.swift; sourceTree = "<group>"; };
+		868782572713670B00E0C7C0 /* SidebarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarViewController.swift; sourceTree = "<group>"; };
+		8687825A271449C500E0C7C0 /* SidebarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarItemView.swift; sourceTree = "<group>"; };
+		8687825D271479FF00E0C7C0 /* SidebarAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarAnimation.swift; sourceTree = "<group>"; };
+		8687825F27147A2C00E0C7C0 /* SidebarPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarPresentationController.swift; sourceTree = "<group>"; };
+		868782612714827100E0C7C0 /* SidebarAnimationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarAnimationDelegate.swift; sourceTree = "<group>"; };
 		868B531726EE5934002923F4 /* ReportURLCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportURLCell.swift; sourceTree = "<group>"; };
 		868B531B26EE6CCD002923F4 /* NewCommentScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentScreenViewController.swift; sourceTree = "<group>"; };
 		868B531C26EE6CCD002923F4 /* NewCommentScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentScreenView.swift; sourceTree = "<group>"; };
@@ -931,6 +945,36 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		868782522713668B00E0C7C0 /* Sidebar */ = {
+			isa = PBXGroup;
+			children = (
+				8687825C271479D500E0C7C0 /* Animation */,
+				86878259271449A800E0C7C0 /* View */,
+				86878253271366D100E0C7C0 /* SidebarViewModel.swift */,
+				86878255271366F400E0C7C0 /* SidebarView.swift */,
+				868782572713670B00E0C7C0 /* SidebarViewController.swift */,
+			);
+			path = Sidebar;
+			sourceTree = "<group>";
+		};
+		86878259271449A800E0C7C0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8687825A271449C500E0C7C0 /* SidebarItemView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8687825C271479D500E0C7C0 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				8687825D271479FF00E0C7C0 /* SidebarAnimation.swift */,
+				8687825F27147A2C00E0C7C0 /* SidebarPresentationController.swift */,
+				868782612714827100E0C7C0 /* SidebarAnimationDelegate.swift */,
+			);
+			path = Animation;
+			sourceTree = "<group>";
+		};
 		868B531926EE6AEA002923F4 /* Comment */ = {
 			isa = PBXGroup;
 			children = (
@@ -994,6 +1038,7 @@
 		86BB67BB26A741B200283267 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				868782522713668B00E0C7C0 /* Sidebar */,
 				8687330E26F7768A001BDF9B /* Check */,
 				868B531926EE6AEA002923F4 /* Comment */,
 				86D5A2EC26D7939A007FAB12 /* Paygate */,
@@ -1473,11 +1518,13 @@
 				86D5A2E526D568EA007FAB12 /* ReportAlertScreenViewModel.swift in Sources */,
 				86C5DDA926F514F500104C41 /* PassportCheckScreenViewController.swift in Sources */,
 				867450C926FBA58B009C64E1 /* AuditHistoryModel.swift in Sources */,
+				868782622714827100E0C7C0 /* SidebarAnimationDelegate.swift in Sources */,
 				8603BF0026B6904700A2E4CF /* MainHistoryHeaderView.swift in Sources */,
 				86C5DDA226F5041D00104C41 /* ComplainCommentModel.swift in Sources */,
 				86BBE1F527023D05008F1029 /* DebtsCheckWebView.swift in Sources */,
 				86D5A2F226D793C0007FAB12 /* PaygateScreenViewModel.swift in Sources */,
 				8609009926FF514E00ACE9C6 /* DebtsManagerCore.swift in Sources */,
+				86878254271366D100E0C7C0 /* SidebarViewModel.swift in Sources */,
 				866B81A226BC547B00026E95 /* VinAndRegNumberModel.swift in Sources */,
 				9667E07E26A6156C0098C7F2 /* Scalable.swift in Sources */,
 				8674241A26C9756000487DF2 /* ReportCommentActionCell.swift in Sources */,
@@ -1518,6 +1565,7 @@
 				866B819A26BC51D900026E95 /* GetRegNumberRequest.swift in Sources */,
 				8603BF0226B6C0C700A2E4CF /* MainErrorCell.swift in Sources */,
 				8637EEEF26C56EA6003AAC30 /* WantedModel.swift in Sources */,
+				868782582713670B00E0C7C0 /* SidebarViewController.swift in Sources */,
 				9667E07426A6156C0098C7F2 /* PaddingLabel.swift in Sources */,
 				8674241826C91BE600487DF2 /* CommentsModel.swift in Sources */,
 				86827E1226F618F9007F83CE /* PassportManagerCore.swift in Sources */,
@@ -1531,7 +1579,9 @@
 				86827E1B26F61D01007F83CE /* PassportCheckTableItem.swift in Sources */,
 				86D5A2E926D5722D007FAB12 /* ReportAlertAnimation.swift in Sources */,
 				86C5DD9D26F3B92000104C41 /* AddCommentModel.swift in Sources */,
+				86878256271366F400E0C7C0 /* SidebarView.swift in Sources */,
 				9667E08A26A6156C0098C7F2 /* AppDelegate.swift in Sources */,
+				8687826027147A2C00E0C7C0 /* SidebarPresentationController.swift in Sources */,
 				8687331526F77AD4001BDF9B /* PassportCheckRecordCellView.swift in Sources */,
 				863D629A26B0842C00D0A073 /* MainSearchHeaderView.swift in Sources */,
 				864250CF26AC4C2900837F07 /* LanguageModel.swift in Sources */,
@@ -1584,6 +1634,7 @@
 				86FC5F5726F10B4F00A95B9C /* NewCommentTitleCell.swift in Sources */,
 				86CCB02226FCEE2700A21A78 /* DateExtension.swift in Sources */,
 				9667E08126A6156C0098C7F2 /* Fonts.swift in Sources */,
+				8687825B271449C500E0C7C0 /* SidebarItemView.swift in Sources */,
 				8646B2C926BD7DF700A5A545 /* ReportSearchValue.swift in Sources */,
 				863D629826B079E900D0A073 /* MainTableItem.swift in Sources */,
 				866B818F26BC496E00026E95 /* GetPaygateRequestMapper.swift in Sources */,
@@ -1596,6 +1647,7 @@
 				864250C326AC3FB400837F07 /* APIRequestBodyExtension.swift in Sources */,
 				864D45FD26DE645E00B75C70 /* GetDecodeVinRequest.swift in Sources */,
 				8637EEF126C580C8003AAC30 /* ReportIconWithTextCell.swift in Sources */,
+				8687825E271479FF00E0C7C0 /* SidebarAnimation.swift in Sources */,
 				864D460326DE848900B75C70 /* GetComplectationRequest.swift in Sources */,
 				86FC5F5A26F2655F00A95B9C /* NewCommentHeaderCell.swift in Sources */,
 				863B7D2426DAA404008A1BAD /* IAPErrorHelper.swift in Sources */,

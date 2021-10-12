@@ -58,7 +58,7 @@
 // More menu
 "wanted_passport_menu" = "Перевірка паспорта";
 
-"code_support" = "Код техпідтримки: %1$s";
+"code_support" = "Код техпідтримки:";
 "technical_support" = "Звернутися в техпідтримку";
 "audit_history" = "Історія перевірок";
 "merchant_debt_verification" = "Перевірка боргів";

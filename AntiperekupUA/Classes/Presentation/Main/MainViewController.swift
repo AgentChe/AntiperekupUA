@@ -14,12 +14,15 @@ final class MainViewController: UIViewController {
     private lazy var disposeBag = DisposeBag()
     
     private lazy var viewModel = MainViewModel()
+    private let sidebarPresentDelegate = SidebarAnimationDelegate()
     
     override func loadView() {
         view = mainView
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureUI()
+        
         let input = MainViewModel.Input(
             searchValue: mainView.tableView.searchHeader.searchText,
             tabIndex: mainView.segmentView.selectIndex,
@@ -46,6 +49,20 @@ final class MainViewController: UIViewController {
         output.route
             .emit(to: navigation)
             .disposed(by: disposeBag)
+    }
+    
+    private func configureUI() {
+        let leftItem = UIBarButtonItem(
+            image: UIImage(named: "Main.Sidebar"), style: .done, target: self, action: #selector(didTapMenu))
+        leftItem.tintColor = .black
+        navigationItem.leftBarButtonItem = leftItem
+    }
+    
+    @objc private func didTapMenu() {
+        let controller = SidebarViewController.make()
+        controller.transitioningDelegate = sidebarPresentDelegate
+        controller.modalPresentationStyle = .custom
+        present(controller, animated: true)
     }
 }
 
