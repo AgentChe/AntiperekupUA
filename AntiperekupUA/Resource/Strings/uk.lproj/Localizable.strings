@@ -193,6 +193,7 @@
 "mtsbu_insurer_phone" = "Номер телефону страховика:";
 "mtsbu_insurer_email" = "Email страховика:";
 "mtsbu_insurer_address" = "Адреса страховика:";
+"mtsbu_check_captcha" = "Пройти капчу";
 
 "mtsbu_title" = "Перевірка автоцивілки";
 "no_mtsbu_information_found" = "Страховку не знайдено";

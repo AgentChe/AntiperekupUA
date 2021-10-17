@@ -65,4 +65,5 @@ enum ReportTableItem {
     case title(String)
     case url(title: String, url: String)
     case retry
+    case checkCaptcha
 }

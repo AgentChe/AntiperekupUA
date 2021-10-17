@@ -87,6 +87,13 @@ final class ReportScreenViewController: UIViewController {
             }
             .disposed(by: disposeBag)
         
+        output.checkCaptcha
+            .emit(to: Binder(self) { base, regNumber in
+                let controller = ReportScreenViewController.make(searchValue: .regNumber(regNumber))
+                base.navigationController?.pushViewController(controller, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
         mainView.tableView.rx.setDelegate(self).disposed(by: disposeBag)
     }
     
@@ -167,6 +174,9 @@ final class ReportScreenViewController: UIViewController {
                     self?.openUrlRelay.accept(url)
                 }
             }
+            return cell
+        case .checkCaptcha:
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportCheckCaptchaCell.self), for: indexPath) as! ReportCheckCaptchaCell
             return cell
         }
     }

@@ -30,10 +30,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         Messaging.messaging().delegate = self
+        // Нужно чтобы избавиться от изменения цвета нав бара при скролле контента
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
         UINavigationBar.appearance().shadowImage = UIColor.black.withAlphaComponent(0.3).navigationShadow()
         UINavigationBar.appearance().barTintColor = .white
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.black]
         UINavigationBar.appearance().tintColor = .black
+        
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
         return true
     }
 }
