@@ -42,6 +42,7 @@ private extension ReportScreenView {
         tableView.register(ReportRetryCell.self, forCellReuseIdentifier: String(describing: ReportRetryCell.self))
         tableView.register(ReportURLCell.self, forCellReuseIdentifier: String(describing: ReportURLCell.self))
         tableView.register(ReportCommentComplainCell .self, forCellReuseIdentifier: String(describing: ReportCommentComplainCell .self))
+        tableView.register(ReportCheckCaptchaCell.self, forCellReuseIdentifier: String(describing: ReportCheckCaptchaCell.self))
     }
 }
 

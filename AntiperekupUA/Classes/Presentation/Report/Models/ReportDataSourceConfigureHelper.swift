@@ -284,14 +284,14 @@ enum ReportDataSourceConfigureHelper {
                 .header(title: headerTitle, state: .success),
                 .iconWithText(.init(text: "user_comments_found".localized, iconType: .success))
             ]
-            
+
             let items: Elements = model.comments
                 .enumerated()
                 .reduce(into: initialItems) {
                     $0.append(.complain(id: $1.element.id))
                     $0.append(.value(title: "comment_vin".localized, value: $1.element.vin))
                     $0.append(.value(title: "comment_reg_number".localized, value: $1.element.gosNumber))
-//                                $0.append(.value(title: "wanted_ovd".localized, value: $1.))
+                    $0.append(.value(title: "comment_timestamp".localized, value: Date(timeIntervalSince1970: TimeInterval($1.element.timestamp)).relativeDate))
                     $0.append(.value(title: "comment_title".localized, value: $1.element.title))
                     $0.append(.value(title: "comment_description".localized, value: $1.element.text))
                     if $1.offset < model.comments.count - 1 {
@@ -586,6 +586,53 @@ enum ReportDataSourceConfigureHelper {
                 .reduce(into: initialItems) {
                     $0.append(.value(title: $1.title, value: $1.value))
                 } + [.description("subs_descr_complectation".localized)]
+        case let .error(error):
+            return Self.errorWithRetry(headerText: headerTitle, error: error)
+        case .completed:
+            return nil
+        }
+    }
+    
+    static func mtsbuSection(headerTitle: String, event: Event<MTSBUModel?>) -> Elements? {
+        switch event {
+        case let .next(model):
+            guard let model = model, model.result else {
+                return Self.errorSection(headerText: headerTitle, message: model?.errorMessage)
+            }
+            
+            guard !model.records.isEmpty else {
+                let items: Elements = [
+                    .header(title: headerTitle, state: .error),
+                    .iconWithText(.init(text: "no_mtsbu_information_found".localized, iconType: .error)),
+                    .description("subs_descr_mtsbu".localized)
+                ]
+                return items
+            }
+            
+            let initialItems: Elements = [
+                .header(title: headerTitle, state: .success),
+                .iconWithText(.init(text: String(format: "records".localized, model.records.count), iconType: .success))
+            ]
+            
+            return model.records
+                .enumerated()
+                .reduce(into: initialItems) {
+                    $0.append(.value(title: "mtsbu_policy_number".localized, value: $1.element.policyNumber))
+                    $0.append(.value(title: "mtsbu_vin".localized, value: $1.element.vin))
+                    $0.append(.value(title: "mtsbu_reg_number".localized, value: $1.element.regNumber))
+                    $0.append(.value(title: "mtsbu_make_model".localized, value: $1.element.makeModel))
+                    $0.append(.value(title: "mtsbu_type".localized, value: $1.element.type))
+                    $0.append(.value(title: "mtsbu_insurer_name".localized, value: $1.element.insurerName))
+                    $0.append(.value(title: "mtsbu_insurer_status".localized, value: $1.element.insurerStatus))
+                    $0.append(.value(title: "mtsbu_insurer_phone".localized, value: $1.element.insurerPhone))
+                    $0.append(.value(title: "mtsbu_insurer_email".localized, value: $1.element.insurerEmail))
+                    $0.append(.value(title: "mtsbu_insurer_address".localized, value: $1.element.insurerAddress))
+                    if $1.offset < model.records.count - 1 {
+                        $0.append(.separator)
+                    } else {
+                        $0.append(.description("subs_descr_dsbt".localized))
+                    }
+                }
         case let .error(error):
             return Self.errorWithRetry(headerText: headerTitle, error: error)
         case .completed:

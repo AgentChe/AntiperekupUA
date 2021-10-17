@@ -19,6 +19,10 @@
 		8609009926FF514E00ACE9C6 /* DebtsManagerCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8609009826FF514E00ACE9C6 /* DebtsManagerCore.swift */; };
 		8609009C26FF51AE00ACE9C6 /* DebtsCheckRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8609009B26FF51AE00ACE9C6 /* DebtsCheckRequest.swift */; };
 		860B55B226CADE580022E316 /* ReportLockedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860B55B126CADE580022E316 /* ReportLockedCell.swift */; };
+		861014702719D70D00721A56 /* GetMTSBURequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8610146F2719D70D00721A56 /* GetMTSBURequest.swift */; };
+		861014722719F49600721A56 /* MTSBUModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861014712719F49600721A56 /* MTSBUModel.swift */; };
+		86101474271B349900721A56 /* MTSBUCaptcha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86101473271B349900721A56 /* MTSBUCaptcha.swift */; };
+		86101476271B4F3800721A56 /* ReportCheckCaptchaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86101475271B4F3800721A56 /* ReportCheckCaptchaCell.swift */; };
 		86241FD526A8970D008E5863 /* OnboardingLanguageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86241FD426A8970D008E5863 /* OnboardingLanguageView.swift */; };
 		862F30D726F66E4700365BDA /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862F30D626F66E4700365BDA /* UITableViewExtension.swift */; };
 		8637EEED26C56DE3003AAC30 /* GetWantedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637EEEC26C56DE3003AAC30 /* GetWantedRequest.swift */; };
@@ -116,6 +120,13 @@
 		8687825E271479FF00E0C7C0 /* SidebarAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8687825D271479FF00E0C7C0 /* SidebarAnimation.swift */; };
 		8687826027147A2C00E0C7C0 /* SidebarPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8687825F27147A2C00E0C7C0 /* SidebarPresentationController.swift */; };
 		868782622714827100E0C7C0 /* SidebarAnimationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868782612714827100E0C7C0 /* SidebarAnimationDelegate.swift */; };
+		86878267271604B800E0C7C0 /* MTSBUScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86878264271604B800E0C7C0 /* MTSBUScreenViewController.swift */; };
+		86878268271604B800E0C7C0 /* MTSBUScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86878265271604B800E0C7C0 /* MTSBUScreenView.swift */; };
+		86878269271604B800E0C7C0 /* MTSBUScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86878266271604B800E0C7C0 /* MTSBUScreenViewModel.swift */; };
+		8687826C2716054A00E0C7C0 /* MTSBUWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8687826B2716054A00E0C7C0 /* MTSBUWebView.swift */; };
+		8687826F271709B000E0C7C0 /* MTSBUService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8687826E271709AF00E0C7C0 /* MTSBUService.swift */; };
+		8687827127174E6B00E0C7C0 /* MTSBUCookiesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8687827027174E6B00E0C7C0 /* MTSBUCookiesRequest.swift */; };
+		8687827527174F3A00E0C7C0 /* MTSBUCookiesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8687827427174F3A00E0C7C0 /* MTSBUCookiesModel.swift */; };
 		868B531826EE5934002923F4 /* ReportURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B531726EE5934002923F4 /* ReportURLCell.swift */; };
 		868B531E26EE6CCD002923F4 /* NewCommentScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B531B26EE6CCD002923F4 /* NewCommentScreenViewController.swift */; };
 		868B531F26EE6CCD002923F4 /* NewCommentScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B531C26EE6CCD002923F4 /* NewCommentScreenView.swift */; };
@@ -237,6 +248,10 @@
 		8609009826FF514E00ACE9C6 /* DebtsManagerCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebtsManagerCore.swift; sourceTree = "<group>"; };
 		8609009B26FF51AE00ACE9C6 /* DebtsCheckRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebtsCheckRequest.swift; sourceTree = "<group>"; };
 		860B55B126CADE580022E316 /* ReportLockedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportLockedCell.swift; sourceTree = "<group>"; };
+		8610146F2719D70D00721A56 /* GetMTSBURequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMTSBURequest.swift; sourceTree = "<group>"; };
+		861014712719F49600721A56 /* MTSBUModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTSBUModel.swift; sourceTree = "<group>"; };
+		86101473271B349900721A56 /* MTSBUCaptcha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTSBUCaptcha.swift; sourceTree = "<group>"; };
+		86101475271B4F3800721A56 /* ReportCheckCaptchaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCheckCaptchaCell.swift; sourceTree = "<group>"; };
 		86241FD426A8970D008E5863 /* OnboardingLanguageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingLanguageView.swift; sourceTree = "<group>"; };
 		862F30D626F66E4700365BDA /* UITableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
 		8637EEEC26C56DE3003AAC30 /* GetWantedRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetWantedRequest.swift; sourceTree = "<group>"; };
@@ -335,6 +350,13 @@
 		8687825D271479FF00E0C7C0 /* SidebarAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarAnimation.swift; sourceTree = "<group>"; };
 		8687825F27147A2C00E0C7C0 /* SidebarPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarPresentationController.swift; sourceTree = "<group>"; };
 		868782612714827100E0C7C0 /* SidebarAnimationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarAnimationDelegate.swift; sourceTree = "<group>"; };
+		86878264271604B800E0C7C0 /* MTSBUScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTSBUScreenViewController.swift; sourceTree = "<group>"; };
+		86878265271604B800E0C7C0 /* MTSBUScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTSBUScreenView.swift; sourceTree = "<group>"; };
+		86878266271604B800E0C7C0 /* MTSBUScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTSBUScreenViewModel.swift; sourceTree = "<group>"; };
+		8687826B2716054A00E0C7C0 /* MTSBUWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTSBUWebView.swift; sourceTree = "<group>"; };
+		8687826E271709AF00E0C7C0 /* MTSBUService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTSBUService.swift; sourceTree = "<group>"; };
+		8687827027174E6B00E0C7C0 /* MTSBUCookiesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTSBUCookiesRequest.swift; sourceTree = "<group>"; };
+		8687827427174F3A00E0C7C0 /* MTSBUCookiesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTSBUCookiesModel.swift; sourceTree = "<group>"; };
 		868B531726EE5934002923F4 /* ReportURLCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportURLCell.swift; sourceTree = "<group>"; };
 		868B531B26EE6CCD002923F4 /* NewCommentScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentScreenViewController.swift; sourceTree = "<group>"; };
 		868B531C26EE6CCD002923F4 /* NewCommentScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentScreenView.swift; sourceTree = "<group>"; };
@@ -589,6 +611,7 @@
 		864250BB26AC3CF300837F07 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				8687826D2717099600E0C7C0 /* MTSBU */,
 				8609009326FF4F4F00ACE9C6 /* Debets */,
 				867450C426FBA537009C64E1 /* AuditService */,
 				86827E1026F618E3007F83CE /* Passport */,
@@ -787,6 +810,7 @@
 				864D45FE26DE66A700B75C70 /* DecodeVinModel.swift */,
 				864D460426DE84B100B75C70 /* ComplectationModel.swift */,
 				86C5DDA126F5041D00104C41 /* ComplainCommentModel.swift */,
+				861014712719F49600721A56 /* MTSBUModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -808,6 +832,7 @@
 				864D45FC26DE645E00B75C70 /* GetDecodeVinRequest.swift */,
 				8674241126C91AD400487DF2 /* GetCommentsRequest.swift */,
 				864D460226DE848900B75C70 /* GetComplectationRequest.swift */,
+				8610146F2719D70D00721A56 /* GetMTSBURequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -843,6 +868,7 @@
 				864D460026DE742200B75C70 /* ReportTitleCell.swift */,
 				864D460626DE8D0C00B75C70 /* ReportRetryCell.swift */,
 				868B531726EE5934002923F4 /* ReportURLCell.swift */,
+				86101475271B4F3800721A56 /* ReportCheckCaptchaCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -975,6 +1001,52 @@
 			path = Animation;
 			sourceTree = "<group>";
 		};
+		868782632716047500E0C7C0 /* MTSBU */ = {
+			isa = PBXGroup;
+			children = (
+				8687826A2716052A00E0C7C0 /* View */,
+				86878264271604B800E0C7C0 /* MTSBUScreenViewController.swift */,
+				86878265271604B800E0C7C0 /* MTSBUScreenView.swift */,
+				86878266271604B800E0C7C0 /* MTSBUScreenViewModel.swift */,
+			);
+			path = MTSBU;
+			sourceTree = "<group>";
+		};
+		8687826A2716052A00E0C7C0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8687826B2716054A00E0C7C0 /* MTSBUWebView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8687826D2717099600E0C7C0 /* MTSBU */ = {
+			isa = PBXGroup;
+			children = (
+				8687827327174F2300E0C7C0 /* Model */,
+				8687827227174F1500E0C7C0 /* Request */,
+				8687826E271709AF00E0C7C0 /* MTSBUService.swift */,
+			);
+			path = MTSBU;
+			sourceTree = "<group>";
+		};
+		8687827227174F1500E0C7C0 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				8687827027174E6B00E0C7C0 /* MTSBUCookiesRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		8687827327174F2300E0C7C0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8687827427174F3A00E0C7C0 /* MTSBUCookiesModel.swift */,
+				86101473271B349900721A56 /* MTSBUCaptcha.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		868B531926EE6AEA002923F4 /* Comment */ = {
 			isa = PBXGroup;
 			children = (
@@ -1038,6 +1110,7 @@
 		86BB67BB26A741B200283267 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				868782632716047500E0C7C0 /* MTSBU */,
 				868782522713668B00E0C7C0 /* Sidebar */,
 				8687330E26F7768A001BDF9B /* Check */,
 				868B531926EE6AEA002923F4 /* Comment */,
@@ -1537,8 +1610,11 @@
 				9667E07526A6156C0098C7F2 /* GradientButton.swift in Sources */,
 				86827E2226F653F8007F83CE /* CheckResultCell.swift in Sources */,
 				86FC5F5526F1021100A95B9C /* NewCommentCommentCell.swift in Sources */,
+				86878268271604B800E0C7C0 /* MTSBUScreenView.swift in Sources */,
+				86101474271B349900721A56 /* MTSBUCaptcha.swift in Sources */,
 				86C5DDAB26F514F500104C41 /* PassportCheckScreenViewModel.swift in Sources */,
 				865F78FD26FE4E9B006183B1 /* DebtsCheckScreenView.swift in Sources */,
+				86878269271604B800E0C7C0 /* MTSBUScreenViewModel.swift in Sources */,
 				9667E08B26A6156C0098C7F2 /* FirebaseManager.swift in Sources */,
 				865F790426FE534E006183B1 /* DebtsCheckFieldData.swift in Sources */,
 				864250D126AC4FA100837F07 /* LanguageMediator.swift in Sources */,
@@ -1586,6 +1662,7 @@
 				863D629A26B0842C00D0A073 /* MainSearchHeaderView.swift in Sources */,
 				864250CF26AC4C2900837F07 /* LanguageModel.swift in Sources */,
 				863D629126B0675800D0A073 /* SearchView.swift in Sources */,
+				8687826C2716054A00E0C7C0 /* MTSBUWebView.swift in Sources */,
 				8674242026C98DA000487DF2 /* RIAModel.swift in Sources */,
 				86D5A2FD26D7B8C2007FAB12 /* PaygateSaleView.swift in Sources */,
 				865F790126FE4ECA006183B1 /* DebtsCheckHeaderView.swift in Sources */,
@@ -1597,6 +1674,7 @@
 				86BB67C726A7439700283267 /* OnboardingBaseView.swift in Sources */,
 				86CA221126DD624B0019C101 /* AuctionModel.swift in Sources */,
 				864250D626AC51DF00837F07 /* UpdateTokenRequest.swift in Sources */,
+				861014702719D70D00721A56 /* GetMTSBURequest.swift in Sources */,
 				86BB67C126A7426300283267 /* OnboardingView.swift in Sources */,
 				863B7D2726DAA404008A1BAD /* IAPProduct.swift in Sources */,
 				8672E59926BC662E007BA792 /* ReportValueCell.swift in Sources */,
@@ -1609,6 +1687,7 @@
 				860B55B226CADE580022E316 /* ReportLockedCell.swift in Sources */,
 				868B532E26EFC58F002923F4 /* NewCommentThemeView.swift in Sources */,
 				868B532826EFC439002923F4 /* NewCommentTheme.swift in Sources */,
+				861014722719F49600721A56 /* MTSBUModel.swift in Sources */,
 				86C11F8226ADAE9600D7A47E /* MainSegmentControlView.swift in Sources */,
 				8674241C26C977F600487DF2 /* ReportCommentComplainCell.swift in Sources */,
 				86D5A2E326D568EA007FAB12 /* ReportAlertScreenViewController.swift in Sources */,
@@ -1651,6 +1730,7 @@
 				864D460326DE848900B75C70 /* GetComplectationRequest.swift in Sources */,
 				86FC5F5A26F2655F00A95B9C /* NewCommentHeaderCell.swift in Sources */,
 				863B7D2426DAA404008A1BAD /* IAPErrorHelper.swift in Sources */,
+				86101476271B4F3800721A56 /* ReportCheckCaptchaCell.swift in Sources */,
 				8637EEED26C56DE3003AAC30 /* GetWantedRequest.swift in Sources */,
 				86C5DD9826F3B78C00104C41 /* CommentManagerCore.swift in Sources */,
 				9667E07826A6156C0098C7F2 /* UIColorExtension.swift in Sources */,
@@ -1672,9 +1752,11 @@
 				86B17A4426C0664C000E8FED /* GovDataModel.swift in Sources */,
 				86A43BA326C817B60036D06B /* ReportLoadingCell.swift in Sources */,
 				864250C126AC3D7800837F07 /* SessionManagerCore.swift in Sources */,
+				8687826F271709B000E0C7C0 /* MTSBUService.swift in Sources */,
 				864250C826AC4B2700837F07 /* LanguageManager.swift in Sources */,
 				864250DB26AC71E400837F07 /* UpdateTokenModel.swift in Sources */,
 				9667E07726A6156C0098C7F2 /* GradientView.swift in Sources */,
+				8687827527174F3A00E0C7C0 /* MTSBUCookiesModel.swift in Sources */,
 				8609009726FF4F6F00ACE9C6 /* DebtsCheckModel.swift in Sources */,
 				9667E08826A6156C0098C7F2 /* RxActivityIndicator.swift in Sources */,
 				9667E07326A6156C0098C7F2 /* PaddingTextField.swift in Sources */,
@@ -1701,7 +1783,9 @@
 				862F30D726F66E4700365BDA /* UITableViewExtension.swift in Sources */,
 				864D45F726DE4C9900B75C70 /* ReportCarouselFlowLayout.swift in Sources */,
 				8672E59226BC5D16007BA792 /* ReportDataSource.swift in Sources */,
+				8687827127174E6B00E0C7C0 /* MTSBUCookiesRequest.swift in Sources */,
 				864D460526DE84B100B75C70 /* ComplectationModel.swift in Sources */,
+				86878267271604B800E0C7C0 /* MTSBUScreenViewController.swift in Sources */,
 				9667E07B26A6156C0098C7F2 /* GlobalDefinitions.swift in Sources */,
 				867450C626FBA565009C64E1 /* AuditHistoryManagerCore.swift in Sources */,
 				8674241E26C98CF200487DF2 /* GetRIARequest.swift in Sources */,

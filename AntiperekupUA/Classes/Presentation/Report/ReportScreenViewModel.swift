@@ -38,6 +38,7 @@ extension ReportScreenViewModel {
         let isActiveSubscription: Driver<Bool>
         let showNewComment: Signal<(regNumber: String, vin: String)>
         let showError: Signal<String>
+        let checkCaptcha: Signal<String>
     }
     
     func configure(input: Input) -> Output {
@@ -108,7 +109,7 @@ extension ReportScreenViewModel {
                 makeWantedSection(baseData: baseData, retryTrigger: retryTrigger),
                 makeInterpolSection(baseData: baseData, retryTrigger: retryTrigger),
                 makePhotosSection(baseData: baseData, retryTrigger: retryTrigger),
-                makeMTSBUSection(),
+                makeMTSBUSection(baseData: baseData, retryTrigger: retryTrigger),
                 makeCommentsSection(baseData: baseData, retryTrigger: retryTrigger, updateSignal: updateCommentSignal),
                 makeAuctionSection(baseData: baseData, isActiveSubscription: isActiveSubscription, retryTrigger: retryTrigger)
             ]) { elements -> [DataSource] in
@@ -155,12 +156,22 @@ extension ReportScreenViewModel {
             }
             .asSignal(onErrorSignalWith: .empty())
         
+        let checkCaptcha = input.selectedElement
+            .asObservable()
+            .compactMap { element -> Void? in
+                guard case .checkCaptcha = element else { return nil }
+                return ()
+            }
+            .withLatestFrom(baseData) { _, data in data.regNumber }
+            .asSignal(onErrorSignalWith: .empty())
+        
         return Output(
             elements: elements,
             showChangeAlert: showChangeAlert,
             isActiveSubscription: isActiveSubscription.asDriver(onErrorJustReturn: false),
             showNewComment: showNewComment,
-            showError: showError
+            showError: showError,
+            checkCaptcha: checkCaptcha
         )
     }
 }
@@ -219,7 +230,6 @@ private extension ReportScreenViewModel {
                     )
                 }
         case let .regNumber(value):
-            // TODO: После реализации WebView поправить конфигурацию данных
             startData = BaseData(regNumber: value, isEditableVin: true, isEditableNumber: false)
             result = .empty()
         case let .technicalPassport(series, number):
@@ -290,7 +300,7 @@ private extension ReportScreenViewModel {
                     .materialize(with: retryTrigger)
                     .do(onNext: { [weak self] event in
                         guard let self = self, let element = event.element else { return }
-                        let model = AuditHistoryModel (
+                        let model = AuditHistoryModel(
                             date: self.date,
                             searchValue: self.searchValue,
                             brand: element?.vehicle?.brand ?? "",
@@ -396,11 +406,44 @@ private extension ReportScreenViewModel {
             .startWith([.header(title: headerTitle, state: .empty), .loader])
     }
     
-    func makeMTSBUSection() -> Observable<Elements> {
-        // TODO: Реализовать после реализации WebView
+    func makeMTSBUSection(baseData: Observable<BaseData>, retryTrigger: Observable<Void>) -> Observable<Elements> {
         let headerTitle = "mtsbu_title".localized
         
-        return .just([.header(title: headerTitle, state: .empty), .text("TODO: Реализовать после реализации WebView")])
+        return baseData
+            .distinctUntilChanged { $0.regNumber == $1.regNumber }
+            .withUnretained(self)
+            .flatMapLatest { base, data -> Observable<Elements> in
+                guard data.isValidNumber else {
+                    let text = String(format: "required_empty_data_warning".localized, "gos_number_type".localized)
+                    
+                    let items: Elements = [
+                        .header(title: headerTitle, state: .error),
+                        .text(text)
+                    ]
+                    
+                    let additional = base.additionalActionItems(baseData: data, for: .regNumber)
+                    
+                    return .just(items + additional)
+                }
+                
+                guard let captchaResult = MTSBUService.shared.getCaptcha() else {
+                    let text = "complete_captcha_info".localized
+                    return .just([.header(title: headerTitle, state: .error), .text(text), .checkCaptcha])
+                }
+                
+                return base.reportService
+                    .getMTSBU(
+                        regNumber: data.regNumber,
+                        captchaCode: captchaResult.captchaCode,
+                        verificationToken: captchaResult.token,
+                        cookiesString: captchaResult.cookiesString
+                    )
+                    .asObservable()
+                    .materialize(with: retryTrigger)
+                    .compactMap { ReportDataSourceConfigureHelper.mtsbuSection(headerTitle: headerTitle, event: $0) }
+                    .startWith([.header(title: headerTitle, state: .empty), .loader])
+            }
+            .startWith([.header(title: headerTitle, state: .empty), .loader])
     }
     
     func makeCommentsSection(baseData: Observable<BaseData>, retryTrigger: Observable<Void>, updateSignal: Observable<Void>) -> Observable<Elements> {

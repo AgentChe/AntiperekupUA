@@ -176,19 +176,22 @@ private extension MainViewModel {
                 guard let item = self?.auditHistoryService.getItem(by: element.id) else {
                     return nil
                 }
-                let result: ReportSearchValue
+                let result: MainRoute
                 switch item.searchType {
                 case .regNumber:
-                    result = .regNumber(item.searchValue)
+                    let captcha = MTSBUService.shared.getCaptcha()
+                    result = captcha == nil
+                    ? .regValidation(item.searchValue)
+                    : .report(.regNumber(item.searchValue))
                 case .vin:
-                    result = .vin(item.searchValue)
+                    result = .report(.vin(item.searchValue))
                 case .technicalPassport:
                     let series = String(item.searchValue.prefix(3))
                     let number = String(item.searchValue.suffix(item.searchValue.count - series.count))
-                    result =  .technicalPassport(series: series, number: number)
+                    result = .report(.technicalPassport(series: series, number: number))
                 }
                 
-                return .report(result)
+                return result
             }
         }
     }
@@ -197,8 +200,10 @@ private extension MainViewModel {
         return { result -> MainRoute? in
             switch result {
             case let .regNumber(value):
-                return .report(.regNumber(value))
-//                return .regValidation(value)
+                let captcha = MTSBUService.shared.getCaptcha()
+                return captcha == nil
+                ? .regValidation(value)
+                : .report(.regNumber(value))
             case let .vinNumber(value):
                 return .report(.vin(value))
             case let .technicalPassport(series, number):

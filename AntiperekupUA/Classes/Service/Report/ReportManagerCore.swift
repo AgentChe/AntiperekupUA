@@ -119,4 +119,17 @@ final class ReportManagerCore {
             .callServerApi(requestBody: request)
             .map { .init(from: $0) }
     }
+    
+    func getMTSBU(regNumber: String, captchaCode: String, verificationToken: String, cookiesString: String) -> Single<MTSBUModel?> {
+        let request = GetMTSBURequest(
+            regNumber: regNumber,
+            captchaCode: captchaCode,
+            verificationToken: verificationToken,
+            cookiesString: cookiesString
+        )
+        
+        return RestAPITransport()
+            .callServerApi(requestBody: request)
+            .map(MTSBUModel.map(from:))
+    }
 }

@@ -80,8 +80,9 @@ private extension MainViewController {
     var navigation: Binder<MainRoute> {
         Binder(self) { base, route in
             switch route {
-            case .regValidation:
-                break
+            case let .regValidation(value):
+                let controller = MTSBUScreenViewController.make(regNumber: value)
+                base.navigationController?.pushViewController(controller, animated: true)
             case .checkPassport:
                 let controller = PassportCheckScreenViewController.make()
                 base.navigationController?.pushViewController(controller, animated: true)
