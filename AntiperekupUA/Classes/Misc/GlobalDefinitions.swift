@@ -18,4 +18,5 @@ final class GlobalDefinitions {
     static let riaBaseUrl = "https://auto.ria.com"
     static let ssad = UIDevice.idfv?.uppercased() ?? ""
     static let appVersion = UIDevice.appVersion ?? ""
+    static let appStoreLink = "https://play.google.com/store/apps/details?id=com.navisapps.antiperekupua"
 }

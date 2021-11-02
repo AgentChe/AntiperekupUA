@@ -7,6 +7,12 @@
 */
 "app_name" = "Перевірка авто. Антиперекуп Україна";
 
+// Report
+"report_by_vin" = "Звіт з VIN %@";
+"report_by_reg_number" = "Звіт з держноміру %@";
+"report_by_technical_passport" = "Звіт з техпаспорту $@";
+"report_at" = "від %@";
+
 // Errors
 "error" = "Помилка";
 "request_error" = "Помилка запиту";

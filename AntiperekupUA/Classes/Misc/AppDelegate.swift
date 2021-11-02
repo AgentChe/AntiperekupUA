@@ -33,6 +33,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Нужно чтобы избавиться от изменения цвета нав бара при скролле контента
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .white
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
         UINavigationBar.appearance().shadowImage = UIColor.black.withAlphaComponent(0.3).navigationShadow()
         UINavigationBar.appearance().barTintColor = .white
         UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.black]
