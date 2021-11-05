@@ -44,6 +44,7 @@ extension ReportScreenViewModel {
         let updateComments: Signal<Void>
         let complainId: Signal<Int>
         let didTapShate: Signal<Void>
+        let didCloseMTSBU: Signal<Void>
     }
     
     struct Output {
@@ -151,7 +152,7 @@ extension ReportScreenViewModel {
                 makeWantedSection(baseData: baseData, retryTrigger: retryTrigger),
                 makeInterpolSection(baseData: baseData, retryTrigger: retryTrigger),
                 makePhotosSection(baseData: baseData, retryTrigger: retryTrigger),
-                makeMTSBUSection(baseData: baseData, retryTrigger: retryTrigger),
+                makeMTSBUSection(baseData: baseData, retryTrigger: retryTrigger, updateSignal: input.didCloseMTSBU.asObservable()),
                 makeCommentsSection(baseData: baseData, retryTrigger: retryTrigger, updateSignal: updateCommentSignal),
                 makeAuctionSection(baseData: baseData, isActiveSubscription: isActiveSubscription, retryTrigger: retryTrigger)
             ]) { elements -> [DataSource] in
@@ -461,11 +462,12 @@ private extension ReportScreenViewModel {
             .startWith([.header(title: headerTitle, state: .empty), .loader])
     }
     
-    func makeMTSBUSection(baseData: Observable<BaseData>, retryTrigger: Observable<Void>) -> Observable<Elements> {
+    func makeMTSBUSection(baseData: Observable<BaseData>, retryTrigger: Observable<Void>, updateSignal: Observable<Void>) -> Observable<Elements> {
         let headerTitle = "mtsbu_title".localized
         
-        return baseData
-            .distinctUntilChanged { $0.regNumber == $1.regNumber }
+        return Observable
+            .combineLatest(baseData, updateSignal.startWith(()))
+            .map { $0.0 }
             .withUnretained(self)
             .flatMapLatest { base, data -> Observable<Elements> in
                 guard data.isValidNumber else {

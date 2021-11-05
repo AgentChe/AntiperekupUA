@@ -28,6 +28,7 @@ final class ReportScreenViewController: UIViewController {
     private let didActivateSubscription = PublishRelay<Void>()
     private let openUrlRelay = PublishRelay<URL>()
     private let updateCommentsRelay = PublishRelay<Void>()
+    private let didCloseMTSBU = PublishRelay<Void>()
     
     init(searchValue: ReportSearchValue) {
         viewModel = ReportScreenViewModel(searchValue: searchValue)
@@ -42,6 +43,11 @@ final class ReportScreenViewController: UIViewController {
         view = mainView
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureBackButton()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -51,7 +57,8 @@ final class ReportScreenViewController: UIViewController {
             activateSubscription: didActivateSubscription.asSignal(),
             updateComments: updateCommentsRelay.asSignal(),
             complainId: complainIdRelay.asSignal(),
-            didTapShate: mainView.shareReport.tap
+            didTapShate: mainView.shareReport.tap,
+            didCloseMTSBU: didCloseMTSBU.asSignal()
         )
         
         let output = viewModel.configure(input: input)
@@ -99,8 +106,12 @@ final class ReportScreenViewController: UIViewController {
         
         output.checkCaptcha
             .emit(to: Binder(self) { base, regNumber in
-                let controller = MTSBUScreenViewController.make(regNumber: regNumber)
-                base.present(controller, animated: true)
+                let controller = MTSBUScreenViewController.make(regNumber: regNumber) { [weak base] in
+                    base?.didCloseMTSBU.accept(())
+                }
+                
+                let navigationController = UINavigationController(rootViewController: controller)
+                base.present(navigationController, animated: true)
             })
             .disposed(by: disposeBag)
         
@@ -227,7 +238,6 @@ extension ReportScreenViewController {
     static func make(searchValue: ReportSearchValue) -> ReportScreenViewController {
         let controller = ReportScreenViewController(searchValue: searchValue)
         controller.title = "report".localized
-        controller.configureBackButton()
         return controller
     }
 }
