@@ -7,6 +7,12 @@
 */
 "app_name" = "Проверка авто. Антиперекуп Украина";
 
+// Report
+"report_by_vin" = "Отчет по VIN %@";
+"report_by_reg_number" = "Отчет по госномеру %@";
+"report_by_technical_passport" = "Отчет по техпаспорту %@ $@";
+"report_at" = "от %@";
+
 // Errors-
 "error" = "Ошибка";
 "request_error" = "Ошибка запроса";

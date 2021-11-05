@@ -9,6 +9,9 @@ import UIKit
 final class ReportScreenView: UIView {
     lazy var tableView = makeTableView()
     lazy var paygateView = makeBottomButton()
+    lazy var shareReport = makeReportButton()
+    lazy var loadingView = makeLoadingView()
+    private lazy var stackView = makeStackView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -43,6 +46,7 @@ private extension ReportScreenView {
         tableView.register(ReportURLCell.self, forCellReuseIdentifier: String(describing: ReportURLCell.self))
         tableView.register(ReportCommentComplainCell .self, forCellReuseIdentifier: String(describing: ReportCommentComplainCell .self))
         tableView.register(ReportCheckCaptchaCell.self, forCellReuseIdentifier: String(describing: ReportCheckCaptchaCell.self))
+        [shareReport, paygateView].forEach(stackView.addArrangedSubview)
     }
 }
 
@@ -57,10 +61,16 @@ private extension ReportScreenView {
         ])
         
         NSLayoutConstraint.activate([
-            paygateView.heightAnchor.constraint(equalToConstant: 48.scale),
-            paygateView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            paygateView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            paygateView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 }
@@ -73,7 +83,7 @@ private extension ReportScreenView {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
         view.separatorStyle = .none
-        view.contentInset.bottom = 48.scale
+        view.contentInset.bottom = 104.scale
         view.contentInset.top = 8.scale
         addSubview(view)
         return view
@@ -83,6 +93,32 @@ private extension ReportScreenView {
         let view = BottomButtonView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.setup(title: "activate_access_for_month".localized.uppercased(), isHiddenBottomLine: true)
+        view.heightAnchor.constraint(equalToConstant: 48.scale).isActive = true
+        addSubview(view)
+        return view
+    }
+    
+    func makeReportButton() -> BottomButtonView {
+        let view = BottomButtonView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.setup(title: "share_report".localized.uppercased(), isHiddenBottomLine: false)
+        view.heightAnchor.constraint(equalToConstant: 48.scale).isActive = true
+        addSubview(view)
+        return view
+    }
+    
+    func makeStackView() -> UIStackView {
+        let view = UIStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.axis = .vertical
+        view.spacing = 8.scale
+        addSubview(view)
+        return view
+    }
+    
+    func makeLoadingView() -> ScreenLoadingView {
+        let view = ScreenLoadingView()
+        view.translatesAutoresizingMaskIntoConstraints = false
         addSubview(view)
         return view
     }

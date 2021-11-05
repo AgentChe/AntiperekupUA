@@ -28,6 +28,7 @@ final class ReportScreenViewController: UIViewController {
     private let didActivateSubscription = PublishRelay<Void>()
     private let openUrlRelay = PublishRelay<URL>()
     private let updateCommentsRelay = PublishRelay<Void>()
+    private let didCloseMTSBU = PublishRelay<Void>()
     
     init(searchValue: ReportSearchValue) {
         viewModel = ReportScreenViewModel(searchValue: searchValue)
@@ -42,6 +43,11 @@ final class ReportScreenViewController: UIViewController {
         view = mainView
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureBackButton()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -50,7 +56,9 @@ final class ReportScreenViewController: UIViewController {
             selectedElement: mainView.tableView.rx.modelSelected(ReportTableItem.self).asSignal(),
             activateSubscription: didActivateSubscription.asSignal(),
             updateComments: updateCommentsRelay.asSignal(),
-            complainId: complainIdRelay.asSignal()
+            complainId: complainIdRelay.asSignal(),
+            didTapShate: mainView.shareReport.tap,
+            didCloseMTSBU: didCloseMTSBU.asSignal()
         )
         
         let output = viewModel.configure(input: input)
@@ -76,6 +84,15 @@ final class ReportScreenViewController: UIViewController {
             .emit(to: showError)
             .disposed(by: disposeBag)
         
+        output.reportFile
+            .emit(to: Binder(self) { base, url in
+                guard let url = url else { return }
+                
+                let controller = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+                base.present(controller, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
         mainView.paygateView.tap
             .emit(to: showPaygate)
             .disposed(by: disposeBag)
@@ -89,9 +106,17 @@ final class ReportScreenViewController: UIViewController {
         
         output.checkCaptcha
             .emit(to: Binder(self) { base, regNumber in
-                let controller = ReportScreenViewController.make(searchValue: .regNumber(regNumber))
-                base.navigationController?.pushViewController(controller, animated: true)
+                let controller = MTSBUScreenViewController.make(regNumber: regNumber) { [weak base] in
+                    base?.didCloseMTSBU.accept(())
+                }
+                
+                let navigationController = UINavigationController(rootViewController: controller)
+                base.present(navigationController, animated: true)
             })
+            .disposed(by: disposeBag)
+        
+        output.isReportPreparing
+            .drive(mainView.loadingView.rx.isHidden)
             .disposed(by: disposeBag)
         
         mainView.tableView.rx.setDelegate(self).disposed(by: disposeBag)
@@ -213,7 +238,6 @@ extension ReportScreenViewController {
     static func make(searchValue: ReportSearchValue) -> ReportScreenViewController {
         let controller = ReportScreenViewController(searchValue: searchValue)
         controller.title = "report".localized
-        controller.configureBackButton()
         return controller
     }
 }

@@ -23,12 +23,18 @@ extension UIViewController {
     }
     
     func configureBackButton() {
-        let icon = UIImage(named: "ChevronLeft")
+        let icon = navigationController?.viewControllers.count ?? 0 > 1
+        ? UIImage(named: "ChevronLeft")
+        : UIImage(named: "Paygate.Cancel")
         let action = UIBarButtonItem(image: icon, style: .plain, target: self, action: #selector(backAction))
         navigationItem.leftBarButtonItem = action
     }
     
     @objc func backAction(_ item: UIBarButtonItem) {
-        navigationController?.popViewController(animated: true)
+        if navigationController?.viewControllers.count ?? 0 > 1 {
+            navigationController?.popViewController(animated: true)
+        } else {
+            dismiss(animated: true)
+        }
     }
 }

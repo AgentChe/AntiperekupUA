@@ -28,6 +28,12 @@ final class DebtsCheckScreenViewController: UIViewController {
     override func loadView() {
         view = mainView
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureBackButton()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -108,7 +114,6 @@ extension DebtsCheckScreenViewController {
     static func make() -> DebtsCheckScreenViewController {
         let controller = DebtsCheckScreenViewController()
         controller.title = "merchant_debt_verification".localized
-        controller.configureBackButton()
         return controller
     }
 }

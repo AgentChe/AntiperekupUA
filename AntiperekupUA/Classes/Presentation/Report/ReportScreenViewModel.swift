@@ -18,6 +18,19 @@ final class ReportScreenViewModel {
     private let searchValue: ReportSearchValue
     private lazy var date = Date()
     
+    private var govDataModel: GovDataModel?
+    private var wantedModel: WantedModel?
+    private var interpolModel: InterpolModel?
+    private var photoModel: PhotoModel?
+    private var commentsModel: CommentsModel?
+    private var riaModel: RIAModel?
+    private var recallVinSubsModel: RecallVinSubsModel?
+    private var auctionModel: AuctionModel?
+    private var dsbtModel: DSBTModel?
+    private var decodeVinModel: DecodeVinModel?
+    private var complectationModel: ComplectationModel?
+    private var mtsbuModel: MTSBUModel?
+    
     init(searchValue: ReportSearchValue) {
         self.searchValue = searchValue
     }
@@ -30,6 +43,8 @@ extension ReportScreenViewModel {
         let activateSubscription: Signal<Void>
         let updateComments: Signal<Void>
         let complainId: Signal<Int>
+        let didTapShate: Signal<Void>
+        let didCloseMTSBU: Signal<Void>
     }
     
     struct Output {
@@ -39,10 +54,38 @@ extension ReportScreenViewModel {
         let showNewComment: Signal<(regNumber: String, vin: String)>
         let showError: Signal<String>
         let checkCaptcha: Signal<String>
+        let reportFile: Signal<URL?>
+        let isReportPreparing: Driver<Bool>
     }
     
     func configure(input: Input) -> Output {
+        let activityIndicator = RxActivityIndicator()
         
+        let reportFile = input.didTapShate
+            .asObservable()
+            .withUnretained(self)
+            .flatMapLatest { base, _ -> Observable<URL?> in
+                let reportModel = ReportModel(
+                    searchValue: base.searchValue,
+                    govDataModel: base.govDataModel,
+                    wantedModel: base.wantedModel,
+                    interpolModel: base.interpolModel,
+                    photoModel: base.photoModel,
+                    commentsModel: base.commentsModel,
+                    riaModel: base.riaModel,
+                    recallVinSubsModel: base.recallVinSubsModel,
+                    auctionModel: base.auctionModel,
+                    dsbtModel: base.dsbtModel,
+                    decodeVinModel: base.decodeVinModel,
+                    complectationModel: base.complectationModel,
+                    mtsbuModel: base.mtsbuModel
+                )
+                
+                return ShareReportCore.share.getReport(for: reportModel)
+                    .trackActivity(activityIndicator)
+            }
+            .asSignal(onErrorSignalWith: .empty())
+            
         let isActiveSubscription = input.activateSubscription
             .asObservable()
             .startWith(())
@@ -109,7 +152,7 @@ extension ReportScreenViewModel {
                 makeWantedSection(baseData: baseData, retryTrigger: retryTrigger),
                 makeInterpolSection(baseData: baseData, retryTrigger: retryTrigger),
                 makePhotosSection(baseData: baseData, retryTrigger: retryTrigger),
-                makeMTSBUSection(baseData: baseData, retryTrigger: retryTrigger),
+                makeMTSBUSection(baseData: baseData, retryTrigger: retryTrigger, updateSignal: input.didCloseMTSBU.asObservable()),
                 makeCommentsSection(baseData: baseData, retryTrigger: retryTrigger, updateSignal: updateCommentSignal),
                 makeAuctionSection(baseData: baseData, isActiveSubscription: isActiveSubscription, retryTrigger: retryTrigger)
             ]) { elements -> [DataSource] in
@@ -171,7 +214,9 @@ extension ReportScreenViewModel {
             isActiveSubscription: isActiveSubscription.asDriver(onErrorJustReturn: false),
             showNewComment: showNewComment,
             showError: showError,
-            checkCaptcha: checkCaptcha
+            checkCaptcha: checkCaptcha,
+            reportFile: reportFile,
+            isReportPreparing: activityIndicator.map(!).asDriver()
         )
     }
 }
@@ -297,6 +342,9 @@ private extension ReportScreenViewModel {
                 return base.reportService
                     .getGovData(regNumber: data.regNumber)
                     .asObservable()
+                    .do(onNext: { [weak self] in
+                        self?.govDataModel = $0
+                    })
                     .materialize(with: retryTrigger)
                     .do(onNext: { [weak self] event in
                         guard let self = self, let element = event.element else { return }
@@ -306,7 +354,6 @@ private extension ReportScreenViewModel {
                             brand: element?.vehicle?.brand ?? "",
                             model: element?.vehicle?.model ?? ""
                         )
-                        
                         self.auditHistoryService.save(model: model)
                     })
                     .compactMap { ReportDataSourceConfigureHelper.mainAndHistory(mainTitle: mainTitle, historyTitle: historyTitle, event: $0) }
@@ -338,6 +385,9 @@ private extension ReportScreenViewModel {
                 return base.reportService
                     .getWanted(regNumber: regNumber, vin: vin)
                     .asObservable()
+                    .do(onNext: { [weak self] in
+                        self?.wantedModel = $0
+                    })
                     .materialize(with: retryTrigger)
                     .compactMap { ReportDataSourceConfigureHelper.wantedSection(headerTitle: headerTitle, event: $0, additional: additional) }
                     .startWith([.header(title: headerTitle, state: .empty), .loader])
@@ -368,6 +418,9 @@ private extension ReportScreenViewModel {
                 return base.reportService
                     .getInterpol(vin: data.vin)
                     .asObservable()
+                    .do(onNext: { [weak self] in
+                        self?.interpolModel = $0
+                    })
                     .materialize(with: retryTrigger)
                     .compactMap { ReportDataSourceConfigureHelper.interpolSection(headerTitle: headerTitle, event: $0)}
                     .startWith([.header(title: headerTitle, state: .empty), .loader])
@@ -399,6 +452,9 @@ private extension ReportScreenViewModel {
                 return base.reportService
                     .getPhotos(regNumber: data.regNumber)
                     .asObservable()
+                    .do(onNext: { [weak self] in
+                        self?.photoModel = $0
+                    })
                     .materialize(with: retryTrigger)
                     .compactMap { ReportDataSourceConfigureHelper.photoSection(headerTitle: headerTitle, event: $0) }
                     .startWith([.header(title: headerTitle, state: .empty), .loader])
@@ -406,11 +462,12 @@ private extension ReportScreenViewModel {
             .startWith([.header(title: headerTitle, state: .empty), .loader])
     }
     
-    func makeMTSBUSection(baseData: Observable<BaseData>, retryTrigger: Observable<Void>) -> Observable<Elements> {
+    func makeMTSBUSection(baseData: Observable<BaseData>, retryTrigger: Observable<Void>, updateSignal: Observable<Void>) -> Observable<Elements> {
         let headerTitle = "mtsbu_title".localized
         
-        return baseData
-            .distinctUntilChanged { $0.regNumber == $1.regNumber }
+        return Observable
+            .combineLatest(baseData, updateSignal.startWith(()))
+            .map { $0.0 }
             .withUnretained(self)
             .flatMapLatest { base, data -> Observable<Elements> in
                 guard data.isValidNumber else {
@@ -439,6 +496,9 @@ private extension ReportScreenViewModel {
                         cookiesString: captchaResult.cookiesString
                     )
                     .asObservable()
+                    .do(onNext: { [weak self] in
+                        self?.mtsbuModel = $0
+                    })
                     .materialize(with: retryTrigger)
                     .compactMap { ReportDataSourceConfigureHelper.mtsbuSection(headerTitle: headerTitle, event: $0) }
                     .startWith([.header(title: headerTitle, state: .empty), .loader])
@@ -474,6 +534,9 @@ private extension ReportScreenViewModel {
                 return base.reportService
                     .getComments(regNumber: regNumber, vin: vin)
                     .asObservable()
+                    .do(onNext: { [weak self] in
+                        self?.commentsModel = $0
+                    })
                     .materialize(with: retryTrigger)
                     .compactMap { ReportDataSourceConfigureHelper.commentsSection(headerTitle: headerTitle, event: $0) }
                     .startWith([.header(title: headerTitle, state: .empty), .loader])
@@ -511,6 +574,9 @@ private extension ReportScreenViewModel {
                 return base.reportService
                     .getAuction(vin: data.vin, isFree: !isActiveSubscription)
                     .asObservable()
+                    .do(onNext: { [weak self] in
+                        self?.auctionModel = $0
+                    })
                     .materialize(with: retryTrigger)
                     .compactMap { ReportDataSourceConfigureHelper.auctionSection(headerTitle: headerTitle, event: $0) }
                     .startWith([.header(title: headerTitle, state: .empty), .loader])
@@ -580,6 +646,9 @@ private extension ReportScreenViewModel {
                 return base.reportService
                     .getRIA(regNumber: regNumber, vin: vin)
                     .asObservable()
+                    .do(onNext: { [weak self] in
+                        self?.riaModel = $0
+                    })
                     .materialize(with: retryTrigger)
                     .compactMap { ReportDataSourceConfigureHelper.riaSection(headerTitle: headerTitle, event: $0) }
                     .startWith([.header(title: headerTitle, state: .empty), .loader])
@@ -609,6 +678,9 @@ private extension ReportScreenViewModel {
                 return base.reportService
                     .getRecall(vin: data.vin)
                     .asObservable()
+                    .do(onNext: { [weak self] in
+                        self?.recallVinSubsModel = $0
+                    })
                     .materialize(with: retryTrigger)
                     .compactMap { ReportDataSourceConfigureHelper.recallSection(headerTitle: headerTitle, event: $0) }
                     .startWith([.header(title: headerTitle, state: .empty), .loader])
@@ -639,6 +711,9 @@ private extension ReportScreenViewModel {
                 return base.reportService
                     .getDSBT(regNumber: data.regNumber)
                     .asObservable()
+                    .do(onNext: { [weak self] in
+                        self?.dsbtModel = $0
+                    })
                     .materialize(with: retryTrigger)
                     .compactMap { ReportDataSourceConfigureHelper.dsbtSection(headerTitle: headerTitle, event: $0) }
                     .startWith([.header(title: headerTitle, state: .empty), .loader])
@@ -668,6 +743,9 @@ private extension ReportScreenViewModel {
                 return base.reportService
                     .getDecodeVin(vin: data.vin)
                     .asObservable()
+                    .do(onNext: { [weak self] in
+                        self?.decodeVinModel = $0
+                    })
                     .materialize(with: retryTrigger)
                     .compactMap { ReportDataSourceConfigureHelper.decodeVinSection(headerTitle: headerTitle, event: $0) }
                     .startWith([.header(title: headerTitle, state: .empty), .loader])
@@ -698,6 +776,9 @@ private extension ReportScreenViewModel {
                 return base.reportService
                     .getComplectation(vin: data.vin)
                     .asObservable()
+                    .do(onNext: { [weak self] in
+                        self?.complectationModel = $0
+                    })
                     .materialize(with: retryTrigger)
                     .compactMap { ReportDataSourceConfigureHelper.complectationSection(headerTitle: headerTitle, event: $0) }
                     .startWith([.header(title: headerTitle, state: .empty), .loader])

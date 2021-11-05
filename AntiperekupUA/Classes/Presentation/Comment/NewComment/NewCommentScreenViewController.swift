@@ -47,6 +47,12 @@ final class NewCommentScreenViewController: UIViewController {
     override func loadView() {
         view = mainView
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureBackButton()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -128,7 +134,6 @@ extension NewCommentScreenViewController {
         let controller = NewCommentScreenViewController(vin: vin, regNumber: regNumber)
         controller.title = "new_comment".localized
         controller.didCommentAdded = didCommentAdded
-        controller.configureBackButton()
         return controller
     }
 }

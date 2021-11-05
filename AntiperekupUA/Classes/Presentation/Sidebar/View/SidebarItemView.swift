@@ -102,26 +102,3 @@ private extension TextAttributes {
         .textColor(.black)
         .textAlignment(.left)
 }
-
-
-#if DEBUG
-import SwiftUI
-@available(iOS 13.0, *)
-struct SidebarItemView_Previews: PreviewProvider {
-    
-    struct SidebarItemRepresentable: UIViewRepresentable {
-        func makeUIView(context: Context) -> SidebarItemView {
-            let view = SidebarItemView()
-            view.setup(for: UIImage(named: "Sidebar.Police"), title: "Политика конфиденциальности", subtitle: "2C7EF22B9EED48AC")
-            return view
-        }
-        func updateUIView(_ uiView: SidebarItemView, context: Context) {
-            
-        }
-    }
-
-    static var previews: some View {
-        return SidebarItemRepresentable().frame(width: 314, height: 28, alignment: .center)
-    }
-}
-#endif

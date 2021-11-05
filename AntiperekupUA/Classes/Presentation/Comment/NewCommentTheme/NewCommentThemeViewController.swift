@@ -21,6 +21,11 @@ final class NewCommentThemeViewController: UIViewController {
         view = mainView
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureBackButton()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         mainView.tableView.delegate = self
@@ -57,7 +62,6 @@ extension NewCommentThemeViewController {
     static func make(selectedTheme: @escaping (NewCommentTheme) -> Void) -> NewCommentThemeViewController {
         let controller = NewCommentThemeViewController()
         controller.selectedTheme = selectedTheme
-        controller.configureBackButton()
         return controller
     }
 }

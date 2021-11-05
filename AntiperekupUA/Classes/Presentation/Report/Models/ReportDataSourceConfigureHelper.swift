@@ -251,13 +251,6 @@ enum ReportDataSourceConfigureHelper {
         }
     }
     
-    static func errorSection(headerText: String, message: String?) -> Elements {
-        return [
-            .header(title: headerText, state: .error),
-            .error(message: message ?? "")
-        ]
-    }
-    
     static func commentsSection(headerTitle: String, event: Event<CommentsModel?>) -> Elements? {
         switch event {
         case let .next(model):
@@ -273,16 +266,16 @@ enum ReportDataSourceConfigureHelper {
             guard !model.comments.isEmpty else {
                 let text = "user_comments_not_found".localized
                 let items: Elements = [
-                    .header(title: headerTitle, state: .error),
-                    .iconWithText(.init(text: text, iconType : .error))
+                    .header(title: headerTitle, state: .success),
+                    .iconWithText(.init(text: text, iconType : .success))
                 ]
                 
                 return items + additional
             }
             
             let initialItems: Elements = [
-                .header(title: headerTitle, state: .success),
-                .iconWithText(.init(text: "user_comments_found".localized, iconType: .success))
+                .header(title: headerTitle, state: .error),
+                .iconWithText(.init(text: "user_comments_found".localized, iconType: .error))
             ]
 
             let items: Elements = model.comments
@@ -381,7 +374,7 @@ enum ReportDataSourceConfigureHelper {
             
             let initialItems: Elements = [
                 .header(title: headerTitle, state: .success),
-                .iconWithText(.init(text: String(format: "records".localized, model.data.count), iconType: .error))
+                .iconWithText(.init(text: String(format: "records".localized, model.data.count), iconType: .success))
             ]
             
             return model.data
@@ -437,7 +430,7 @@ enum ReportDataSourceConfigureHelper {
             }
             
             let initialItems: Elements = [
-                .header(title: headerTitle, state: .success),
+                .header(title: headerTitle, state: .error),
                 .iconWithText(.init(text: String(format: "records".localized, model.records.count), iconType: .error))
             ]
             
@@ -472,7 +465,7 @@ enum ReportDataSourceConfigureHelper {
                 let text = "no_dsbt_information_found".localized
                 let items: [ReportTableItem] = [
                     .header(title: headerTitle, state: .success),
-                    .iconWithText(.init(text: text, iconType : .error)),
+                    .iconWithText(.init(text: text, iconType : .success)),
                     .description("subs_descr_dsbt".localized)
                 ]
                 
@@ -640,20 +633,18 @@ enum ReportDataSourceConfigureHelper {
         }
     }
     
+    static func errorSection(headerText: String, message: String?) -> Elements {
+        return [
+            .header(title: headerText, state: .error),
+            .error(message: message ?? "")
+        ]
+    }
+    
     static func errorWithRetry(headerText: String, error: Error) -> Elements {
         return [
             .header(title: headerText, state: .error),
             .error(message: "network_error".localized),
             .retry
         ]
-    }
-}
-
-private extension Double {
-    var price: String {
-        guard self > 0 else {
-            return ""
-        }
-        return "\(self) $"
     }
 }

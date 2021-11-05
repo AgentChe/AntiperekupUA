@@ -15,6 +15,8 @@ final class MTSBUScreenViewController: UIViewController {
     
     private let viewModel: MTSBUScreenViewModel
     
+    private var completion: (() -> Void)?
+    
     init(regNumber: String) {
         viewModel = MTSBUScreenViewModel(regNumber: regNumber)
         super.init(nibName: nil, bundle: nil)
@@ -27,6 +29,12 @@ final class MTSBUScreenViewController: UIViewController {
     override func loadView() {
         view = mainView
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureBackButton()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,10 +54,15 @@ final class MTSBUScreenViewController: UIViewController {
         
         output.searchValue
             .emit(to: Binder(self) { base, searchValue in
-                let controller = ReportScreenViewController.make(searchValue: searchValue)
-                let mainController = base.navigationController?.viewControllers.first
-                let controllers = [mainController, controller].compactMap { $0 }
-                base.navigationController?.setViewControllers(controllers, animated: true)
+                if base.navigationController?.viewControllers.first === base {
+                    base.completion?()
+                    base.dismiss(animated: true)
+                } else {
+                    let controller = ReportScreenViewController.make(searchValue: searchValue)
+                    let mainController = base.navigationController?.viewControllers.first
+                    let controllers = [mainController, controller].compactMap { $0 }
+                    base.navigationController?.setViewControllers(controllers, animated: true)
+                }
             })
             .disposed(by: disposeBag)
         
@@ -66,10 +79,10 @@ final class MTSBUScreenViewController: UIViewController {
 
 // MARK: Make
 extension MTSBUScreenViewController {
-    static func make(regNumber: String) -> MTSBUScreenViewController {
+    static func make(regNumber: String, completion: (() -> Void)? = nil) -> MTSBUScreenViewController {
         let controller = MTSBUScreenViewController(regNumber: regNumber)
+        controller.completion = completion
         controller.title = "app_name".localized
-        controller.configureBackButton()
         return controller
     }
 }

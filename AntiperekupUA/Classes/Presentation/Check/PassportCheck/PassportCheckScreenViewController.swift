@@ -31,6 +31,11 @@ final class PassportCheckScreenViewController: UIViewController {
         view = mainView
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureBackButton()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -101,7 +106,6 @@ extension PassportCheckScreenViewController {
     static func make() -> PassportCheckScreenViewController {
         let controller = PassportCheckScreenViewController()
         controller.title = "wanted_passport_menu".localized
-        controller.configureBackButton()
         return controller
     }
 }
