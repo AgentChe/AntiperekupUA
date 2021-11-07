@@ -22,11 +22,15 @@ final class ReportImagesCarouselCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func scroll(to index: Int) {
+        carouselView.scroll(to: index)
+    }
 }
 
 extension ReportImagesCarouselCell {
-    func setup(for elements: [URL]) {
-        carouselView.setup(elements: elements)
+    func setup(for elements: [URL], didSelectItem: @escaping (_ elements: [URL], _ index: Int) -> Void) {
+        carouselView.setup(elements: elements, didSelectItem: didSelectItem)
         valueLabel.attributedText = "\(elements.count)".attributed(with: .value)
     }
 }

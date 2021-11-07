@@ -203,6 +203,10 @@
 		86E410BF2726F30A0036D0DC /* ShareReportCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E410BE2726F30A0036D0DC /* ShareReportCore.swift */; };
 		86E410C12726F3950036D0DC /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E410C02726F3950036D0DC /* DoubleExtension.swift */; };
 		86E410C42731B9F00036D0DC /* ReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E410C32731B9F00036D0DC /* ReportModel.swift */; };
+		86E410D22736FA570036D0DC /* ReportPhotoGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E410CF2736FA570036D0DC /* ReportPhotoGalleryViewController.swift */; };
+		86E410DB2736FB3D0036D0DC /* ReportPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E410D82736FB3D0036D0DC /* ReportPhotoViewController.swift */; };
+		86E410DF273719B30036D0DC /* CollectionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E410DE273719B30036D0DC /* CollectionExtension.swift */; };
+		86E410E2273853230036D0DC /* ImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E410E1273853230036D0DC /* ImageScrollView.swift */; };
 		86E521C726ECF41F00BE6AC7 /* ReportDataSourceConfigureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E521C626ECF41F00BE6AC7 /* ReportDataSourceConfigureHelper.swift */; };
 		86FC5F5526F1021100A95B9C /* NewCommentCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FC5F5426F1021100A95B9C /* NewCommentCommentCell.swift */; };
 		86FC5F5726F10B4F00A95B9C /* NewCommentTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FC5F5626F10B4F00A95B9C /* NewCommentTitleCell.swift */; };
@@ -437,6 +441,10 @@
 		86E410BE2726F30A0036D0DC /* ShareReportCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareReportCore.swift; sourceTree = "<group>"; };
 		86E410C02726F3950036D0DC /* DoubleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
 		86E410C32731B9F00036D0DC /* ReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportModel.swift; sourceTree = "<group>"; };
+		86E410CF2736FA570036D0DC /* ReportPhotoGalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportPhotoGalleryViewController.swift; sourceTree = "<group>"; };
+		86E410D82736FB3D0036D0DC /* ReportPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportPhotoViewController.swift; sourceTree = "<group>"; };
+		86E410DE273719B30036D0DC /* CollectionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionExtension.swift; sourceTree = "<group>"; };
+		86E410E1273853230036D0DC /* ImageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScrollView.swift; sourceTree = "<group>"; };
 		86E521C626ECF41F00BE6AC7 /* ReportDataSourceConfigureHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDataSourceConfigureHelper.swift; sourceTree = "<group>"; };
 		86FC5F5426F1021100A95B9C /* NewCommentCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentCommentCell.swift; sourceTree = "<group>"; };
 		86FC5F5626F10B4F00A95B9C /* NewCommentTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentTitleCell.swift; sourceTree = "<group>"; };
@@ -759,6 +767,7 @@
 		866B817D26BC470100026E95 /* Report */ = {
 			isa = PBXGroup;
 			children = (
+				86E410C5273586110036D0DC /* PhotoGallery */,
 				864D45F026DE123000B75C70 /* View */,
 				86D5A2E626D568F1007FAB12 /* Alert */,
 				8672E59726BC660F007BA792 /* Cells */,
@@ -1314,6 +1323,32 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		86E410C5273586110036D0DC /* PhotoGallery */ = {
+			isa = PBXGroup;
+			children = (
+				86E410E0273853180036D0DC /* Views */,
+				86E410D52736FAB10036D0DC /* Controllers */,
+				86E410CF2736FA570036D0DC /* ReportPhotoGalleryViewController.swift */,
+			);
+			path = PhotoGallery;
+			sourceTree = "<group>";
+		};
+		86E410D52736FAB10036D0DC /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				86E410D82736FB3D0036D0DC /* ReportPhotoViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		86E410E0273853180036D0DC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				86E410E1273853230036D0DC /* ImageScrollView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		86FC5F5826F2652000A95B9C /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -1414,6 +1449,7 @@
 				862F30D626F66E4700365BDA /* UITableViewExtension.swift */,
 				86CCB02126FCEE2600A21A78 /* DateExtension.swift */,
 				86E410C02726F3950036D0DC /* DoubleExtension.swift */,
+				86E410DE273719B30036D0DC /* CollectionExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1631,6 +1667,7 @@
 				86C11F7D26AD7D2C00D7A47E /* OnboardingManager.swift in Sources */,
 				9667E07626A6156C0098C7F2 /* CircleView.swift in Sources */,
 				86827E2026F624F9007F83CE /* PassportCheckHeaderView.swift in Sources */,
+				86E410E2273853230036D0DC /* ImageScrollView.swift in Sources */,
 				8609009226FF153500ACE9C6 /* DebtsCheckRecordCell.swift in Sources */,
 				9667E07526A6156C0098C7F2 /* GradientButton.swift in Sources */,
 				86827E2226F653F8007F83CE /* CheckResultCell.swift in Sources */,
@@ -1686,6 +1723,7 @@
 				8687826027147A2C00E0C7C0 /* SidebarPresentationController.swift in Sources */,
 				8687331526F77AD4001BDF9B /* PassportCheckRecordCellView.swift in Sources */,
 				863D629A26B0842C00D0A073 /* MainSearchHeaderView.swift in Sources */,
+				86E410DB2736FB3D0036D0DC /* ReportPhotoViewController.swift in Sources */,
 				864250CF26AC4C2900837F07 /* LanguageModel.swift in Sources */,
 				863D629126B0675800D0A073 /* SearchView.swift in Sources */,
 				8687826C2716054A00E0C7C0 /* MTSBUWebView.swift in Sources */,
@@ -1782,6 +1820,7 @@
 				8687826F271709B000E0C7C0 /* MTSBUService.swift in Sources */,
 				864250C826AC4B2700837F07 /* LanguageManager.swift in Sources */,
 				864250DB26AC71E400837F07 /* UpdateTokenModel.swift in Sources */,
+				86E410DF273719B30036D0DC /* CollectionExtension.swift in Sources */,
 				9667E07726A6156C0098C7F2 /* GradientView.swift in Sources */,
 				8687827527174F3A00E0C7C0 /* MTSBUCookiesModel.swift in Sources */,
 				8609009726FF4F6F00ACE9C6 /* DebtsCheckModel.swift in Sources */,
@@ -1808,6 +1847,7 @@
 				9667E07926A6156C0098C7F2 /* UIViewRxExtension.swift in Sources */,
 				8637EEF326C587DA003AAC30 /* ReportErrorCell.swift in Sources */,
 				862F30D726F66E4700365BDA /* UITableViewExtension.swift in Sources */,
+				86E410D22736FA570036D0DC /* ReportPhotoGalleryViewController.swift in Sources */,
 				864D45F726DE4C9900B75C70 /* ReportCarouselFlowLayout.swift in Sources */,
 				8672E59226BC5D16007BA792 /* ReportDataSource.swift in Sources */,
 				8687827127174E6B00E0C7C0 /* MTSBUCookiesRequest.swift in Sources */,

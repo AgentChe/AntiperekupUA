@@ -31,7 +31,8 @@ final class AuditHistoryManagerCore {
             return []
         }
         let elements = try? JSONDecoder().decode([AuditHistoryModel].self, from: decodedData)
-        return elements ?? []
+        let result = elements ?? []
+        return result.sorted(by: { $0.date.compare($1.date) == .orderedDescending })
     }
     
     func getItem(by id: String) -> AuditHistoryModel? {
