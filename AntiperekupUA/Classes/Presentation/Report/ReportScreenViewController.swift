@@ -29,6 +29,9 @@ final class ReportScreenViewController: UIViewController {
     private let openUrlRelay = PublishRelay<URL>()
     private let updateCommentsRelay = PublishRelay<Void>()
     private let didCloseMTSBU = PublishRelay<Void>()
+    private let openGallery = PublishRelay<([URL], Int)>()
+    
+    private var scrollTo: ((Int) -> ())?
     
     init(searchValue: ReportSearchValue) {
         viewModel = ReportScreenViewModel(searchValue: searchValue)
@@ -90,6 +93,15 @@ final class ReportScreenViewController: UIViewController {
                 
                 let controller = UIActivityViewController(activityItems: [url], applicationActivities: nil)
                 base.present(controller, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        openGallery
+            .bind(to: Binder(self) { base, tuple in
+                let (images, index) = tuple
+                let controller = ReportPhotoGalleryViewController.make(elements: images, currentIndex: index, completion: base.scrollTo)
+                let navigationController = UINavigationController(rootViewController: controller)
+                base.present(navigationController, animated: true)
             })
             .disposed(by: disposeBag)
         
@@ -183,7 +195,12 @@ final class ReportScreenViewController: UIViewController {
             return cell
         case let .images(value):
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportImagesCarouselCell.self), for: indexPath) as! ReportImagesCarouselCell
-            cell.setup(for: value)
+            cell.setup(for: value) { [weak self] elements, index in
+                self?.openGallery.accept((elements, index))
+            }
+            self?.scrollTo = { [weak cell] index in
+                cell?.scroll(to: index)
+            }
             return cell
         case let .title(value):
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: ReportTitleCell.self), for: indexPath) as! ReportTitleCell

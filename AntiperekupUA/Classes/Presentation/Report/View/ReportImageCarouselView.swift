@@ -12,6 +12,8 @@ final class ReportImageCarouselView: UIView {
     private lazy var pageControl = makePageControl()
     private var elements: [URL] = []
     
+    var didSelectItem: ((_ elements: [URL], _ index: Int) -> Void)?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         initialize()
@@ -21,11 +23,17 @@ final class ReportImageCarouselView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func scroll(to index: Int) {
+        collectionView.scrollToItem(at: IndexPath(row: index, section: 0), at: .centeredHorizontally, animated: false)
+        pageControl.currentPage = index
+    }
 }
 
 extension ReportImageCarouselView {
-    func setup(elements: [URL]) {
+    func setup(elements: [URL], didSelectItem: @escaping (_ elements: [URL], _ index: Int) -> Void) {
         self.elements = elements
+        self.didSelectItem = didSelectItem
         pageControl.numberOfPages = elements.count
         collectionView.reloadData()
     }
@@ -45,7 +53,11 @@ extension ReportImageCarouselView: UICollectionViewDataSource {
 }
 
 extension ReportImageCarouselView: UICollectionViewDelegate {
-    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        didSelectItem?(elements, indexPath.row)
+    }
+    
+    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
         let page = scrollView.contentOffset.x / scrollView.frame.size.width
         pageControl.currentPage = Int(page.rounded())
     }

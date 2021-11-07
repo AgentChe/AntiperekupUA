@@ -59,25 +59,3 @@ private extension ReportImageCarouselCell {
         return view
     }
 }
-
-
-#if DEBUG
-import SwiftUI
-@available(iOS 13.0, *)
-struct ReportImageCarouselCellView_Previews: PreviewProvider {
-    
-    struct ReportImageCarouselCellRepresentable: UIViewRepresentable {
-        func makeUIView(context: Context) -> ReportImageCarouselCell {
-            let view = ReportImageCarouselCell()
-            return view
-        }
-        func updateUIView(_ uiView: ReportImageCarouselCell, context: Context) {
-            
-        }
-    }
-
-    static var previews: some View {
-        return ReportImageCarouselCellRepresentable().frame(width: 343, height: 165, alignment: .center)
-    }
-}
-#endif

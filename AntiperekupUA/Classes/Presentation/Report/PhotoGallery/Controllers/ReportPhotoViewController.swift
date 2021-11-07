@@ -1,0 +1,58 @@
+//
+//  ReportPhotoViewController.swift
+//  AntiperekupUA
+//
+//  Created by Vitaliy Zagorodnov on 06.11.2021.
+//
+
+import UIKit
+import Kingfisher
+
+final class ReportPhotoViewController: UIViewController {
+    private var imageURL: URL?
+    var currentIndex: Int!
+    
+    var imageScrollView: ImageScrollView!
+    
+    private var image: UIImage?
+    
+    convenience init(image: UIImage) {
+        self.init()
+        self.image = image
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        imageScrollView = ImageScrollView(frame: view.bounds)
+        view.addSubview(imageScrollView)
+        setupImageScrollView()
+        
+        if let url = imageURL {
+            DispatchQueue.global(qos: .userInitiated).async {
+                if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.imageScrollView.set(image: image)
+                    }
+                }
+            }
+        }
+    }
+    
+    func setupImageScrollView() {
+        imageScrollView.translatesAutoresizingMaskIntoConstraints = false
+        imageScrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        imageScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        imageScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        imageScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+    }
+}
+
+// MARK: Make
+extension ReportPhotoViewController {
+    static func make(imageURL: URL) -> ReportPhotoViewController {
+        let controller = ReportPhotoViewController()
+        controller.imageURL = imageURL
+        return controller
+    }
+}
