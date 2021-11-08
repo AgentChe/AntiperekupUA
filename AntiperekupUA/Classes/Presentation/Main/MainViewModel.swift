@@ -221,10 +221,10 @@ private extension MainViewModel {
         static let vinExample = "XTA210990w2395414"
         static let passportExample = "CXI 399999"
         
-        static let regError = "Минимальная длина госномера 6 символов."
-        static let vinError = "VIN код может содержать только латинские буквы и цифры."
-        static let passportError = "Техпаспорт может содержать только латинские буквы и цифры."
-        static let example = "\nНапример: %@"
+        static let regError = "reg_number_validation_error".localized
+        static let vinError = "vin_validation_error".localized
+        static let passportError = "technical_passport_validation_error".localized
+        static let example = "example".localized
     }
 }
 

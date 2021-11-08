@@ -32,6 +32,8 @@
 			<string>d</string>
 			<key>one</key>
 			<string>%d запись</string>
+			<key>two</key>
+			<string>%d записи</string>
 			<key>few</key>
 			<string>%d записи</string>
 			<key>other</key>
@@ -50,6 +52,8 @@
 			<string>d</string>
 			<key>one</key>
 			<string>%d запись. Автомобиль в розыске</string>
+			<key>two</key>
+			<string>%d записи. Автомобиль в розыске</string>
 			<key>few</key>
 			<string>%d записи. Автомобиль в розыске</string>
 			<key>other</key>
