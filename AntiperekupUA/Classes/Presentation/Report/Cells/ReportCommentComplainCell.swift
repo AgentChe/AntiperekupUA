@@ -9,6 +9,7 @@ import UIKit
 final class ReportCommentComplainCell: UITableViewCell {
     
     private lazy var button = makeButton()
+    lazy var containerView = makeContainer()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -31,10 +32,12 @@ extension ReportCommentComplainCell {
     }
 }
 
+extension ReportCommentComplainCell: CornerCellContainer {}
+
 private extension ReportCommentComplainCell {
     func initialize() {
-        backgroundColor = .white
-        contentView.backgroundColor = .white
+        backgroundColor = .clear
+        contentView.backgroundColor = .clear
         selectionStyle = .none
     }
     
@@ -47,11 +50,18 @@ private extension ReportCommentComplainCell {
 private extension ReportCommentComplainCell {
     func makeConstraints() {
         NSLayoutConstraint.activate([
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16.scale),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16.scale)
+        ])
+        
+        NSLayoutConstraint.activate([
             button.heightAnchor.constraint(equalToConstant: 24.scale),
             button.widthAnchor.constraint(equalTo: button.heightAnchor),
-            button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -32.scale),
-            button.topAnchor.constraint(equalTo: contentView.topAnchor),
-            button.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            button.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -32.scale),
+            button.topAnchor.constraint(equalTo: containerView.topAnchor),
+            button.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ])
     }
 }
@@ -64,6 +74,14 @@ private extension ReportCommentComplainCell {
         view.setImage(UIImage(named: "Report.Complain"), for: .normal)
         view.addTarget(self, action: #selector(didTapButton(sender:)), for: .touchUpInside)
         view.tintColor = .black
+        containerView.addSubview(view)
+        return view
+    }
+    
+    func makeContainer() -> UIView {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
         contentView.addSubview(view)
         return view
     }

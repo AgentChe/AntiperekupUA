@@ -11,16 +11,23 @@ import RxSwift
 final class MTSBUService {
     static let shared = MTSBUService()
     
-    func set(captcha: MTSBUCaptcha) {
-        guard let encodedData = try? JSONEncoder().encode(captcha) else {
+    func set(captcha: MTSBUCaptcha, for number: String) {
+        guard
+            let encodedData = try? JSONEncoder().encode(captcha)
+        else {
             return
         }
-        UserDefaults.standard.set(encodedData, forKey: Constants.captchaKey)
+        
+        var object = UserDefaults.standard.object(forKey: Constants.captchaKey) as? [String: Data] ?? [:]
+        
+        object[number] = encodedData
+        UserDefaults.standard.set(object, forKey: Constants.captchaKey)
     }
     
-    func getCaptcha() -> MTSBUCaptcha? {
+    func getCaptcha(for regNumber: String) -> MTSBUCaptcha? {
         guard
-            let decodedData = UserDefaults.standard.value(forKey: Constants.captchaKey) as? Data,
+            let object = UserDefaults.standard.object(forKey: Constants.captchaKey) as? [String: Data],
+            let decodedData = object[regNumber],
             let captcha = try? JSONDecoder().decode(MTSBUCaptcha.self, from: decodedData)
         else {
             return nil
@@ -37,7 +44,7 @@ final class MTSBUService {
             let tokenDay = captchaComponents.day,
             currentDay <= tokenDay + 2
         else {
-            resetCaptcha()
+            resetCaptcha(for: regNumber)
             return nil
         }
         
@@ -52,8 +59,14 @@ final class MTSBUService {
             .map(MTSBUCookiesModel.init)
     }
     
-    private func resetCaptcha() {
-        UserDefaults.standard.removeObject(forKey: Constants.captchaKey)
+    private func resetCaptcha(for regNumber: String) {
+        guard
+            var object = UserDefaults.standard.object(forKey: Constants.captchaKey) as? [String: Data]
+        else {
+            return
+        }
+        object.removeValue(forKey: regNumber)
+        UserDefaults.standard.set(object, forKey: Constants.captchaKey)
     }
 }
 

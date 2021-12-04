@@ -15,6 +15,7 @@ final class DebtsCheckHeaderView: UIView {
     lazy var patronymicField = makeFieldView(placeholder: "patronymic".localized)
     lazy var birthdayField = makeFieldView(placeholder: "birthday".localized)
     lazy var checkButton = makeButton()
+    private let dateFormatter = DateFieldFormatter()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -64,6 +65,7 @@ private extension DebtsCheckHeaderView {
     func initialize() {
         backgroundColor = .clear
         birthdayField.field.keyboardType = .decimalPad
+        birthdayField.field.delegate = dateFormatter
     }
 }
 

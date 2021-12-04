@@ -7,12 +7,16 @@
 
 import UIKit
 
-extension UITableViewCell {
+protocol CornerCellContainer: UITableViewCell {
+    var containerView: UIView { get }
+}
+
+extension CornerCellContainer {
     func round(corners: UIRectCorner, radius: CGFloat) {
-        let mask = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let mask = UIBezierPath(roundedRect: containerView.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
         let shape = CAShapeLayer()
-        shape.frame = bounds
+        shape.frame = containerView.bounds
         shape.path = mask.cgPath
-        layer.mask = shape
+        containerView.layer.mask = shape
     }
 }

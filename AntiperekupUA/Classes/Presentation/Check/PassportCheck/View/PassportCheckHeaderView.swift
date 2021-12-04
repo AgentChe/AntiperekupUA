@@ -85,6 +85,7 @@ private extension PassportCheckHeaderView {
     func makeFieldView(placeholder: String) -> CheckFieldView {
         let view = CheckFieldView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.field.autocapitalizationType = .allCharacters
         view.field.placeholder = placeholder
         addSubview(view)
         return view

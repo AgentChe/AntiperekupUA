@@ -10,6 +10,7 @@ final class ReportLoadingCell: UITableViewCell {
     
     private lazy var loader = makeLoader()
     private lazy var label = makeLabel()
+    lazy var containerView = makeContainer()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -29,27 +30,36 @@ final class ReportLoadingCell: UITableViewCell {
 
 private extension ReportLoadingCell {
     func initialize() {
-        backgroundColor = .white
-        contentView.backgroundColor = .white
+        backgroundColor = .clear
+        contentView.backgroundColor = .clear
         selectionStyle = .none
     }
 }
+
+extension ReportLoadingCell: CornerCellContainer {}
 
 // MARK: Make constraints
 private extension ReportLoadingCell {
     func makeConstraints() {
         NSLayoutConstraint.activate([
-            loader.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10.scale),
-            loader.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16.scale),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16.scale)
+        ])
+        
+        NSLayoutConstraint.activate([
+            loader.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10.scale),
+            loader.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             loader.heightAnchor.constraint(equalToConstant: 20.scale),
             loader.widthAnchor.constraint(equalTo: loader.heightAnchor)
         ])
         
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: loader.bottomAnchor, constant: 10.scale),
-            label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16.scale),
-            label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16.scale),
-            label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10.scale)
+            label.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16.scale),
+            label.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16.scale),
+            label.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10.scale)
         ])
     }
 }
@@ -62,7 +72,7 @@ private extension ReportLoadingCell {
         view.style = .medium
         view.color = UIColor(integralRed: 112, green: 160, blue: 172)
         view.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(view)
+        containerView.addSubview(view)
         return view
     }
     
@@ -77,6 +87,14 @@ private extension ReportLoadingCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.numberOfLines = 0
         view.attributedText = "wait".localized.attributed(with: attr)
+        containerView.addSubview(view)
+        return view
+    }
+    
+    func makeContainer() -> UIView {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
         contentView.addSubview(view)
         return view
     }

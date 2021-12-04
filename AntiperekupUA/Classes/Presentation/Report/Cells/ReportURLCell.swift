@@ -12,6 +12,7 @@ final class ReportURLCell: UITableViewCell {
     private lazy var separator = makeSeparator()
     private lazy var titleLabel = makeTitle()
     private lazy var valueLabel = makeValue()
+    lazy var containerView = makeContainer()
     
     private var url: URL?
     private var didTapURL: ((URL?) -> Void)?
@@ -41,10 +42,12 @@ extension ReportURLCell {
     }
 }
 
+extension ReportURLCell: CornerCellContainer {}
+
 private extension ReportURLCell {
     func initialize() {
-        backgroundColor = .white
-        contentView.backgroundColor = .white
+        backgroundColor = .clear
+        contentView.backgroundColor = .clear
         selectionStyle = .none
     }
     
@@ -63,22 +66,29 @@ private extension ReportURLCell {
         valueLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         
         NSLayoutConstraint.activate([
-            separator.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16.scale),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16.scale)
+        ])
+        
+        NSLayoutConstraint.activate([
+            separator.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
             separator.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            separator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            separator.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             separator.heightAnchor.constraint(equalToConstant: 1.scale)
         ])
         
         NSLayoutConstraint.activate([
             titleLabel.centerYAnchor.constraint(equalTo: valueLabel.centerYAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8)
+            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8)
         ])
         
         NSLayoutConstraint.activate([
-            valueLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            valueLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            valueLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16),
+            valueLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
             valueLabel.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 16),
-            valueLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
+            valueLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8)
         ])
     }
 }
@@ -89,7 +99,7 @@ private extension ReportURLCell {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = UIColor(integralRed: 246, green: 246, blue: 247)
-        contentView.addSubview(view)
+        containerView.addSubview(view)
         return view
     }
     
@@ -97,7 +107,7 @@ private extension ReportURLCell {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.numberOfLines = 1
-        contentView.addSubview(view)
+        containerView.addSubview(view)
         return view
     }
     
@@ -108,6 +118,14 @@ private extension ReportURLCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.addGestureRecognizer(gesture)
         view.numberOfLines = 0
+        containerView.addSubview(view)
+        return view
+    }
+    
+    func makeContainer() -> UIView {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
         contentView.addSubview(view)
         return view
     }

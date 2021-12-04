@@ -49,6 +49,12 @@ final class PassportCheckScreenViewController: UIViewController {
             .drive(fieldsHeader.fieldsState)
             .disposed(by: disposeBag)
         
+        fieldsHeader.fieldData
+            .emit(to: Binder(self) { base, _ in
+                base.view.endEditing(true)
+            })
+            .disposed(by: disposeBag)
+        
         output.dataSource
             .map { $0.map { .init(model: $0.0, items: $0.1) } }
             .drive(mainView.tableView.rx.items(dataSource: dataSource))

@@ -9,9 +9,7 @@ import UIKit
 final class ReportScreenView: UIView {
     lazy var tableView = makeTableView()
     lazy var paygateView = makeBottomButton()
-    lazy var shareReport = makeReportButton()
     lazy var loadingView = makeLoadingView()
-    private lazy var stackView = makeStackView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -46,7 +44,6 @@ private extension ReportScreenView {
         tableView.register(ReportURLCell.self, forCellReuseIdentifier: String(describing: ReportURLCell.self))
         tableView.register(ReportCommentComplainCell .self, forCellReuseIdentifier: String(describing: ReportCommentComplainCell .self))
         tableView.register(ReportCheckCaptchaCell.self, forCellReuseIdentifier: String(describing: ReportCheckCaptchaCell.self))
-        [shareReport, paygateView].forEach(stackView.addArrangedSubview)
     }
 }
 
@@ -55,15 +52,16 @@ private extension ReportScreenView {
     func makeConstraints() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16.scale),
-            tableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16.scale),
+            tableView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+            paygateView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            paygateView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            paygateView.heightAnchor.constraint(equalToConstant: 48.scale),
+            paygateView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
         
         NSLayoutConstraint.activate([
@@ -83,7 +81,7 @@ private extension ReportScreenView {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
         view.separatorStyle = .none
-        view.contentInset.bottom = 104.scale
+        view.contentInset.bottom = 56.scale
         view.contentInset.top = 8.scale
         addSubview(view)
         return view
@@ -107,19 +105,17 @@ private extension ReportScreenView {
         return view
     }
     
-    func makeStackView() -> UIStackView {
-        let view = UIStackView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.axis = .vertical
-        view.spacing = 8.scale
-        addSubview(view)
-        return view
-    }
-    
     func makeLoadingView() -> ScreenLoadingView {
         let view = ScreenLoadingView()
         view.translatesAutoresizingMaskIntoConstraints = false
         addSubview(view)
         return view
     }
+}
+
+private extension TextAttributes {
+    static let button = TextAttributes()
+        .font(Fonts.SFProDisplay.font(weight: .W400, size: 20.scale))
+        .lineHeight(24.scale)
+        .textColor(UIColor(integralRed: 40, green: 42, blue: 48))
 }

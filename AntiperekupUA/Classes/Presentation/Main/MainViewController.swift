@@ -25,6 +25,7 @@ final class MainViewController: UIViewController {
         
         let input = MainViewModel.Input(
             searchValue: mainView.tableView.searchHeader.searchText,
+            didTapSearch: mainView.tableView.searchHeader.didTapSearch,
             tabIndex: mainView.segmentView.selectIndex,
             didTapClear: mainView.tableView.historyHeader.didTapClear,
             itemSelected: mainView.tableView.selectedElement,
@@ -33,12 +34,18 @@ final class MainViewController: UIViewController {
         
         let output = viewModel.configure(input: input)
         
-        output.searchPlaceholder
-            .drive(mainView.tableView.searchHeader.placeholder)
+        output.searchModel
+            .drive(mainView.tableView.searchHeader.searchModel)
             .disposed(by: disposeBag)
         
         output.isError
             .drive(mainView.tableView.searchHeader.isError)
+            .disposed(by: disposeBag)
+        
+        mainView.tableView.searchHeader.didTapSearch
+            .emit(to: Binder(self) { base, _ in
+                base.view.endEditing(true)
+            })
             .disposed(by: disposeBag)
         
         output.tableData

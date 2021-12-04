@@ -52,6 +52,12 @@ final class DebtsCheckScreenViewController: UIViewController {
             .setDelegate(self)
             .disposed(by: disposeBag)
         
+        fieldsHeader.fieldData
+            .emit(to: Binder(self) { base, _ in
+                base.view.endEditing(true)
+            })
+            .disposed(by: disposeBag)
+        
         output.showError
             .emit(to: showError)
             .disposed(by: disposeBag)

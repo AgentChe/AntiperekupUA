@@ -14,6 +14,7 @@ final class ReportValueCellWithButton: UITableViewCell {
     private lazy var valueLabel = makeValue()
     private lazy var stackView = makeStackView()
     private lazy var actionLabel = makeActionLabel()
+    lazy var containerView = makeContainer()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -36,10 +37,12 @@ extension ReportValueCellWithButton {
     }
 }
 
+extension ReportValueCellWithButton: CornerCellContainer {}
+
 private extension ReportValueCellWithButton {
     func initialize() {
-        backgroundColor = .white
-        contentView.backgroundColor = .white
+        backgroundColor = .clear
+        contentView.backgroundColor = .clear
         selectionStyle = .none
     }
     
@@ -58,22 +61,29 @@ private extension ReportValueCellWithButton {
         stackView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         NSLayoutConstraint.activate([
-            separator.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16.scale),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16.scale)
+        ])
+        
+        NSLayoutConstraint.activate([
+            separator.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
             separator.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            separator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            separator.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             separator.heightAnchor.constraint(equalToConstant: 1.scale)
         ])
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16.scale),
-            titleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -10.scale),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10.scale)
+            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16.scale),
+            titleLabel.bottomAnchor.constraint(lessThanOrEqualTo: containerView.bottomAnchor, constant: -10.scale),
+            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10.scale)
         ])
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16.scale),
+            stackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16.scale),
             stackView.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 16.scale),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8.scale),
+            stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8.scale),
             stackView.bottomAnchor.constraint(equalTo: separator.topAnchor, constant: -10.scale)
         ])
     }
@@ -85,7 +95,7 @@ private extension ReportValueCellWithButton {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = UIColor(integralRed: 246, green: 246, blue: 247)
-        contentView.addSubview(view)
+        containerView.addSubview(view)
         return view
     }
     
@@ -93,7 +103,7 @@ private extension ReportValueCellWithButton {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.numberOfLines = 1
-        contentView.addSubview(view)
+        containerView.addSubview(view)
         return view
     }
     
@@ -120,6 +130,14 @@ private extension ReportValueCellWithButton {
         view.axis = .vertical
         view.spacing = 4.scale
         view.alignment = .trailing
+        containerView.addSubview(view)
+        return view
+    }
+    
+    func makeContainer() -> UIView {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
         contentView.addSubview(view)
         return view
     }

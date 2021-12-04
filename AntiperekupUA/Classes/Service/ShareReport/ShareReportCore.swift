@@ -17,7 +17,16 @@ final class ShareReportCore {
         configureReport(model: model)
             .map { htmlString -> URL? in
                 do {
-                    let filename = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("output_report.html")
+                    let reportType: String
+                    switch model.searchValue {
+                    case .vin:
+                        reportType = "VIN"
+                    case .regNumber:
+                        reportType = "GOSNUMBER"
+                    case .technicalPassport:
+                        reportType = "TECHNICALPASSPORT"
+                    }
+                    let filename = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("\(reportType)_\(Date().timeIntervalSince1970).html")
                     try htmlString.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
                     return filename
                 } catch {
@@ -70,9 +79,18 @@ private extension ShareReportCore {
         
         let historyItems = model.records
             .map { record -> String in
+                let person: String
+                switch record.person.uppercased() {
+                case "P":
+                    person = "natural_type".localized
+                case "J":
+                    person = "legal_type".localized
+                default:
+                    person = record.person
+                }
                 let items = [
                 value(title: "gov_data_date".localized, value: record.date),
-                value(title: "gov_data_person".localized, value: record.person),
+                value(title: "gov_data_person".localized, value: person),
                 value(title: "gov_data_regnumber".localized, value: record.regNumber),
                 value(title: "gov_data_vin".localized, value: record.vin),
                 value(title: "gov_data_brand".localized, value: record.brand),
@@ -660,6 +678,7 @@ private extension ShareReportCore {
     }
     
     func value(title: String, value: String) -> String {
+        let value = value.isEmpty ? "no_data".localized : value
         return """
         <div class="property_item">
         <div class="property">
@@ -671,6 +690,7 @@ private extension ShareReportCore {
     }
     
     func linkValue(title: String, value: String) -> String {
+        let value = value.isEmpty ? "no_data".localized : value
         return """
         <div class="property_item">
         <div class="property">
@@ -784,7 +804,7 @@ private extension ShareReportCore {
         .alert_block>.result{color:#e2a032;font-size:3.55vw}
         .alert_block>.result>i{color:#f9cc88}
         .warning_block>.block_header{background:#f4a49d}
-        .warning_block>.result{color:#CB5350;font-size:1.6vw}
+        .warning_block>.result{color:#CB5350}
         .warning_block>.result>i{color:#f4a49d}
         .car_logo{text-align:center;margin:30px 0 50px 0}
         .car_logo img{width:180px}

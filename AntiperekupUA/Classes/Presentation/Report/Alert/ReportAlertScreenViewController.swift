@@ -48,7 +48,7 @@ final class ReportAlertScreenViewController: UIViewController {
         mainView.setup(
             title: output.title,
             defaultValue: output.defaultValue,
-            placeholder: output.placeholder
+            fieldType: output.fieldType
         )
         
         mainView.closeButton.rx.tap
