@@ -34,8 +34,8 @@ private extension ReportSeparatorCell {
         NSLayoutConstraint.activate([
             view.topAnchor.constraint(equalTo: contentView.topAnchor),
             view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24.scale),
+            view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24.scale),
             view.heightAnchor.constraint(equalToConstant: 2.scale)
         ])
     }
@@ -46,7 +46,7 @@ private extension ReportSeparatorCell {
     func makeView() -> UIView {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(integralRed: 246, green: 246, blue: 247)
+        view.backgroundColor = UIColor(integralRed: 98, green: 97, blue: 98)
         contentView.addSubview(view)
         return view
     }

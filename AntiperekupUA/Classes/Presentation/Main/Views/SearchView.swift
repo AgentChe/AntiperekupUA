@@ -6,12 +6,24 @@
 //
 import UIKit
 import RxSwift
+import RxCocoa
+
+extension SearchView {
+    enum FieldType {
+        case regNumber
+        case vin
+        case tecnicalPassport
+    }
+}
 
 final class SearchView: UIView {
     
     private lazy var searchField = makeSearchField()
     private lazy var searchButton = makeSearchButton()
     private lazy var containerView = makeContainer()
+    
+    private var fieldType: FieldType?
+    private let didTapDone = PublishRelay<Void>()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,14 +36,28 @@ final class SearchView: UIView {
 }
 
 extension SearchView {
-    var searchText: Observable<String> {
-        searchButton.rx.tap
-            .withLatestFrom(searchField.rx.text)
-            .compactMap { $0 }
+    var searchText: Observable<String?> {
+        searchField.rx.text.asObservable()
     }
     
-    var placeholder: Binder<String?> {
-        searchField.rx.placeholder
+    var didTapSearch: Signal<Void> {
+        Signal
+            .merge(
+                searchButton.rx.tap.asSignal(),
+                didTapDone.asSignal()
+            )
+        
+    }
+    
+    var searchModel: Binder<FieldType> {
+        Binder(self) { base, model in
+            base.searchField.placeholder = model.placeholder
+            base.fieldType = model
+            if let text = base.searchField.text {
+                base.searchField.text = nil
+                base.searchField.insertText(text)
+            }
+        }
     }
     
     var isError: Binder<Bool> {
@@ -42,6 +68,29 @@ extension SearchView {
                 ? errorColor.cgColor
                 : UIColor(integralRed: 125, green: 172, blue: 221).cgColor
         }
+    }
+}
+
+extension SearchView: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        var fieldType: SearchValueFormatter.FieldType? {
+            switch self.fieldType {
+            case .regNumber:
+                return .regNumber
+            case .vin:
+                return .vin
+            case .tecnicalPassport:
+                return .technicalPassport
+            case .none:
+                return nil
+            }
+        }
+        return SearchValueFormatter.textField(textField, shouldChangeCharactersIn: range, replacementString: string, fieldType: fieldType)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        didTapDone.accept(())
+        return true
     }
 }
 
@@ -91,6 +140,8 @@ private extension SearchView {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
         view.overrideUserInterfaceStyle = .light
+        view.delegate = self
+        view.returnKeyType = .done
         addSubview(view)
         return view
     }
@@ -102,5 +153,18 @@ private extension SearchView {
         view.translatesAutoresizingMaskIntoConstraints = false
         addSubview(view)
         return view
+    }
+}
+
+private extension SearchView.FieldType {
+    var placeholder: String {
+        switch self {
+        case .regNumber:
+            return "АА1234ТС"
+        case .vin:
+            return "XTA210990W2395414"
+        case .tecnicalPassport:
+            return "CXI 399999"
+        }
     }
 }

@@ -8,9 +8,10 @@ import UIKit
 
 final class ReportIconWithTextCell: UITableViewCell {
     
-    private lazy var container = makeContainer()
+    private lazy var contentContainer = makeContentContainer()
     private lazy var icon = makeIcon()
     private lazy var label = makeTitle()
+    lazy var containerView = makeContainer()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -32,10 +33,12 @@ extension ReportIconWithTextCell {
     }
 }
 
+extension ReportIconWithTextCell: CornerCellContainer {}
+
 private extension ReportIconWithTextCell {
     func initialize() {
-        backgroundColor = .white
-        contentView.backgroundColor = .white
+        backgroundColor = .clear
+        contentView.backgroundColor = .clear
         selectionStyle = .none
     }
 }
@@ -44,43 +47,50 @@ private extension ReportIconWithTextCell {
 private extension ReportIconWithTextCell {
     func makeConstraints() {
         NSLayoutConstraint.activate([
-            container.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16.scale),
-            container.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10.scale),
-            container.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 16.scale),
-            container.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -16.scale),
-            container.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16.scale),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16.scale)
+        ])
+        
+        NSLayoutConstraint.activate([
+            contentContainer.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16.scale),
+            contentContainer.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10.scale),
+            contentContainer.leadingAnchor.constraint(greaterThanOrEqualTo: containerView.leadingAnchor, constant: 16.scale),
+            contentContainer.trailingAnchor.constraint(lessThanOrEqualTo: containerView.trailingAnchor, constant: -16.scale),
+            contentContainer.centerXAnchor.constraint(equalTo: containerView.centerXAnchor)
         ])
         
         NSLayoutConstraint.activate([
             icon.heightAnchor.constraint(equalToConstant: 17.scale),
             icon.widthAnchor.constraint(equalTo: icon.heightAnchor),
-            icon.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            icon.leadingAnchor.constraint(equalTo: contentContainer.leadingAnchor),
             icon.centerYAnchor.constraint(equalTo: label.centerYAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            label.topAnchor.constraint(equalTo: container.topAnchor),
+            label.topAnchor.constraint(equalTo: contentContainer.topAnchor),
             label.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 10.scale),
-            label.bottomAnchor.constraint(equalTo: container.bottomAnchor),
-            label.trailingAnchor.constraint(equalTo: container.trailingAnchor)
+            label.bottomAnchor.constraint(equalTo: contentContainer.bottomAnchor),
+            label.trailingAnchor.constraint(equalTo: contentContainer.trailingAnchor)
         ])
     }
 }
 
 // MARK: Lazy initialization
 private extension ReportIconWithTextCell {
-    func makeContainer() -> UIView {
+    func makeContentContainer() -> UIView {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
-        contentView.addSubview(view)
+        containerView.addSubview(view)
         return view
     }
     
     func makeIcon() -> UIImageView {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        container.addSubview(view)
+        contentContainer.addSubview(view)
         return view
     }
     
@@ -88,7 +98,15 @@ private extension ReportIconWithTextCell {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.numberOfLines = 0
-        container.addSubview(view)
+        contentContainer.addSubview(view)
+        return view
+    }
+    
+    func makeContainer() -> UIView {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
+        contentView.addSubview(view)
         return view
     }
 }

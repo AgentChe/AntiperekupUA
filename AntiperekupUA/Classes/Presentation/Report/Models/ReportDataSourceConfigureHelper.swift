@@ -16,19 +16,19 @@ enum ReportDataSourceConfigureHelper {
         case let .next(model):
             let regNumber = ReportValueWithActionModel(
                 value: model.regNumber,
-                action: model.regNumber.isEmpty ? .add : (model.regNumber.contains("_") || model.isEditableNumber) ? .change : .none,
+                action: model.regNumber.isEmpty ? .add : model.isEditableNumber ? .change : .none,
                 fieldType: .regNumber
             )
             
             let vin = ReportValueWithActionModel(
                 value: model.vin,
-                action: model.vin.isEmpty ? .add : (model.vin.contains("_") || model.isEditableVin) ? .change : .none,
+                action: model.vin.isEmpty ? .add : model.isEditableVin ? .change : .none,
                 fieldType: .vin
             )
             
             let technicalPassport = ReportValueWithActionModel(
                 value: model.technicalPassport,
-                action: model.technicalPassport.isEmpty ? .add : model.technicalPassport.contains("_") ? .change : .none,
+                action: model.technicalPassport.isEmpty ? .add : model.isEditablePassport ? .change : .none,
                 fieldType: .technicalPassport
             )
             
@@ -95,8 +95,17 @@ enum ReportDataSourceConfigureHelper {
             let history: Elements = model.records
                 .enumerated()
                 .reduce(into: initialHistory) {
+                    let person: String
+                    switch $1.element.person.uppercased() {
+                    case "P":
+                        person = "natural_type".localized
+                    case "J":
+                        person = "legal_type".localized
+                    default:
+                        person = $1.element.person
+                    }
                     $0.append(.value(title: "gov_data_date".localized, value: $1.element.date))
-                    $0.append(.value(title: "gov_data_person".localized, value: $1.element.person))
+                    $0.append(.value(title: "gov_data_person".localized, value: person))
                     $0.append(.value(title: "gov_data_regnumber".localized, value: $1.element.regNumber))
                     $0.append(.value(title: "gov_data_vin".localized, value: $1.element.vin))
                     $0.append(.value(title: "gov_data_brand".localized, value: $1.element.brand))
@@ -266,16 +275,16 @@ enum ReportDataSourceConfigureHelper {
             guard !model.comments.isEmpty else {
                 let text = "user_comments_not_found".localized
                 let items: Elements = [
-                    .header(title: headerTitle, state: .success),
-                    .iconWithText(.init(text: text, iconType : .success))
+                    .header(title: headerTitle, state: .error),
+                    .iconWithText(.init(text: text, iconType : .error))
                 ]
                 
                 return items + additional
             }
             
             let initialItems: Elements = [
-                .header(title: headerTitle, state: .error),
-                .iconWithText(.init(text: "user_comments_found".localized, iconType: .error))
+                .header(title: headerTitle, state: .success),
+                .iconWithText(.init(text: "user_comments_found".localized, iconType: .success))
             ]
 
             let items: Elements = model.comments
@@ -364,8 +373,8 @@ enum ReportDataSourceConfigureHelper {
             guard !model.data.isEmpty else {
                 let text = "no_ria_information_found".localized
                 let items: Elements = [
-                    .header(title: headerTitle, state: .error),
-                    .iconWithText(.init(text: text, iconType : .error)),
+                    .header(title: headerTitle, state: .success),
+                    .iconWithText(.init(text: text, iconType : .success)),
                     .description("subs_descr_ria".localized)
                 ]
                 
@@ -373,8 +382,8 @@ enum ReportDataSourceConfigureHelper {
             }
             
             let initialItems: Elements = [
-                .header(title: headerTitle, state: .success),
-                .iconWithText(.init(text: String(format: "records".localized, model.data.count), iconType: .success))
+                .header(title: headerTitle, state: .error),
+                .iconWithText(.init(text: String(format: "records".localized, model.data.count), iconType: .error))
             ]
             
             return model.data

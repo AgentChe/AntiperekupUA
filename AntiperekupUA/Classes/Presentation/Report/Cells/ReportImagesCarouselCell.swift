@@ -12,6 +12,7 @@ final class ReportImagesCarouselCell: UITableViewCell {
     private lazy var separator = makeSeparator()
     private lazy var titleLabel = makeTitle()
     private lazy var valueLabel = makeValue()
+    lazy var containerView = makeContainer()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -35,10 +36,12 @@ extension ReportImagesCarouselCell {
     }
 }
 
+extension ReportImagesCarouselCell: CornerCellContainer {}
+
 private extension ReportImagesCarouselCell {
     func initialize() {
-        backgroundColor = .white
-        contentView.backgroundColor = .white
+        backgroundColor = .clear
+        contentView.backgroundColor = .clear
         selectionStyle = .none
     }
 }
@@ -46,31 +49,39 @@ private extension ReportImagesCarouselCell {
 // MARK: Make constraints
 private extension ReportImagesCarouselCell {
     func makeConstraints() {
+        
+        NSLayoutConstraint.activate([
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16.scale),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16.scale)
+        ])
+        
         NSLayoutConstraint.activate([
             titleLabel.centerYAnchor.constraint(equalTo: valueLabel.centerYAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8.scale),
+            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8.scale),
             titleLabel.trailingAnchor.constraint(equalTo: valueLabel.leadingAnchor, constant: -8.scale)
         ])
         
         NSLayoutConstraint.activate([
-            valueLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8.scale),
+            valueLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8.scale),
             valueLabel.heightAnchor.constraint(equalToConstant: 24.scale),
             valueLabel.widthAnchor.constraint(equalTo: valueLabel.heightAnchor),
-            valueLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8.scale)
+            valueLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8.scale)
         ])
         
         NSLayoutConstraint.activate([
             separator.topAnchor.constraint(equalTo: valueLabel.bottomAnchor, constant: 8.scale),
             separator.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            separator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            separator.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             separator.heightAnchor.constraint(equalToConstant: 1.scale)
         ])
         
         NSLayoutConstraint.activate([
             carouselView.topAnchor.constraint(equalTo: separator.bottomAnchor, constant: 6.scale),
-            carouselView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            carouselView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            carouselView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16.scale)
+            carouselView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            carouselView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            carouselView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16.scale)
         ])
     }
 }
@@ -81,7 +92,7 @@ private extension ReportImagesCarouselCell {
         let view = ReportImageCarouselView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
-        contentView.addSubview(view)
+        containerView.addSubview(view)
         return view
     }
     
@@ -90,7 +101,7 @@ private extension ReportImagesCarouselCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.numberOfLines = 1
         view.attributedText = "photos_title".localized.attributed(with: .title)
-        contentView.addSubview(view)
+        containerView.addSubview(view)
         return view
     }
     
@@ -100,7 +111,7 @@ private extension ReportImagesCarouselCell {
         view.backgroundColor = UIColor(integralRed: 69, green: 142, blue: 156)
         view.layer.cornerRadius = 12.scale
         view.clipsToBounds = true
-        contentView.addSubview(view)
+        containerView.addSubview(view)
         return view
     }
     
@@ -108,6 +119,15 @@ private extension ReportImagesCarouselCell {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = UIColor(integralRed: 246, green: 246, blue: 247)
+        containerView.addSubview(view)
+        return view
+    }
+    
+    
+    func makeContainer() -> UIView {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
         contentView.addSubview(view)
         return view
     }

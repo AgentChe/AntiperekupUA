@@ -199,13 +199,34 @@ extension ReportScreenViewModel {
             }
             .asSignal(onErrorSignalWith: .empty())
         
-        let checkCaptcha = input.selectedElement
+        let initialMTSBU = baseDataRequestResult
+            .compactMap { [searchValue] result -> String? in
+                if case .regNumber = searchValue {
+                    return nil
+                }
+                
+                guard
+                    let element  = result.element,
+                    element.isValidNumber,
+                    MTSBUService.shared.getCaptcha(for: element.regNumber) == nil
+                else {
+                    return nil
+                }
+                
+                return result.element?.regNumber
+            }
+            .take(1)
+        
+        let didTapCheckCaptcha = input.selectedElement
             .asObservable()
             .compactMap { element -> Void? in
                 guard case .checkCaptcha = element else { return nil }
                 return ()
             }
             .withLatestFrom(baseData) { _, data in data.regNumber }
+        
+        let checkCaptcha = Observable
+            .merge(initialMTSBU, didTapCheckCaptcha)
             .asSignal(onErrorSignalWith: .empty())
         
         return Output(
@@ -260,7 +281,12 @@ private extension ReportScreenViewModel {
         
         switch searchValue {
         case let .vin(value):
-            startData = BaseData(vin: value, regNumber: nil, technicalPassport: nil, isEditableVin: false, isEditableNumber: true)
+            startData = BaseData(
+                vin: value,
+                isEditableVin: false,
+                isEditableNumber: true,
+                isEditablePassport: true
+            )
             result = reportService
                 .getRegNumberByVin(vin: value)
                 .asObservable()
@@ -271,14 +297,27 @@ private extension ReportScreenViewModel {
                         vin: value,
                         regNumber: regNumber,
                         isEditableVin: false,
-                        isEditableNumber: regNumber.isEmpty || regNumber.contains("_")
+                        isEditableNumber: true,
+                        isEditablePassport: true
                     )
                 }
         case let .regNumber(value):
-            startData = BaseData(regNumber: value, isEditableVin: true, isEditableNumber: false)
+            startData = BaseData(
+                regNumber: value,
+                isEditableVin: true,
+                isEditableNumber: false,
+                isEditablePassport: true
+            )
+            
             result = .empty()
         case let .technicalPassport(series, number):
-            startData = BaseData(vin: nil, regNumber: nil, technicalPassport: "\(series)\(number)", isEditableVin: true, isEditableNumber: true)
+            startData = BaseData(
+                technicalPassport: "\(series)\(number)",
+                isEditableVin: true,
+                isEditableNumber: true,
+                isEditablePassport: false
+            )
+            
             result = reportService
                 .getVinAndRegNumberByRegDoc(series: series, number: number)
                 .asObservable()
@@ -289,8 +328,9 @@ private extension ReportScreenViewModel {
                         vin: vin,
                         regNumber: regNumber,
                         technicalPassport: "\(series)\(number)",
-                        isEditableVin: vin.isEmpty || vin.contains("_"),
-                        isEditableNumber: regNumber.isEmpty || regNumber.contains("_")
+                        isEditableVin: true,
+                        isEditableNumber: true,
+                        isEditablePassport: false
                     )
                 }
         }
@@ -483,7 +523,7 @@ private extension ReportScreenViewModel {
                     return .just(items + additional)
                 }
                 
-                guard let captchaResult = MTSBUService.shared.getCaptcha() else {
+                guard let captchaResult = MTSBUService.shared.getCaptcha(for: data.regNumber) else {
                     let text = "complete_captcha_info".localized
                     return .just([.header(title: headerTitle, state: .error), .text(text), .checkCaptcha])
                 }
@@ -605,7 +645,8 @@ private extension ReportScreenViewModel {
                         .locked("recall_title".localized),
                         .locked("dsbt_title".localized),
                         .locked("decoder_title".localized),
-                        .locked("complectation_title".localized)
+                        .locked("complectation_title".localized),
+                        .locked("disposal_title".localized)
                     ]
                     return .just([items])
                 }
@@ -834,7 +875,7 @@ private extension ReportScreenViewModel {
                     }
                     return nil
                 case .technicalPassport:
-                    if baseData.technicalPassport.isEmpty {
+                    if baseData.technicalPassport.isEmpty && !baseData.isValidVin && !baseData.isValidNumber {
                         return .valueWithAction(.init(value: "", action: .add, fieldType: fieldType))
                     }
                     return nil
@@ -851,13 +892,22 @@ extension ReportScreenViewModel {
         
         let isEditableVin: Bool
         let isEditableNumber: Bool
+        let isEditablePassport: Bool
         
-        init(vin: String? = nil, regNumber: String? = nil, technicalPassport: String? = nil, isEditableVin: Bool, isEditableNumber: Bool) {
+        init(
+            vin: String? = nil,
+            regNumber: String? = nil,
+            technicalPassport: String? = nil,
+            isEditableVin: Bool,
+            isEditableNumber: Bool,
+            isEditablePassport: Bool)
+        {
             self.vin = vin ?? ""
             self.regNumber = regNumber ?? ""
             self.technicalPassport = technicalPassport ?? ""
             self.isEditableVin = isEditableVin
             self.isEditableNumber = isEditableNumber
+            self.isEditablePassport = isEditablePassport
         }
         
         mutating func change(vin: String) {

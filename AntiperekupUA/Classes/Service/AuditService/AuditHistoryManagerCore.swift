@@ -24,6 +24,7 @@ final class AuditHistoryManagerCore {
     
     func deleteAll() {
         UserDefaults.standard.set(nil, forKey: Constants.historyKey)
+        AuditHistoryMediator.shared.itemsChange()
     }
     
     func getAuditHistory() -> [AuditHistoryModel] {

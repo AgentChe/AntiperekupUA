@@ -10,7 +10,7 @@ import RxCocoa
 
 final class MainViewModel {
     typealias TableDataSource = (MainTableHeader, [MainTableItem])
-    
+    typealias SearchModel = SearchView.FieldType
     private lazy var auditHistoryService = AuditHistoryManagerCore()
     private lazy var disposeBag = DisposeBag()
 }
@@ -18,7 +18,8 @@ final class MainViewModel {
 
 extension MainViewModel {
     struct Input {
-        let searchValue: Observable<String>
+        let searchValue: Observable<String?>
+        let didTapSearch: Signal<Void>
         let tabIndex: Signal<Int>
         let didTapClear: Signal<Void>
         let itemSelected: Signal<MainTableItem>
@@ -27,7 +28,7 @@ extension MainViewModel {
     
     struct Output {
         let tableData: Driver<[TableDataSource]>
-        let searchPlaceholder: Driver<String>
+        let searchModel: Driver<SearchModel>
         let isError: Driver<Bool>
         let route: Signal<MainRoute>
     }
@@ -39,31 +40,61 @@ extension MainViewModel {
             .compactMap { MainTabType(rawValue: $0) }
             .share(replay: 1)
         
-        let searchResult = input.searchValue
-            .asObservable()
-            .withLatestFrom(currentTab, resultSelector: textValidation)
-            .share(replay: 1)
-        
-        let searchPlaceholder = currentTab
-            .map { tab -> String in
+        let inputTextValidation = input.searchValue
+            .compactMap { $0 }
+            .withLatestFrom(currentTab) { ($0, $1) }
+            .compactMap { text, tab -> (String, MainTabType)? in
+                let validCount: Int
+                let clearString = text.trimmingCharacters(in: .whitespacesAndNewlines)
                 switch tab {
                 case .regNumber:
-                    return Constants.regExample
+                    validCount = 6
                 case .vinNumber:
-                    return Constants.vinExample
+                    validCount = 10
                 case .technicalPassport:
-                    return Constants.passportExample
+                    validCount = 9
+                }
+                
+                guard clearString.count >= validCount else { return nil }
+                return (text, tab)
+            }
+            .map(textValidation)
+            .share(replay: 1)
+        
+        let searchResult = input.didTapSearch
+            .asObservable()
+            .withLatestFrom(input.searchValue.compactMap { $0 })
+            .withLatestFrom(currentTab) { ($0, $1) }
+            .map(textValidation)
+            .share(replay: 1)
+        
+        let searchModel = currentTab
+            .map { tab -> SearchModel in
+                switch tab {
+                case .regNumber:
+                    return .regNumber
+                case .vinNumber:
+                    return .vin
+                case .technicalPassport:
+                    return .tecnicalPassport
                 }
             }
             .asDriver(onErrorDriveWith: .empty())
         
-        let isError = searchResult
-            .map { $0.isError }
+        let isError = Observable
+            .merge(
+                searchResult.map { $0.isError },
+                inputTextValidation.map { $0.isError },
+                currentTab.map { _ in false }
+            )
             .startWith(false)
             .asDriver(onErrorDriveWith: .empty())
         
-        let tableData = buildTableData(searchResult: searchResult)
-            .asDriver(onErrorJustReturn: [])
+        let tableData = buildTableData(
+            searchResult: Observable.merge(searchResult, inputTextValidation),
+            currentTab: currentTab
+        )
+        .asDriver(onErrorJustReturn: [])
         
         let itemRoute = input.itemSelected
             .asObservable()
@@ -82,9 +113,16 @@ extension MainViewModel {
             })
             .disposed(by: disposeBag)
         
+        input.didTapClear
+            .asObservable()
+            .subscribe { [auditHistoryService] _ in
+                auditHistoryService.deleteAll()
+            }
+            .disposed(by: disposeBag)
+        
         return Output(
             tableData: tableData,
-            searchPlaceholder: searchPlaceholder,
+            searchModel: searchModel,
             isError: isError,
             route: route
         )
@@ -92,7 +130,7 @@ extension MainViewModel {
 }
 
 private extension MainViewModel {
-    func buildTableData(searchResult: Observable<SearchResult>) -> Observable<[TableDataSource]> {
+    func buildTableData(searchResult: Observable<SearchResult>, currentTab: Observable<MainTabType>) -> Observable<[TableDataSource]> {
         let mainDataTableData = AuditHistoryMediator.shared.rxItemsChange
             .asObservable()
             .startWith(())
@@ -127,10 +165,13 @@ private extension MainViewModel {
                     return []
                 }
             }
+        
+        let searchSource = Observable
+            .merge(searchResultDataSource, currentTab.map { _ in [] })
             .startWith([])
         
         return Observable
-            .combineLatest(searchResultDataSource, mainDataTableData) { $0 + $1 }
+            .combineLatest(searchSource, mainDataTableData) { $0 + $1 }
     }
     
     var textValidation: (String, MainTabType) -> SearchResult {
@@ -179,7 +220,7 @@ private extension MainViewModel {
                 let result: MainRoute
                 switch item.searchType {
                 case .regNumber:
-                    let captcha = MTSBUService.shared.getCaptcha()
+                    let captcha = MTSBUService.shared.getCaptcha(for: item.searchValue)
                     result = captcha == nil
                     ? .regValidation(item.searchValue)
                     : .report(.regNumber(item.searchValue))
@@ -200,7 +241,7 @@ private extension MainViewModel {
         return { result -> MainRoute? in
             switch result {
             case let .regNumber(value):
-                let captcha = MTSBUService.shared.getCaptcha()
+                let captcha = MTSBUService.shared.getCaptcha(for: value)
                 return captcha == nil
                 ? .regValidation(value)
                 : .report(.regNumber(value))
@@ -217,8 +258,8 @@ private extension MainViewModel {
 
 private extension MainViewModel {
     enum Constants {
-        static let regExample = "X77XX77"
-        static let vinExample = "XTA210990w2395414"
+        static let regExample = "АА1234ТС"
+        static let vinExample = "XTA210990W2395414"
         static let passportExample = "CXI 399999"
         
         static let regError = "reg_number_validation_error".localized

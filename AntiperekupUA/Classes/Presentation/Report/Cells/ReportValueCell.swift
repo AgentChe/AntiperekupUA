@@ -11,6 +11,7 @@ final class ReportValueCell: UITableViewCell {
     private lazy var separator = makeSeparator()
     private lazy var titleLabel = makeTitle()
     private lazy var valueLabel = makeValue()
+    lazy var containerView = makeContainer()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -31,10 +32,12 @@ extension ReportValueCell {
     }
 }
 
+extension ReportValueCell: CornerCellContainer {}
+
 private extension ReportValueCell {
     func initialize() {
-        backgroundColor = .white
-        contentView.backgroundColor = .white
+        backgroundColor = .clear
+        contentView.backgroundColor = .clear
         selectionStyle = .none
     }
 }
@@ -49,23 +52,30 @@ private extension ReportValueCell {
         valueLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         NSLayoutConstraint.activate([
-            separator.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16.scale),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16.scale)
+        ])
+        
+        NSLayoutConstraint.activate([
+            separator.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
             separator.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            separator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            separator.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             separator.heightAnchor.constraint(equalToConstant: 1.scale)
         ])
         
         NSLayoutConstraint.activate([
             titleLabel.centerYAnchor.constraint(equalTo: valueLabel.centerYAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8),
             titleLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 150.scale)
         ])
         
         NSLayoutConstraint.activate([
             valueLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            valueLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            valueLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
             valueLabel.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: 16),
-            valueLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
+            valueLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8)
         ])
     }
 }
@@ -76,7 +86,7 @@ private extension ReportValueCell {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = UIColor(integralRed: 246, green: 246, blue: 247)
-        contentView.addSubview(view)
+        containerView.addSubview(view)
         return view
     }
     
@@ -84,7 +94,7 @@ private extension ReportValueCell {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.numberOfLines = 4
-        contentView.addSubview(view)
+        containerView.addSubview(view)
         return view
     }
     
@@ -92,6 +102,14 @@ private extension ReportValueCell {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.numberOfLines = 0
+        containerView.addSubview(view)
+        return view
+    }
+    
+    func makeContainer() -> UIView {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
         contentView.addSubview(view)
         return view
     }

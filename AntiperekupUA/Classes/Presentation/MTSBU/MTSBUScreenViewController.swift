@@ -42,7 +42,8 @@ final class MTSBUScreenViewController: UIViewController {
             cookies: mainView.webView.cookies,
             captcha: mainView.webView.captcha,
             captchaIsLoaded: mainView.webView.captchaLoaded,
-            didTapSkip: mainView.skipButton.tap
+            didTapSkip: mainView.skipButton.tap,
+            loadError: mainView.webView.loadError
         )
         
         let output = viewModel.configure(input: input)
@@ -73,6 +74,10 @@ final class MTSBUScreenViewController: UIViewController {
         
         output.cookies
             .emit(to: mainView.webView.newCookies)
+            .disposed(by: disposeBag)
+        
+        output.retryLoad
+            .emit(to: mainView.webView.retryLoad)
             .disposed(by: disposeBag)
     }
 }

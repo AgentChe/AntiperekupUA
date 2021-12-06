@@ -10,6 +10,7 @@ import Kingfisher
 final class ReportPhotoCell: UITableViewCell {
     
     private lazy var photoImageView = makeImageView()
+    lazy var containerView = makeContainer()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -28,10 +29,12 @@ extension ReportPhotoCell {
     }
 }
 
+extension ReportPhotoCell: CornerCellContainer {}
+
 private extension ReportPhotoCell {
     func initialize() {
-        backgroundColor = .white
-        contentView.backgroundColor = .white
+        backgroundColor = .clear
+        contentView.backgroundColor = .clear
         selectionStyle = .none
     }
 }
@@ -39,11 +42,19 @@ private extension ReportPhotoCell {
 // MARK: Make constraints
 private extension ReportPhotoCell {
     func makeConstraints() {
+        
         NSLayoutConstraint.activate([
-            photoImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8.scale),
-            photoImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8.scale),
-            photoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8.scale),
-            photoImageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -16.scale),
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16.scale),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16.scale)
+        ])
+        
+        NSLayoutConstraint.activate([
+            photoImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8.scale),
+            photoImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8.scale),
+            photoImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8.scale),
+            photoImageView.bottomAnchor.constraint(lessThanOrEqualTo: containerView.bottomAnchor, constant: -16.scale),
             photoImageView.heightAnchor.constraint(equalTo: photoImageView.widthAnchor, multiplier: 9/16)
         ])
     }
@@ -57,6 +68,14 @@ private extension ReportPhotoCell {
         view.layer.cornerRadius = 4.scale
         view.contentMode = .scaleAspectFill
         view.layer.masksToBounds = true
+        containerView.addSubview(view)
+        return view
+    }
+    
+    func makeContainer() -> UIView {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
         contentView.addSubview(view)
         return view
     }

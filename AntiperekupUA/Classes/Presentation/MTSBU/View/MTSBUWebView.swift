@@ -15,6 +15,7 @@ final class MTSBUWebView: UIView {
     private let captchaLoadedRelay = BehaviorRelay<Bool>(value: false)
     private let captchaRelay = PublishRelay<MTSBUCaptcha>()
     private let cookiesRelay = PublishRelay<[HTTPCookie]>()
+    private let errorLoadRelay = PublishRelay<Error>()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -40,6 +41,10 @@ extension MTSBUWebView {
         cookiesRelay.asSignal()
     }
     
+    var loadError: Signal<Error> {
+        errorLoadRelay.asSignal()
+    }
+    
     var newCookies: Binder<[HTTPCookie]> {
         Binder(self) { base, cookies in
             
@@ -55,6 +60,12 @@ extension MTSBUWebView {
             group.notify(queue: .main) { [weak base] in
                 base?.load()
             }
+        }
+    }
+    
+    var retryLoad: Binder<Void> {
+        Binder(self) { base, _ in
+            base.load()
         }
     }
 }
@@ -77,6 +88,10 @@ extension MTSBUWebView: WKNavigationDelegate {
                 captchaLoadedRelay.accept(false)
             }
         }
+    }
+    
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        errorLoadRelay.accept(error)
     }
 }
 

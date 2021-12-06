@@ -6,6 +6,14 @@
 //
 import UIKit
 
+extension ReportAlertScreenView {
+    enum FieldType {
+        case regNumber
+        case vin
+        case tecnicalPassport
+    }
+}
+
 final class ReportAlertScreenView: UIView {
     
     private lazy var titleLabel = makeTitle()
@@ -15,6 +23,8 @@ final class ReportAlertScreenView: UIView {
     private lazy var stackView = makeStackView()
     private lazy var errorLabel = makeErrorLabel()
     private lazy var containerView = makeContainer()
+    
+    private var fieldType: FieldType?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -28,15 +38,34 @@ final class ReportAlertScreenView: UIView {
 }
 
 extension ReportAlertScreenView {
-    func setup(title: String, defaultValue: String, placeholder: String) {
+    func setup(title: String, defaultValue: String, fieldType: FieldType) {
         titleLabel.attributedText = title.attributed(with: .title)
         textField.text = defaultValue
-        textField.placeholder = placeholder
+        textField.placeholder = fieldType.placeholder
+        self.fieldType = fieldType
     }
     
     func showError(message: String) {
         errorLabel.isHidden = message.isEmpty
         errorLabel.text = message
+    }
+}
+
+extension ReportAlertScreenView: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        var fieldType: SearchValueFormatter.FieldType? {
+            switch self.fieldType {
+            case .regNumber:
+                return .regNumber
+            case .vin:
+                return .vin
+            case .tecnicalPassport:
+                return .technicalPassport
+            case .none:
+                return nil
+            }
+        }
+        return SearchValueFormatter.textField(textField, shouldChangeCharactersIn: range, replacementString: string, fieldType: fieldType)
     }
 }
 
@@ -133,6 +162,7 @@ private extension ReportAlertScreenView {
         view.overrideUserInterfaceStyle = .light
         view.backgroundColor = .clear
         view.autocapitalizationType = .allCharacters
+        view.delegate = self
         containerView.addSubview(view)
         return view
     }
@@ -153,6 +183,30 @@ private extension ReportAlertScreenView {
         view.translatesAutoresizingMaskIntoConstraints = false
         addSubview(view)
         return view
+    }
+}
+
+private extension ReportAlertScreenView.FieldType {
+    var placeholder: String {
+        switch self {
+        case .regNumber:
+            return "АА1234ТС"
+        case .vin:
+            return "XTA210990W2395414"
+        case .tecnicalPassport:
+            return "CXI 399999"
+        }
+    }
+    
+    var maxLength: Int {
+        switch self {
+        case .regNumber:
+            return 9
+        case .vin:
+            return 17
+        case .tecnicalPassport:
+            return 9
+        }
     }
 }
 

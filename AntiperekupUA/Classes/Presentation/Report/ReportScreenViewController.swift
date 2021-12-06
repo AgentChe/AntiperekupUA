@@ -14,6 +14,7 @@ final class ReportScreenViewController: UIViewController {
     
     typealias Section = SectionModel<String, ReportTableItem>
     lazy var mainView = ReportScreenView()
+    private let reportFooter = ReportFooterView()
     
     private lazy var disposeBag = DisposeBag()
     private typealias ConfigureCell = RxTableViewSectionedReloadDataSource<Section>.ConfigureCell
@@ -46,6 +47,20 @@ final class ReportScreenViewController: UIViewController {
         view = mainView
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        guard let footerView = mainView.tableView.tableFooterView else {
+            return
+          }
+
+        let width = mainView.tableView.bounds.size.width
+        let size = footerView.systemLayoutSizeFitting(CGSize(width: width, height: UIView.layoutFittingCompressedSize.height))
+        if footerView.frame.size.height != size.height {
+            footerView.frame.size.height = size.height
+            mainView.tableView.tableFooterView = footerView
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureBackButton()
@@ -60,11 +75,13 @@ final class ReportScreenViewController: UIViewController {
             activateSubscription: didActivateSubscription.asSignal(),
             updateComments: updateCommentsRelay.asSignal(),
             complainId: complainIdRelay.asSignal(),
-            didTapShate: mainView.shareReport.tap,
+            didTapShate: reportFooter.shareReportButton.tap.asSignal(),
             didCloseMTSBU: didCloseMTSBU.asSignal()
         )
         
         let output = viewModel.configure(input: input)
+        
+        mainView.tableView.tableFooterView = reportFooter
         
         output.elements
             .map { $0.map { .init(model: $0.0, items: $0.1) } }
@@ -226,15 +243,18 @@ final class ReportScreenViewController: UIViewController {
 
 extension ReportScreenViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let content = cell as? CornerCellContainer else {
+            return
+        }
         if tableView.numberOfRows(inSection: indexPath.section) == 1 {
-            cell.round(corners: [.allCorners], radius: 4.scale)
+            content.round(corners: [.allCorners], radius: 4.scale)
         } else {
             if indexPath.row == 0 {
-                cell.round(corners: [.topLeft, .topRight], radius: 4.scale)
+                content.round(corners: [.topLeft, .topRight], radius: 4.scale)
             } else if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
-                cell.round(corners: [.bottomLeft, .bottomRight], radius: 4.scale)
+                content.round(corners: [.bottomLeft, .bottomRight], radius: 4.scale)
             } else {
-                cell.layer.mask = nil
+                content.containerView.layer.mask = nil
             }
         }
     }

@@ -6,6 +6,7 @@
 //
 import UIKit
 import RxSwift
+import RxCocoa
 
 final class MainSearchHeaderView: UIView {
     
@@ -22,12 +23,16 @@ final class MainSearchHeaderView: UIView {
 }
 
 extension MainSearchHeaderView {
-    var searchText: Observable<String> {
+    var searchText: Observable<String?> {
         searchView.searchText
     }
     
-    var placeholder: Binder<String?> {
-        searchView.placeholder
+    var searchModel: Binder<SearchView.FieldType> {
+        searchView.searchModel
+    }
+    
+    var didTapSearch: Signal<Void> {
+        searchView.didTapSearch
     }
     
     var isError: Binder<Bool> {

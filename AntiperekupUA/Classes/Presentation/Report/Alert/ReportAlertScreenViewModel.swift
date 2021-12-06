@@ -17,6 +17,7 @@ final class ReportAlertScreenViewModel {
 }
 
 extension ReportAlertScreenViewModel {
+    typealias FieldType = ReportAlertScreenView.FieldType
     struct Input {
         let value: Observable<String?>
         let didTapConfirm: Signal<Void>
@@ -24,8 +25,8 @@ extension ReportAlertScreenViewModel {
     
     struct Output {
         let title: String
+        let fieldType: FieldType
         let defaultValue: String
-        let placeholder: String
         let confirmed: Signal<ReportSearchValue>
         let showError: Signal<String>
     }
@@ -35,9 +36,9 @@ extension ReportAlertScreenViewModel {
         let confirmedResult = input.didTapConfirm
             .asObservable()
             .withLatestFrom(input.value)
-            .map { [model] value -> ReportSearchValue in
+            .map { [model] value -> Event<ReportSearchValue> in
                 guard let value = value else {
-                    throw NSError(domain: "\(type(of: self))", code: -1, userInfo: [:])
+                    return .error(NSError(domain: "\(type(of: self))", code: -1, userInfo: [:]))
                 }
                 
                 let clearString = value.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -45,31 +46,30 @@ extension ReportAlertScreenViewModel {
                 case .vin:
                     let vinError = NSError(domain: "\(type(of: self))", code: -1, userInfo: [NSLocalizedDescriptionKey: Constants.vinError])
                     guard clearString.count >= 10 else {
-                        throw vinError
+                        return .error(vinError)
                     }
                     let regex = "^[a-zA-Z0-9]*$"
                     let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
                     
                     guard predicate.evaluate(with: clearString) else {
-                        throw vinError
+                        return .error(vinError)
                     }
                     
-                    return .vin(clearString)
+                    return .next(.vin(clearString))
                 case .regNumber:
                     guard clearString.count >= 6 else {
-                        throw NSError(domain: "\(type(of: self))", code: -1, userInfo: [NSLocalizedDescriptionKey: Constants.regError])
+                        return .error(NSError(domain: "\(type(of: self))", code: -1, userInfo: [NSLocalizedDescriptionKey: Constants.regError]))
                     }
-                    return .regNumber(clearString)
+                    return .next(.regNumber(clearString))
                 case .technicalPassport:
                     guard clearString.count >= 9 else {
-                        throw NSError(domain: "\(type(of: self))", code: -1, userInfo: [NSLocalizedDescriptionKey: Constants.passportError])
+                        return .error(NSError(domain: "\(type(of: self))", code: -1, userInfo: [NSLocalizedDescriptionKey: Constants.passportError]))
                     }
                     let series = String(clearString.prefix(3))
                     let number = String(clearString.suffix(clearString.count - series.count))
-                    return .technicalPassport(series: series, number: number)
+                    return .next(.technicalPassport(series: series, number: number))
                 }
             }
-            .materialize()
             .share(replay: 1)
         
         let confirmed = confirmedResult
@@ -81,9 +81,9 @@ extension ReportAlertScreenViewModel {
             .asSignal(onErrorSignalWith: .empty())
         
         return Output(
-            title: makeTitle(),
+            title: title,
+            fieldType: fieldType,
             defaultValue: model.value,
-            placeholder: makePlaceholder(),
             confirmed: confirmed,
             showError: showError
         )
@@ -92,7 +92,7 @@ extension ReportAlertScreenViewModel {
 
 // MARK: Private
 private extension ReportAlertScreenViewModel {
-    func makeTitle() -> String {
+    var title: String {
         switch model.fieldType {
         case .vin:
             switch model.action {
@@ -117,26 +117,22 @@ private extension ReportAlertScreenViewModel {
         }
     }
     
-    func makePlaceholder() -> String {
+    var fieldType: FieldType {
         switch model.fieldType {
         case .vin:
-            return Constants.vinExample
+            return .vin
         case .regNumber:
-            return Constants.regExample
+            return .regNumber
         case .technicalPassport:
-            return Constants.passportExample
+            return .tecnicalPassport
         }
     }
 }
 
 private extension ReportAlertScreenViewModel {
     enum Constants {
-        static let regExample = "X77XX77"
-        static let vinExample = "XTA210990w2395414"
-        static let passportExample = "CXI 399999"
-        
-        static let regError = "Минимальная длина госномера 6 символов."
-        static let vinError = "VIN код может содержать только латинские буквы и цифры."
-        static let passportError = "Техпаспорт может содержать только латинские буквы и цифры."
+        static let regError = "reg_number_validation_error".localized
+        static let vinError = "vin_validation_error".localized
+        static let passportError = "technical_passport_validation_error".localized
     }
 }

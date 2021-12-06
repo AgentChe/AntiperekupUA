@@ -6,6 +6,13 @@
 //
 import UIKit
 
+extension CheckFieldView {
+    enum FieldType {
+        case date
+        case empty
+    }
+}
+
 final class CheckFieldView: UIView {
     
     lazy var field = makeTextField()

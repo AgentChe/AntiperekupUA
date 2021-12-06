@@ -10,7 +10,6 @@ import RxCocoa
 
 final class MTSBUScreenViewModel {
     private let regNumber: String
-    private let mtsbuService = MTSBUService()
     
     init(regNumber: String) {
         self.regNumber = regNumber
@@ -23,25 +22,31 @@ extension MTSBUScreenViewModel {
         let captcha: Signal<MTSBUCaptcha>
         let captchaIsLoaded: Driver<Bool>
         let didTapSkip: Signal<Void>
+        let loadError: Signal<Error>
     }
     
     struct Output {
         let cookies: Signal<[HTTPCookie]>
         let searchValue: Signal<ReportSearchValue>
         let errorAlert: Signal<String>
+        let retryLoad: Signal<Void>
     }
     
     func configure(input: Input) -> Output {
         
         let captchaSignal = input.captcha
             .asObservable()
-            .do { [mtsbuService] in
-                mtsbuService.set(captcha: $0)
+            .map { [regNumber] captcha -> Void in
+                MTSBUService.shared.set(captcha: captcha, for: regNumber)
+                return ()
             }
-            .map { _ in () }
         
         let searchValue = Observable
-            .merge(captchaSignal, input.didTapSkip.asObservable())
+            .merge(
+                captchaSignal,
+                input.didTapSkip.asObservable(),
+                input.loadError.asObservable().skip(3).take(1).map { _ in () }
+            )
             .map { [regNumber] _ in
                 ReportSearchValue.regNumber(regNumber)
             }
@@ -49,9 +54,9 @@ extension MTSBUScreenViewModel {
         
         let cookiesResult = input.cookies
             .asObservable()
-            .flatMap { [mtsbuService] cookies -> Observable<Event<MTSBUCookiesModel?>> in
+            .flatMap { cookies -> Observable<Event<MTSBUCookiesModel?>> in
                 guard cookies.isEmpty else { return .empty() }
-                return mtsbuService.getCookies()
+                return MTSBUService.shared.getCookies()
                     .asObservable()
                     .materialize()
             }
@@ -82,10 +87,17 @@ extension MTSBUScreenViewModel {
             }
             .asSignal(onErrorSignalWith: .empty())
         
+        let retryLoad = input.loadError
+            .asObservable()
+            .take(3)
+            .map { _ in () }
+            .asSignal(onErrorSignalWith: .empty())
+        
         return Output(
             cookies: cookies,
             searchValue: searchValue,
-            errorAlert: errorAlert
+            errorAlert: errorAlert,
+            retryLoad: retryLoad
         )
     }
 }

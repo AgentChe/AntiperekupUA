@@ -10,6 +10,7 @@ import UIKit
 final class ReportCheckCaptchaCell: UITableViewCell {
     
     private lazy var retryLabel = makeLabel()
+    lazy var containerView = makeContainer()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -22,10 +23,12 @@ final class ReportCheckCaptchaCell: UITableViewCell {
     }
 }
 
+extension ReportCheckCaptchaCell: CornerCellContainer {}
+
 private extension ReportCheckCaptchaCell {
     func initialize() {
-        backgroundColor = .white
-        contentView.backgroundColor = .white
+        backgroundColor = .clear
+        contentView.backgroundColor = .clear
         selectionStyle = .none
     }
 }
@@ -34,10 +37,17 @@ private extension ReportCheckCaptchaCell {
 private extension ReportCheckCaptchaCell {
     func makeConstraints() {
         NSLayoutConstraint.activate([
-            retryLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8.scale),
-            retryLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20.scale),
-            retryLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20.scale),
-            retryLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20.scale)
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16.scale),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16.scale)
+        ])
+        
+        NSLayoutConstraint.activate([
+            retryLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8.scale),
+            retryLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -20.scale),
+            retryLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20.scale),
+            retryLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20.scale)
         ])
     }
 }
@@ -48,6 +58,14 @@ private extension ReportCheckCaptchaCell {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.attributedText = "mtsbu_check_captcha".localized.attributed(with: .title)
+        containerView.addSubview(view)
+        return view
+    }
+    
+    func makeContainer() -> UIView {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
         contentView.addSubview(view)
         return view
     }

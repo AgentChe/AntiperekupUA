@@ -9,10 +9,11 @@ import UIKit
 final class ReportHeaderCell: UITableViewCell {
     
     private lazy var titleLabel = makeTitle()
+    lazy var containerView = makeContainer()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+        initialize()
         makeConstraints()
     }
     
@@ -24,7 +25,17 @@ final class ReportHeaderCell: UITableViewCell {
 extension ReportHeaderCell {
     func setup(for title: String, state: ReportHeaderState) {
         titleLabel.attributedText = title.attributed(with: .title)
-        contentView.backgroundColor = state.color
+        containerView.backgroundColor = state.color
+    }
+}
+
+extension ReportHeaderCell: CornerCellContainer {}
+
+private extension ReportHeaderCell {
+    func initialize() {
+        contentView.backgroundColor = .clear
+        backgroundColor = .clear
+        selectionStyle = .none
     }
 }
 
@@ -32,10 +43,17 @@ extension ReportHeaderCell {
 private extension ReportHeaderCell {
     func makeConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8.scale),
-            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8.scale),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8.scale),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8.scale)
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16.scale),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16.scale)
+        ])
+        
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8.scale),
+            titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8.scale),
+            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8.scale),
+            titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8.scale)
         ])
     }
 }
@@ -44,6 +62,13 @@ private extension ReportHeaderCell {
 private extension ReportHeaderCell {
     func makeTitle() -> UILabel {
         let view = UILabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addSubview(view)
+        return view
+    }
+    
+    func makeContainer() -> UIView {
+        let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(view)
         return view

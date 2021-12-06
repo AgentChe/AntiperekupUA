@@ -12,6 +12,7 @@ final class MTSBUScreenView: UIView {
     lazy var skipButton = makeBottomButton()
     private lazy var stepLabel = makeStepLabel()
     private lazy var descriptionLabel = makeDescriptionLabel()
+    private lazy var activityIndicator = makeLoaderView()
     
     
     override init(frame: CGRect) {
@@ -44,6 +45,11 @@ private extension MTSBUScreenView {
             descriptionLabel.topAnchor.constraint(equalTo: stepLabel.bottomAnchor, constant: 16.scale),
             descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24.scale),
             descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24.scale)
+        ])
+        
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
         
         NSLayoutConstraint.activate([
@@ -93,6 +99,16 @@ private extension MTSBUScreenView {
         let view = BottomButtonView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.setup(title: "skip".localized.uppercased(), isHiddenBottomLine: true)
+        addSubview(view)
+        return view
+    }
+    
+    func makeLoaderView() -> UIActivityIndicatorView {
+        let view = UIActivityIndicatorView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.style = .medium
+        view.startAnimating()
+        view.color = .black
         addSubview(view)
         return view
     }
