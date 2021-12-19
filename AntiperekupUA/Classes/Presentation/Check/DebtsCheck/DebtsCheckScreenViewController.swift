@@ -117,8 +117,11 @@ extension DebtsCheckScreenViewController: UITableViewDelegate {
 
 // MARK: Make
 extension DebtsCheckScreenViewController {
-    static func make() -> DebtsCheckScreenViewController {
+    static func make(data: DebtsCheckFieldData?) -> DebtsCheckScreenViewController {
         let controller = DebtsCheckScreenViewController()
+        if let data = data {
+            controller.fieldsHeader.setFieldValue(data: data)
+        }
         controller.title = "merchant_debt_verification".localized
         return controller
     }

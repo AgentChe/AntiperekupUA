@@ -109,8 +109,11 @@ extension PassportCheckScreenViewController: UITableViewDelegate {
 
 // MARK: Make
 extension PassportCheckScreenViewController {
-    static func make() -> PassportCheckScreenViewController {
+    static func make(series: String?, number: String?) -> PassportCheckScreenViewController {
         let controller = PassportCheckScreenViewController()
+        if let series = series, let number = number {
+            controller.fieldsHeader.setValues(series: series, number: number)
+        }
         controller.title = "wanted_passport_menu".localized
         return controller
     }

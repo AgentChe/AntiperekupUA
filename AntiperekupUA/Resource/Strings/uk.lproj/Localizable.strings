@@ -352,8 +352,8 @@
 "enter_gos_number" = "Введіть держномер";
 "enter_vin" = "Введіть VIN";
 "enter_tech_passport" = "Введіть номер техпаспорта";
-"check_vin" = "Перевірте VIN";
-"check_gos_number" = "Перевірте держномер";
+"check_vin" = "Неправильний VIN?";
+"check_gos_number" = "Неправильний держномер?";
 "tech_passport_number" = "Номер техпаспорта:";
 "confirm" = "Підтвердити";
 "input_missing_gos" = "Введіть відсутні символи в держномері, щоб виконати запит";

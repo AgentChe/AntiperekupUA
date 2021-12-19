@@ -19,14 +19,14 @@ final class ShareReportCore {
                 do {
                     let reportType: String
                     switch model.searchValue {
-                    case .vin:
-                        reportType = "VIN"
-                    case .regNumber:
-                        reportType = "GOSNUMBER"
-                    case .technicalPassport:
-                        reportType = "TECHNICALPASSPORT"
+                    case let .vin(value):
+                        reportType = value
+                    case let .regNumber(value):
+                        reportType = value
+                    case let .technicalPassport(series, number):
+                        reportType = series + number
                     }
-                    let filename = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("\(reportType)_\(Date().timeIntervalSince1970).html")
+                    let filename = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("\(reportType)_\(Int(Date().timeIntervalSince1970)).html")
                     try htmlString.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
                     return filename
                 } catch {

@@ -351,8 +351,8 @@
 "enter_gos_number" = "Введите госномер";
 "enter_vin" = "Введите ВИН";
 "enter_tech_passport" = "Введите номер техпаспорта";
-"check_vin" = "Проверьте ВИН";
-"check_gos_number" = "Проверьте госномер";
+"check_vin" = "Неверный VIN?";
+"check_gos_number" = "Неверный госномер?";
 "tech_passport_number" = "Номер техпаспорта:";
 "confirm" = "Подтвердить";
 "input_missing_gos" = "Введите недостающие символы в госномере, чтобы выполнить запрос";

@@ -17,8 +17,8 @@ enum MainTableItem {
 struct MainHistoryItem: Equatable, Hashable {
     let id: String
     let date: String
-    let searchValue: String
-    let carInfo: String?
+    let mainValue: String
+    let additional: String?
 }
 
 extension MainTableItem: Equatable, Hashable {

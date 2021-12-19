@@ -9,7 +9,7 @@ import Foundation
 
 enum MainRoute {
     case regValidation(String)
-    case checkPassport
-    case checkDebets
+    case checkPassport(series: String? = nil, number: String? = nil)
+    case checkDebets(DebtsCheckFieldData? = nil)
     case report(ReportSearchValue)
 }

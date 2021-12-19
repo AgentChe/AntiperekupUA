@@ -32,9 +32,9 @@ extension MainHistoryCell {
         let carInfoAttr = TextAttributes.carInfo.dictionary
         let attributedText = NSMutableAttributedString()
         
-        attributedText.append(NSAttributedString(string: item.searchValue, attributes: searchValueAttr))
+        attributedText.append(NSAttributedString(string: item.mainValue, attributes: searchValueAttr))
         
-        if let carInfo = item.carInfo, !carInfo.isEmpty {
+        if let carInfo = item.additional, !carInfo.isEmpty {
             attributedText.append(NSAttributedString(string: " – ", attributes: searchValueAttr))
             attributedText.append(NSAttributedString(string: carInfo, attributes: carInfoAttr))
         }

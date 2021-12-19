@@ -13,3 +13,7 @@ struct DebtsCheckFieldData {
     let patronymic: String
     let birthday: String
 }
+
+extension DebtsCheckFieldData: Codable {
+    
+}
