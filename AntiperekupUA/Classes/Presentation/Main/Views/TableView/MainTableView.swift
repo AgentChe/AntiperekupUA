@@ -53,6 +53,9 @@ final class MainTableView: UIView {
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MainHistoryCell.self), for: indexPath) as! MainHistoryCell
             cell.setup(from: element)
             return cell
+        case .empty:
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MainEmptyCellView.self), for: indexPath) as! MainEmptyCellView
+            return cell
         }
     }
     
@@ -77,6 +80,10 @@ extension MainTableView {
     var deleteHistoryItem: Signal<MainHistoryItem> {
         deletedHistoryItemRelay.asSignal()
     }
+    
+    var isScrollEnabled: Binder<Bool> {
+        tableView.rx.isScrollEnabled
+    }
 }
 
 private extension MainTableView {
@@ -84,6 +91,7 @@ private extension MainTableView {
         tableView.register(MainActionCell.self, forCellReuseIdentifier: String(describing: MainActionCell.self))
         tableView.register(MainErrorCell.self, forCellReuseIdentifier: String(describing: MainErrorCell.self))
         tableView.register(MainHistoryCell.self, forCellReuseIdentifier: String(describing: MainHistoryCell.self))
+        tableView.register(MainEmptyCellView.self, forCellReuseIdentifier: String(describing: MainEmptyCellView.self))
         tableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
     }
@@ -108,6 +116,15 @@ extension MainTableView: UITableViewDelegate {
         })
         
         return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch dataSource[indexPath.section].items[indexPath.row] {
+        case .empty:
+            return tableView.bounds.height - tableView.contentSize.height + 50.scale
+        default:
+            return UITableView.automaticDimension
+        }
     }
 }
 

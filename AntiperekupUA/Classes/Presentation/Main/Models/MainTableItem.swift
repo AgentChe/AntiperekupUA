@@ -12,6 +12,7 @@ enum MainTableItem {
     case action(MainTableAction)
     case error(String)
     case history(MainHistoryItem)
+    case empty
 }
 
 struct MainHistoryItem: Equatable, Hashable {
@@ -45,6 +46,8 @@ extension MainTableItem: IdentifiableType {
             return error.hashValue
         case let .history(element):
             return element.hashValue
+        case .empty:
+            return hashValue
         }
     }
 }

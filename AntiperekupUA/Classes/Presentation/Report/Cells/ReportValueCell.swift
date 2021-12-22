@@ -54,8 +54,8 @@ private extension ReportValueCell {
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16.scale),
-            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16.scale)
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding)
         ])
         
         NSLayoutConstraint.activate([

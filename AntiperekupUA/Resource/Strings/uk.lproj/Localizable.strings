@@ -40,26 +40,6 @@
 // Vin report
 
 "no_car_information_found" = "Відомості про автомобіль не знайдено";
-/*
-<plurals name="photos">
-    <item quantity="one">Знайдено %d фото</item>
-    <item quantity="few">Знайдено %d фото</item>
-    <item quantity="other">Знайдено %d фото</item>
-    <item quantity="many">Знайдено %d фото</item>
-</plurals>
-<plurals name="records">
-    <item quantity="one">%d запис</item>
-    <item quantity="few">%d записи</item>
-    <item quantity="other">%d записів</item>
-    <item quantity="many">%d записів</item>
-</plurals>
-<plurals name="records_wanted">
-    <item quantity="one">%d запис. Автомобіль в розшуку</item>
-    <item quantity="few">%d записи. Автомобіль в розшуку</item>
-    <item quantity="other">%d записів. Автомобіль в розшуку</item>
-    <item quantity="many">%d записів. Автомобіль в розшуку</item>
-</plurals>
-*/
 "error_purchaise" = "Сталася помилка під час купівлі. Зв\'яжіться з нами, якщо це помилка";
 
 // My reports
@@ -123,7 +103,7 @@
 "go_to_app" = "Перейдіть в додаток";
 
 "support_us" = "Підтримайте нас";
-"please_rate_app" = "Будь ласка, залиште відгук про додаток в Google Play. Це допоможе нам розвиватися та додавати нові джерела даних";
+"please_rate_app" = "Будь ласка, залиште відгук про додаток в App Store. Це допоможе нам розвиватися та додавати нові джерела даних";
 
 "gov_data_regnumber" = "Держ.номер:";
 "gov_data_vin" = "VIN:";

@@ -212,6 +212,7 @@
 		86E410E2273853230036D0DC /* ImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E410E1273853230036D0DC /* ImageScrollView.swift */; };
 		86E410E827401BA50036D0DC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 86E410EA27401BA50036D0DC /* InfoPlist.strings */; };
 		86E521C726ECF41F00BE6AC7 /* ReportDataSourceConfigureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E521C626ECF41F00BE6AC7 /* ReportDataSourceConfigureHelper.swift */; };
+		86F5F636277257F30082098C /* MainEmptyCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F5F635277257F30082098C /* MainEmptyCellView.swift */; };
 		86FC5F5526F1021100A95B9C /* NewCommentCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FC5F5426F1021100A95B9C /* NewCommentCommentCell.swift */; };
 		86FC5F5726F10B4F00A95B9C /* NewCommentTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FC5F5626F10B4F00A95B9C /* NewCommentTitleCell.swift */; };
 		86FC5F5A26F2655F00A95B9C /* NewCommentHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FC5F5926F2655F00A95B9C /* NewCommentHeaderCell.swift */; };
@@ -455,6 +456,7 @@
 		86E410E927401BA50036D0DC /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		86E410EB27401BA80036D0DC /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		86E521C626ECF41F00BE6AC7 /* ReportDataSourceConfigureHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDataSourceConfigureHelper.swift; sourceTree = "<group>"; };
+		86F5F635277257F30082098C /* MainEmptyCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainEmptyCellView.swift; sourceTree = "<group>"; };
 		86FC5F5426F1021100A95B9C /* NewCommentCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentCommentCell.swift; sourceTree = "<group>"; };
 		86FC5F5626F10B4F00A95B9C /* NewCommentTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentTitleCell.swift; sourceTree = "<group>"; };
 		86FC5F5926F2655F00A95B9C /* NewCommentHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentHeaderCell.swift; sourceTree = "<group>"; };
@@ -519,13 +521,6 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		8603BEF026B53E5000A2E4CF /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Cells;
-			sourceTree = "<group>";
-		};
 		8603BEF226B5516C00A2E4CF /* TableView */ = {
 			isa = PBXGroup;
 			children = (
@@ -543,6 +538,7 @@
 				8603BEF426B551BA00A2E4CF /* MainActionCell.swift */,
 				8603BF0126B6C0C700A2E4CF /* MainErrorCell.swift */,
 				867450CA26FBB05E009C64E1 /* MainHistoryCell.swift */,
+				86F5F635277257F30082098C /* MainEmptyCellView.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1192,7 +1188,6 @@
 		86C11F7426AD5E7800D7A47E /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				8603BEF026B53E5000A2E4CF /* Cells */,
 				863D629626B079D700D0A073 /* Models */,
 				86C11F8026ADAE1200D7A47E /* Views */,
 				86C11F7526AD5E9400D7A47E /* MainViewController.swift */,
@@ -1770,6 +1765,7 @@
 				866B819E26BC538400026E95 /* GetVinAndRegNumberRequest.swift in Sources */,
 				864250B026AC174C00837F07 /* OnboardingWebView.swift in Sources */,
 				868B531F26EE6CCD002923F4 /* NewCommentScreenView.swift in Sources */,
+				86F5F636277257F30082098C /* MainEmptyCellView.swift in Sources */,
 				86A43BA926C84B270036D06B /* PhotoModel.swift in Sources */,
 				86241FD526A8970D008E5863 /* OnboardingLanguageView.swift in Sources */,
 				86C5DD9A26F3B7B600104C41 /* AddCommentRequest.swift in Sources */,

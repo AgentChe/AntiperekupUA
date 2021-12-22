@@ -40,23 +40,6 @@
 // Vin report
 
 "no_car_information_found" = "Сведения об автомобиле не найдены.";
-/*
-<plurals name="photos" tools:ignore="MissingQuantity">
-    <item quantity="one">Найдено %d фото</item>
-    <item quantity="few">Найдено %d фото</item>
-    <item quantity="other">Найдено %d фото</item>
-</plurals>
-<plurals name="records" tools:ignore="MissingQuantity">
-    <item quantity="one">%d запись</item>
-    <item quantity="few">%d записи</item>
-    <item quantity="other">%d записей</item>
-</plurals>
-<plurals name="records_wanted" tools:ignore="MissingQuantity">
-    <item quantity="one">%d запись. Автомобиль в розыске</item>
-    <item quantity="few">%d записи. Автомобиль в розыске</item>
-    <item quantity="other">%d записей. Автомобиль в розыске</item>
-</plurals>
-*/
 "error_purchaise" = "Произошла ошибка при покупке. Свяжитесь с нами, если это ошибка";
 
 // My reports
@@ -122,7 +105,7 @@
 "go_to_app" = "Перейдите в приложение";
 
 "support_us" = "Поддержите нас";
-"please_rate_app" = "Пожалуйста, оставьте отзыв о приложении в Google Play. Это поможет нам развиваться и добавлять новые источники данных";
+"please_rate_app" = "Пожалуйста, оставьте отзыв о приложении в App Store. Это поможет нам развиваться и добавлять новые источники данных";
 
 "gov_data_regnumber" = "Гос.номер:";
 "gov_data_vin" = "VIN:";

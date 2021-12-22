@@ -13,6 +13,7 @@ final class MainViewModel {
     typealias SearchModel = SearchView.FieldType
     private lazy var auditHistoryService = AuditHistoryManagerCore()
     private lazy var disposeBag = DisposeBag()
+    private let isScrollEnabled = BehaviorRelay<Bool>(value: true)
 }
 
 
@@ -31,6 +32,7 @@ extension MainViewModel {
         let searchModel: Driver<SearchModel>
         let isError: Driver<Bool>
         let route: Signal<MainRoute>
+        let isScrollEnabled: Driver<Bool>
     }
     
     func configure(input: Input) -> Output {
@@ -129,7 +131,8 @@ extension MainViewModel {
             tableData: tableData,
             searchModel: searchModel,
             isError: isError,
-            route: route
+            route: route,
+            isScrollEnabled: isScrollEnabled.asDriver()
         )
     }
 }
@@ -139,8 +142,8 @@ private extension MainViewModel {
         let mainDataTableData = AuditHistoryMediator.shared.rxItemsChange
             .asObservable()
             .startWith(())
-            .map { [auditHistoryService] _ -> [TableDataSource] in
-                let historyElements = auditHistoryService.getHistory()
+            .map { [auditHistoryService, isScrollEnabled] _ -> [TableDataSource] in
+                let elements = auditHistoryService.getHistory()
                     .map { element -> MainTableItem in
                         let historyItem: MainHistoryItem
                         switch element {
@@ -181,6 +184,8 @@ private extension MainViewModel {
                         }
                         return .history(historyItem)
                     }
+                let historyElements = elements.isEmpty ? [.empty] : elements
+                isScrollEnabled.accept(!elements.isEmpty)
                 return [(.action, [.action(.debets), .action(.passport)]), (.history, historyElements)]
             }
         
@@ -274,6 +279,8 @@ private extension MainViewModel {
                 
                 
                 return result
+            case .empty:
+                return nil
             }
         }
     }

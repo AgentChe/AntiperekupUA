@@ -56,6 +56,10 @@ final class MainViewController: UIViewController {
         output.route
             .emit(to: navigation)
             .disposed(by: disposeBag)
+        
+        output.isScrollEnabled
+            .drive(mainView.tableView.isScrollEnabled)
+            .disposed(by: disposeBag)
     }
     
     private func configureUI() {
