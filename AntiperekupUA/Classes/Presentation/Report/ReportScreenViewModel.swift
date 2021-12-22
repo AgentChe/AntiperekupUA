@@ -103,18 +103,19 @@ extension ReportScreenViewModel {
                 return ()
             }
         
-        let baseDataRequestResult = makeInitialBaseData(retryTrigger: retryTrigger)
+        let initialData = makeInitialData(retryTrigger: retryTrigger)
             .share(replay: 1)
         
-        let baseDataResult = makeBaseData(
-            baseData: baseDataRequestResult.compactMap { $0.element },
-            inputValue: input.inputValue
+        let changeData = makeChangeData(inputValue: input.inputValue, retryTrigger: retryTrigger)
+            .share(replay: 1)
+        
+        let baseDataResult = makeData(
+            initial: initialData,
+            change: changeData
         )
+        .share(replay: 1)
         
-        let baseDataEvent = Observable.merge(baseDataRequestResult.filter { $0.error != nil }, baseDataResult)
-            .share(replay: 1)
-        
-        let baseData = baseDataEvent
+        let baseData = baseDataResult
             .compactMap { $0.element }
             .share(replay: 1)
         
@@ -146,7 +147,7 @@ extension ReportScreenViewModel {
         
         let freeSections = Observable
             .combineLatest([
-                makeBaseSection(baseData: baseDataEvent),
+                makeBaseSection(baseData: baseDataResult),
                 mainAndHistory.map { $0.main },
                 mainAndHistory.map { $0.history },
                 makeWantedSection(baseData: baseData, retryTrigger: retryTrigger),
@@ -199,23 +200,24 @@ extension ReportScreenViewModel {
             }
             .asSignal(onErrorSignalWith: .empty())
         
-        let initialMTSBU = baseDataRequestResult
+        let showCaptchaScreen = baseDataResult
+            .skip(1)
             .compactMap { [searchValue] result -> String? in
-                if case .regNumber = searchValue {
-                    return nil
-                }
-                
                 guard
-                    let element  = result.element,
+                    let element = result.element,
                     element.isValidNumber,
                     MTSBUService.shared.getCaptcha(for: element.regNumber) == nil
                 else {
                     return nil
                 }
                 
-                return result.element?.regNumber
+                if case let .regNumber(value) = searchValue, value == element.regNumber {
+                    return nil
+                }
+                
+                return element.regNumber
             }
-            .take(1)
+            .distinctUntilChanged()
         
         let didTapCheckCaptcha = input.selectedElement
             .asObservable()
@@ -226,7 +228,7 @@ extension ReportScreenViewModel {
             .withLatestFrom(baseData) { _, data in data.regNumber }
         
         let checkCaptcha = Observable
-            .merge(initialMTSBU, didTapCheckCaptcha)
+            .merge(showCaptchaScreen, didTapCheckCaptcha)
             .asSignal(onErrorSignalWith: .empty())
         
         return Output(
@@ -245,40 +247,33 @@ extension ReportScreenViewModel {
 // MARK: Private
 private extension ReportScreenViewModel {
     
-    func makeBaseData(
-        baseData: Observable<BaseData>,
-        inputValue: Signal<ReportSearchValue>
-    ) -> Observable<Event<BaseData>> {
-        return Observable<Action>
-            .merge(
-                baseData.map { .baseData($0) },
-                inputValue.asObservable().map { .input($0) }
-            )
-            .scan(nil, accumulator: { old, action -> BaseData? in
+    func makeData(initial: Observable<Event<BaseData>>, change: Observable<Event<BaseData>>) -> Observable<Event<BaseData>> {
+        let initialData = initial.compactMap { $0.element.map { Action1.initial($0) } }
+        let changeData = change.compactMap { $0.element.map { Action1.input($0) } }
+        
+        let error = Observable.merge(initial, change)
+            .filter { $0.error != nil }
+        
+        let success = initialData
+            .concat(changeData)
+            .scan(nil) { old, action -> BaseData? in
                 switch action {
-                case let .baseData(data):
+                case let .initial(data):
                     return data
-                case let .input(type):
+                case let .input(data):
                     guard var current = old else { return nil }
-                    switch type {
-                    case let .vin(vin):
-                        current.change(vin: vin)
-                    case let .regNumber(number):
-                        current.change(regNumber: number)
-                    case let .technicalPassport(series, number):
-                        current.change(passport: "\(series)\(number)")
-                    }
+                    current.change(data: data)
 
                     return current
                 }
-            })
+            }
             .compactMap { $0.map { Event.next($0) } }
+        
+        return Observable.merge(error, success).debug()
     }
     
-    func makeInitialBaseData(retryTrigger: Observable<Void>) -> Observable<Event<BaseData>> {
-        let result: Observable<BaseData>
+    func makeInitialData(retryTrigger: Observable<Void>) -> Observable<Event<BaseData>> {
         let startData: BaseData
-        
         switch searchValue {
         case let .vin(value):
             startData = BaseData(
@@ -287,6 +282,40 @@ private extension ReportScreenViewModel {
                 isEditableNumber: true,
                 isEditablePassport: true
             )
+        case let .regNumber(value):
+            startData = BaseData(
+                regNumber: value,
+                isEditableVin: true,
+                isEditableNumber: false,
+                isEditablePassport: true
+            )
+        case let .technicalPassport(series, number):
+            startData = BaseData(
+                technicalPassport: "\(series)\(number)",
+                isEditableVin: true,
+                isEditableNumber: true,
+                isEditablePassport: false
+            )
+        }
+        
+        return makeBaseData(searchValue: searchValue, retryTrigger: retryTrigger)
+            .take(1)
+            .startWith(.next(startData))
+    }
+    
+    func makeChangeData(inputValue: Signal<ReportSearchValue>, retryTrigger: Observable<Void>) -> Observable<Event<BaseData>> {
+        inputValue.asObservable()
+            .flatMapLatest { [weak self] searchValue -> Observable<Event<BaseData>> in
+                guard let self = self else { return .empty() }
+                return self.makeBaseData(searchValue: searchValue, retryTrigger: retryTrigger)
+            }
+    }
+    
+    func makeBaseData(searchValue: ReportSearchValue, retryTrigger: Observable<Void>) -> Observable<Event<BaseData>> {
+        let result: Observable<BaseData>
+        
+        switch searchValue {
+        case let .vin(value):
             result = reportService
                 .getRegNumberByVin(vin: value)
                 .asObservable()
@@ -302,22 +331,15 @@ private extension ReportScreenViewModel {
                     )
                 }
         case let .regNumber(value):
-            startData = BaseData(
+            let data = BaseData(
                 regNumber: value,
                 isEditableVin: true,
                 isEditableNumber: false,
                 isEditablePassport: true
             )
             
-            result = .empty()
+            result = .just(data)
         case let .technicalPassport(series, number):
-            startData = BaseData(
-                technicalPassport: "\(series)\(number)",
-                isEditableVin: true,
-                isEditableNumber: true,
-                isEditablePassport: false
-            )
-            
             result = reportService
                 .getVinAndRegNumberByRegDoc(series: series, number: number)
                 .asObservable()
@@ -337,13 +359,12 @@ private extension ReportScreenViewModel {
         
         return result
             .materialize(with: retryTrigger)
-            .startWith(.next(startData))
     }
     
     func makeBaseSection(baseData: Observable<Event<BaseData>>) -> Observable<Elements> {
         let headerTitle = "basic_information".localized
         
-        return baseData
+        return baseData.debug()
             .compactMap { ReportDataSourceConfigureHelper.baseSection(headerTitle: headerTitle, event: $0) }
             .startWith([.header(title: headerTitle, state: .empty), .loader])
     }
@@ -394,7 +415,7 @@ private extension ReportScreenViewModel {
                             brand: element?.vehicle?.brand ?? "",
                             model: element?.vehicle?.model ?? ""
                         )
-                        self.auditHistoryService.save(model: model)
+                        self.auditHistoryService.save(model: .report(model))
                     })
                     .compactMap { ReportDataSourceConfigureHelper.mainAndHistory(mainTitle: mainTitle, historyTitle: historyTitle, event: $0) }
                     .startWith(loadingSections)
@@ -890,9 +911,9 @@ extension ReportScreenViewModel {
         var regNumber: String
         var technicalPassport: String
         
-        let isEditableVin: Bool
-        let isEditableNumber: Bool
-        let isEditablePassport: Bool
+        var isEditableVin: Bool
+        var isEditableNumber: Bool
+        var isEditablePassport: Bool
         
         init(
             vin: String? = nil,
@@ -910,16 +931,21 @@ extension ReportScreenViewModel {
             self.isEditablePassport = isEditablePassport
         }
         
-        mutating func change(vin: String) {
-            self.vin = vin
-        }
-        
-        mutating func change(regNumber: String) {
-            self.regNumber = regNumber
-        }
-        
-        mutating func change(passport: String) {
-            technicalPassport = passport
+        mutating func change(data: Self) {
+            if vin != data.vin, data.isValidVin {
+                vin = data.vin
+                isEditableVin = true
+            }
+            
+            if regNumber != data.regNumber, data.isValidNumber {
+                regNumber = data.regNumber
+                isEditableNumber = true
+            }
+            
+            if technicalPassport != data.technicalPassport, data.isValidPassport {
+                technicalPassport = data.technicalPassport
+                isEditablePassport = true
+            }
         }
         
         var isValidVin: Bool {
@@ -929,11 +955,20 @@ extension ReportScreenViewModel {
         var isValidNumber: Bool {
             !(regNumber.isEmpty || regNumber.contains("_"))
         }
+        
+        var isValidPassport: Bool {
+            !(technicalPassport.isEmpty || technicalPassport.contains("_"))
+        }
     }
     
     enum Action {
         case baseData(BaseData)
         case input(ReportSearchValue)
+    }
+    
+    enum Action1 {
+        case initial(BaseData)
+        case input(BaseData)
     }
 
 }

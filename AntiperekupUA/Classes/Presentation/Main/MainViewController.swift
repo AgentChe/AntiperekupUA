@@ -56,6 +56,14 @@ final class MainViewController: UIViewController {
         output.route
             .emit(to: navigation)
             .disposed(by: disposeBag)
+        
+        output.isScrollEnabled
+            .drive(mainView.tableView.isScrollEnabled)
+            .disposed(by: disposeBag)
+        
+        output.savedSearchValue
+            .drive(mainView.tableView.searchHeader.savedValue)
+            .disposed(by: disposeBag)
     }
     
     private func configureUI() {
@@ -90,11 +98,11 @@ private extension MainViewController {
             case let .regValidation(value):
                 let controller = MTSBUScreenViewController.make(regNumber: value)
                 base.navigationController?.pushViewController(controller, animated: true)
-            case .checkPassport:
-                let controller = PassportCheckScreenViewController.make()
+            case let .checkPassport(series, number):
+                let controller = PassportCheckScreenViewController.make(series: series, number: number)
                 base.navigationController?.pushViewController(controller, animated: true)
-            case .checkDebets:
-                let controller = DebtsCheckScreenViewController.make()
+            case let .checkDebets(data):
+                let controller = DebtsCheckScreenViewController.make(data: data)
                 base.navigationController?.pushViewController(controller, animated: true)
             case let .report(searchValue):
                 let controller = ReportScreenViewController.make(searchValue: searchValue)

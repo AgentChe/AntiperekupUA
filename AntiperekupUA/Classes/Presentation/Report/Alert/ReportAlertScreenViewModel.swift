@@ -33,51 +33,53 @@ extension ReportAlertScreenViewModel {
     
     func configure(input: Input) -> Output {
         
-        let confirmedResult = input.didTapConfirm
-            .asObservable()
+        let confirmResult = input.didTapConfirm.asObservable()
             .withLatestFrom(input.value)
-            .map { [model] value -> Event<ReportSearchValue> in
-                guard let value = value else {
-                    return .error(NSError(domain: "\(type(of: self))", code: -1, userInfo: [:]))
+            .compactMap { [weak self] text -> Result<ReportSearchValue, Error>? in
+                guard let self = self, let text = text else { return nil }
+                let validCount: Int
+                
+                let errorMessage: String
+                let clearedString = text.filter { !$0.isWhitespace }
+                switch self.model.fieldType {
+                case .regNumber:
+                    validCount = 6
+                    errorMessage = Constants.regError
+                case .vin:
+                    validCount = 10
+                    errorMessage =  Constants.vinError
+                case .technicalPassport:
+                    validCount = 9
+                    errorMessage = Constants.passportError
                 }
                 
-                let clearString = value.trimmingCharacters(in: .whitespacesAndNewlines)
-                switch model.fieldType {
-                case .vin:
-                    let vinError = NSError(domain: "\(type(of: self))", code: -1, userInfo: [NSLocalizedDescriptionKey: Constants.vinError])
-                    guard clearString.count >= 10 else {
-                        return .error(vinError)
-                    }
-                    let regex = "^[a-zA-Z0-9]*$"
-                    let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
-                    
-                    guard predicate.evaluate(with: clearString) else {
-                        return .error(vinError)
-                    }
-                    
-                    return .next(.vin(clearString))
-                case .regNumber:
-                    guard clearString.count >= 6 else {
-                        return .error(NSError(domain: "\(type(of: self))", code: -1, userInfo: [NSLocalizedDescriptionKey: Constants.regError]))
-                    }
-                    return .next(.regNumber(clearString))
-                case .technicalPassport:
-                    guard clearString.count >= 9 else {
-                        return .error(NSError(domain: "\(type(of: self))", code: -1, userInfo: [NSLocalizedDescriptionKey: Constants.passportError]))
-                    }
-                    let series = String(clearString.prefix(3))
-                    let number = String(clearString.suffix(clearString.count - series.count))
-                    return .next(.technicalPassport(series: series, number: number))
-                }
+                let error = NSError(domain: "\(type(of: self))", code: -1, userInfo: [NSLocalizedDescriptionKey: errorMessage])
+                
+                guard clearedString.count >= validCount else { return .failure(error) }
+                return self.textValidation(text)
             }
             .share(replay: 1)
         
-        let confirmed = confirmedResult
-            .compactMap { $0.element }
+        let inputResult = input.value
+            .compactMap { $0 }
+            .map(textValidation)
+        
+        let result = Observable
+            .merge(confirmResult, inputResult)
+            .share(replay: 1)
+        
+        let confirmed = confirmResult
+            .compactMap { value -> ReportSearchValue? in
+                guard case let .success(searchValue) = value else { return nil }
+                return searchValue
+            }
             .asSignal(onErrorSignalWith: .empty())
         
-        let showError = confirmedResult
-            .compactMap { $0.error?.localizedDescription }
+        let showError = result
+            .map { value -> String in
+                guard case let .failure(error) = value else { return "" }
+                return error.localizedDescription
+            }
             .asSignal(onErrorSignalWith: .empty())
         
         return Output(
@@ -125,6 +127,36 @@ private extension ReportAlertScreenViewModel {
             return .regNumber
         case .technicalPassport:
             return .tecnicalPassport
+        }
+    }
+    
+    var textValidation: (String) -> Result<ReportSearchValue, Error> {
+        return { [model] text in
+            
+            let regex = "^[a-zA-Z0-9]*$"
+            let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
+            
+            let clearString = text.filter { !$0.isWhitespace }
+            switch model.fieldType {
+            case .regNumber:
+                let error = NSError(domain: "\(type(of: self))", code: -1, userInfo: [NSLocalizedDescriptionKey: Constants.regError])
+                return !predicate.evaluate(with: clearString)
+                    ? .failure(error)
+                    : .success(.regNumber(clearString))
+            case .vin:
+                let error = NSError(domain: "\(type(of: self))", code: -1, userInfo: [NSLocalizedDescriptionKey: Constants.vinError])
+                return !predicate.evaluate(with: clearString)
+                    ? .failure(error)
+                    : .success(.vin(clearString))
+            case .technicalPassport:
+                let error = NSError(domain: "\(type(of: self))", code: -1, userInfo: [NSLocalizedDescriptionKey: Constants.passportError])
+                let series = String(clearString.prefix(3))
+                let number = String(clearString.suffix(clearString.count - series.count))
+                
+                return !predicate.evaluate(with: clearString)
+                ? .failure(error)
+                : .success(.technicalPassport(series: series, number: number))
+            }
         }
     }
 }

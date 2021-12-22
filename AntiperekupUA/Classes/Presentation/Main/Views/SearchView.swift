@@ -69,6 +69,13 @@ extension SearchView {
                 : UIColor(integralRed: 125, green: 172, blue: 221).cgColor
         }
     }
+    
+    var savedValue: Binder<String> {
+        Binder(self) { base, value in
+            base.searchField.text = value
+            base.searchField.sendActions(for: .editingChanged)
+        }
+    }
 }
 
 extension SearchView: UITextFieldDelegate {

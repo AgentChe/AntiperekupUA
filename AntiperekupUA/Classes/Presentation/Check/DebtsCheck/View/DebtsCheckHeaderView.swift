@@ -59,6 +59,16 @@ extension DebtsCheckHeaderView {
             base.birthdayField.isError = state.birthdayState == .error
         }
     }
+    
+    func setFieldValue(data: DebtsCheckFieldData) {
+        let fields = [nameField.field, lastNameField.field, patronymicField.field, birthdayField.field]
+        let values = [data.firstName, data.lastName, data.patronymic, data.birthday]
+        
+        zip(fields, values).forEach { field, value in
+            field.text = value
+            field.sendActions(for: .editingChanged)
+        }
+    }
 }
 
 private extension DebtsCheckHeaderView {

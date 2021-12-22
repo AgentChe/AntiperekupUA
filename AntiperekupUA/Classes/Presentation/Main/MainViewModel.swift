@@ -13,6 +13,7 @@ final class MainViewModel {
     typealias SearchModel = SearchView.FieldType
     private lazy var auditHistoryService = AuditHistoryManagerCore()
     private lazy var disposeBag = DisposeBag()
+    private let isScrollEnabled = BehaviorRelay<Bool>(value: true)
 }
 
 
@@ -31,6 +32,8 @@ extension MainViewModel {
         let searchModel: Driver<SearchModel>
         let isError: Driver<Bool>
         let route: Signal<MainRoute>
+        let isScrollEnabled: Driver<Bool>
+        let savedSearchValue: Driver<String>
     }
     
     func configure(input: Input) -> Output {
@@ -43,29 +46,53 @@ extension MainViewModel {
         let inputTextValidation = input.searchValue
             .compactMap { $0 }
             .withLatestFrom(currentTab) { ($0, $1) }
-            .compactMap { text, tab -> (String, MainTabType)? in
-                let validCount: Int
-                let clearString = text.trimmingCharacters(in: .whitespacesAndNewlines)
-                switch tab {
-                case .regNumber:
-                    validCount = 6
-                case .vinNumber:
-                    validCount = 10
-                case .technicalPassport:
-                    validCount = 9
-                }
-                
-                guard clearString.count >= validCount else { return nil }
-                return (text, tab)
-            }
             .map(textValidation)
             .share(replay: 1)
+
+        let textWithTab = currentTab
+            .distinctUntilChanged()
+            .scan(nil) { old, new -> (current: MainTabType, new: MainTabType)? in
+                return (current: old?.new ?? new, new: new)
+            }
+            .compactMap { $0 }
+            .withLatestFrom(input.searchValue.compactMap { $0 }) { ($0.current, $1) }
+            .scan([MainTabType: String]()) { old, new in
+                var result = old
+                result[new.0] = new.1
+                return result
+            }
+        
+        let currentText = currentTab
+            .withLatestFrom(textWithTab) { tab, elements in
+                return elements[tab] ?? ""
+            }
+            .asDriver(onErrorJustReturn: "")
         
         let searchResult = input.didTapSearch
             .asObservable()
-            .withLatestFrom(input.searchValue.compactMap { $0 })
+            .withLatestFrom(input.searchValue)
             .withLatestFrom(currentTab) { ($0, $1) }
-            .map(textValidation)
+            .compactMap { [weak self] text, tab -> SearchResult? in
+                guard let text = text else { return nil }
+                let validCount: Int
+                
+                let errorMessage: String
+                let clearedString = text.filter { !$0.isWhitespace }
+                switch tab {
+                case .regNumber:
+                    validCount = 6
+                    errorMessage = Constants.regError
+                case .vinNumber:
+                    validCount = 10
+                    errorMessage =  Constants.vinError + String(format: Constants.example, Constants.vinExample)
+                case .technicalPassport:
+                    validCount = 9
+                    errorMessage = Constants.passportError + String(format: Constants.example, Constants.passportExample)
+                }
+                
+                guard clearedString.count >= validCount else { return .error(errorMessage) }
+                return self?.textValidation(text, tab)
+            }
             .share(replay: 1)
         
         let searchModel = currentTab
@@ -124,7 +151,9 @@ extension MainViewModel {
             tableData: tableData,
             searchModel: searchModel,
             isError: isError,
-            route: route
+            route: route,
+            isScrollEnabled: isScrollEnabled.asDriver(),
+            savedSearchValue: currentText
         )
     }
 }
@@ -134,25 +163,50 @@ private extension MainViewModel {
         let mainDataTableData = AuditHistoryMediator.shared.rxItemsChange
             .asObservable()
             .startWith(())
-            .map { [auditHistoryService] _ -> [TableDataSource] in
-                let historyElements = auditHistoryService.getAuditHistory()
-                    .map { model -> MainTableItem in
-                        let carInfo: String?
-                        if !model.brand.isEmpty && !model.model.isEmpty {
-                            carInfo = "\(model.brand), \(model.model)"
-                        } else {
-                            carInfo = nil
+            .map { [auditHistoryService, isScrollEnabled] _ -> [TableDataSource] in
+                let elements = auditHistoryService.getHistory()
+                    .map { element -> MainTableItem in
+                        let historyItem: MainHistoryItem
+                        switch element {
+                        case let .report(model):
+                            let carInfo: String?
+                            if !model.brand.isEmpty && !model.model.isEmpty {
+                                carInfo = "\(model.brand), \(model.model)"
+                            } else {
+                                carInfo = nil
+                            }
+                            
+                            let item = MainHistoryItem(
+                                id: model.id,
+                                date: model.date.relativeDate,
+                                mainValue: model.searchValue,
+                                additional: carInfo
+                            )
+                            
+                            historyItem = item
+                            
+                        case let .passport(model):
+                            historyItem = MainHistoryItem(
+                                id: model.id,
+                                date: model.date.relativeDate,
+                                mainValue: model.series + model.number,
+                                additional: nil
+                            )
+                            
+                        case let .debts(model):
+                            let data = model.data
+                            let mainValue = "\(data.lastName) \(data.firstName) \(data.patronymic) - \(data.birthday)"
+                            historyItem = MainHistoryItem(
+                                id: model.id,
+                                date: model.date.relativeDate,
+                                mainValue: mainValue,
+                                additional: nil
+                            )
                         }
-                        
-                        let item = MainHistoryItem(
-                            id: model.id,
-                            date: model.date.relativeDate,
-                            searchValue: model.searchValue,
-                            carInfo: carInfo
-                        )
-                        
-                        return .history(item)
+                        return .history(historyItem)
                     }
+                let historyElements = elements.isEmpty ? [.empty] : elements
+                isScrollEnabled.accept(!elements.isEmpty)
                 return [(.action, [.action(.debets), .action(.passport)]), (.history, historyElements)]
             }
         
@@ -177,26 +231,28 @@ private extension MainViewModel {
     var textValidation: (String, MainTabType) -> SearchResult {
         return { text, type -> SearchResult in
             
-            let clearString = text.trimmingCharacters(in: .whitespacesAndNewlines)
+            let regex = "^[a-zA-Z0-9]*$"
+            let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
+            
+            let clearString = text.filter { !$0.isWhitespace }
             switch type {
             case .regNumber:
-                return clearString.count >= 6
-                    ? .regNumber(clearString)
-                    : .error(Constants.regError)
+                return !predicate.evaluate(with: clearString)
+                    ? .error(Constants.regError)
+                    : .regNumber(clearString)
             case .vinNumber:
                 let error = Constants.vinError + String(format: Constants.example, Constants.vinExample)
-                guard clearString.count >= 10 else { return .error(error) }
-                let regex = "^[a-zA-Z0-9]*$"
-                let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
-                return predicate.evaluate(with: clearString)
-                    ? .vinNumber(clearString)
-                    : .error(error)
+                return !predicate.evaluate(with: clearString)
+                    ? .error(error)
+                    : .vinNumber(clearString)
             case .technicalPassport:
                 let error = Constants.passportError + String(format: Constants.example, Constants.passportExample)
-                guard clearString.count >= 9 else { return .error(error) }
                 let series = String(clearString.prefix(3))
                 let number = String(clearString.suffix(clearString.count - series.count))
-                return .technicalPassport(series: series, number: number)
+                
+                return !predicate.evaluate(with: clearString)
+                ? .error(error)
+                : .technicalPassport(series: series, number: number)
             }
         }
     }
@@ -207,9 +263,9 @@ private extension MainViewModel {
             case let .action(action):
                 switch action {
                 case .debets:
-                    return .checkDebets
+                    return .checkDebets()
                 case .passport:
-                    return .checkPassport
+                    return .checkPassport()
                 }
             case .error:
                 return nil
@@ -217,22 +273,35 @@ private extension MainViewModel {
                 guard let item = self?.auditHistoryService.getItem(by: element.id) else {
                     return nil
                 }
+                
+                
                 let result: MainRoute
-                switch item.searchType {
-                case .regNumber:
-                    let captcha = MTSBUService.shared.getCaptcha(for: item.searchValue)
-                    result = captcha == nil
-                    ? .regValidation(item.searchValue)
-                    : .report(.regNumber(item.searchValue))
-                case .vin:
-                    result = .report(.vin(item.searchValue))
-                case .technicalPassport:
-                    let series = String(item.searchValue.prefix(3))
-                    let number = String(item.searchValue.suffix(item.searchValue.count - series.count))
-                    result = .report(.technicalPassport(series: series, number: number))
+                
+                switch item {
+                case .report(let model):
+                    switch model.searchType {
+                    case .regNumber:
+                        let captcha = MTSBUService.shared.getCaptcha(for: model.searchValue)
+                        result = captcha == nil
+                        ? .regValidation(model.searchValue)
+                        : .report(.regNumber(model.searchValue))
+                    case .vin:
+                        result = .report(.vin(model.searchValue))
+                    case .technicalPassport:
+                        let series = String(model.searchValue.prefix(3))
+                        let number = String(model.searchValue.suffix(model.searchValue.count - series.count))
+                        result = .report(.technicalPassport(series: series, number: number))
+                    }
+                case .passport(let model):
+                    result = .checkPassport(series: model.series, number: model.number)
+                case .debts(let model):
+                    result = .checkDebets(model.data)
                 }
                 
+                
                 return result
+            case .empty:
+                return nil
             }
         }
     }

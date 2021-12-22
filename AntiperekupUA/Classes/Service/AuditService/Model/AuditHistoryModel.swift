@@ -22,6 +22,85 @@ struct AuditHistoryModel {
     }
 }
 
+enum History {
+    case report(AuditHistoryModel)
+    case passport(PassportModel)
+    case debts(DebtsModel)
+}
+
+extension History: Codable {
+    enum CodingKeys: CodingKey {
+        case report, passport, debts
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        switch self {
+        case let .report(model):
+            try container.encode(model, forKey: .report)
+        case let .passport(model):
+            try container.encode(model, forKey: .passport)
+        case let .debts(model):
+            try container.encode(model, forKey: .debts)
+        }
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let key = container.allKeys.first
+        
+        switch key {
+        case .report:
+            let model = try container.decode(AuditHistoryModel.self, forKey: .report)
+            self = .report(model)
+        case .passport:
+            let model = try container.decode(PassportModel.self, forKey: .passport)
+            self = .passport(model)
+        case .debts:
+            let model = try container.decode(DebtsModel.self, forKey: .debts)
+            self = .debts(model)
+        case .none:
+            throw DecodingError.dataCorrupted(
+                DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Unabled to decode enum."
+                )
+            )
+        }
+    }
+}
+
+struct DebtsModel: Codable {
+    let id: String
+    let date: Date
+    let data: DebtsCheckFieldData
+}
+
+extension DebtsModel {
+    init(data: DebtsCheckFieldData) {
+        id = UUID().uuidString
+        date = Date()
+        self.data = data
+    }
+}
+
+struct PassportModel: Codable {
+    let id: String
+    let date: Date
+    let number: String
+    let series: String
+}
+
+extension PassportModel {
+    init(series: String, number: String) {
+        id = UUID().uuidString
+        date = Date()
+        self.series = series
+        self.number = number
+    }
+}
+
 extension AuditHistoryModel: Codable {
     
 }

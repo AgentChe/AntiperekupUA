@@ -11,6 +11,7 @@ import RxCocoa
 final class DebtsCheckScreenViewModel {
     typealias TableDataSource = (DebtsCheckHeader, [DebtsCheckTableItem])
     private lazy var debtsManager = DebtsManagerCore()
+    private lazy var auditHistoryService = AuditHistoryManagerCore()
 }
 
 extension DebtsCheckScreenViewModel {
@@ -48,6 +49,9 @@ extension DebtsCheckScreenViewModel {
             .share(replay: 1)
         
         let checkDebtsResult = validState
+            .do(onNext: { [weak self] in
+                self?.auditHistoryService.save(model: .debts(.init(data: $0.fieldsData)))
+            })
             .flatMapLatest { [weak self] data in
                 return input.captcha
                     .asObservable()

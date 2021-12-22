@@ -45,6 +45,15 @@ extension PassportCheckHeaderView {
             base.numberField.isError = state.numberState == .error
         }
     }
+    
+    func setValues(series: String, number: String) {
+        seriesField.field.text = series
+        numberField.field.text = number
+        
+        [seriesField.field, numberField.field].forEach {
+            $0.sendActions(for: .editingChanged)
+        }
+    }
 }
 
 private extension PassportCheckHeaderView {

@@ -11,6 +11,7 @@ import RxCocoa
 final class PassportCheckScreenViewModel {
     typealias TableDataSource = (PassportCheckHeader, [PassportCheckTableItem])
     private lazy var passportManager = PassportManagerCore()
+    private lazy var auditHistoryService = AuditHistoryManagerCore()
     private lazy var activityIndicator = RxActivityIndicator()
 }
 
@@ -42,6 +43,9 @@ extension PassportCheckScreenViewModel {
         
         let fieldData = fieldsState
             .filter { [$0.seriesState, $0.numberState].allSatisfy { $0 == .initial } }
+            .do(onNext: { [weak self] in
+                self?.auditHistoryService.save(model: .passport(.init(series: $0.series, number: $0.number)))
+            })
             .flatMapLatest { [weak self] data -> Observable<Event<PassportCheckModel?>> in
                 guard let self = self else { return .empty() }
                 return self.checkPassport(series: data.series, number: data.number)

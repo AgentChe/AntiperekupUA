@@ -134,6 +134,7 @@ final class ReportScreenViewController: UIViewController {
             .disposed(by: disposeBag)
         
         output.checkCaptcha
+            .delay(.microseconds(500))
             .emit(to: Binder(self) { base, regNumber in
                 let controller = MTSBUScreenViewController.make(regNumber: regNumber) { [weak base] in
                     base?.didCloseMTSBU.accept(())
