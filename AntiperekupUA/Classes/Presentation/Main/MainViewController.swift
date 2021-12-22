@@ -60,6 +60,10 @@ final class MainViewController: UIViewController {
         output.isScrollEnabled
             .drive(mainView.tableView.isScrollEnabled)
             .disposed(by: disposeBag)
+        
+        output.savedSearchValue
+            .drive(mainView.tableView.searchHeader.savedValue)
+            .disposed(by: disposeBag)
     }
     
     private func configureUI() {

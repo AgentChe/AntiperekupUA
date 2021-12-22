@@ -33,6 +33,7 @@ extension MainViewModel {
         let isError: Driver<Bool>
         let route: Signal<MainRoute>
         let isScrollEnabled: Driver<Bool>
+        let savedSearchValue: Driver<String>
     }
     
     func configure(input: Input) -> Output {
@@ -47,6 +48,25 @@ extension MainViewModel {
             .withLatestFrom(currentTab) { ($0, $1) }
             .map(textValidation)
             .share(replay: 1)
+
+        let textWithTab = currentTab
+            .distinctUntilChanged()
+            .scan(nil) { old, new -> (current: MainTabType, new: MainTabType)? in
+                return (current: old?.new ?? new, new: new)
+            }
+            .compactMap { $0 }
+            .withLatestFrom(input.searchValue.compactMap { $0 }) { ($0.current, $1) }
+            .scan([MainTabType: String]()) { old, new in
+                var result = old
+                result[new.0] = new.1
+                return result
+            }
+        
+        let currentText = currentTab
+            .withLatestFrom(textWithTab) { tab, elements in
+                return elements[tab] ?? ""
+            }
+            .asDriver(onErrorJustReturn: "")
         
         let searchResult = input.didTapSearch
             .asObservable()
@@ -132,7 +152,8 @@ extension MainViewModel {
             searchModel: searchModel,
             isError: isError,
             route: route,
-            isScrollEnabled: isScrollEnabled.asDriver()
+            isScrollEnabled: isScrollEnabled.asDriver(),
+            savedSearchValue: currentText
         )
     }
 }

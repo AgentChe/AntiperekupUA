@@ -38,6 +38,10 @@ extension MainSearchHeaderView {
     var isError: Binder<Bool> {
         return searchView.isError
     }
+    
+    var savedValue: Binder<String> {
+        searchView.savedValue
+    }
 }
 
 // MARK: Make constraints
