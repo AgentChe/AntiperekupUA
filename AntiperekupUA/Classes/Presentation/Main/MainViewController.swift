@@ -57,10 +57,6 @@ final class MainViewController: UIViewController {
             .emit(to: navigation)
             .disposed(by: disposeBag)
         
-        output.isScrollEnabled
-            .drive(mainView.tableView.isScrollEnabled)
-            .disposed(by: disposeBag)
-        
         output.savedSearchValue
             .drive(mainView.tableView.searchHeader.savedValue)
             .disposed(by: disposeBag)
@@ -105,7 +101,7 @@ private extension MainViewController {
                 let controller = DebtsCheckScreenViewController.make(data: data)
                 base.navigationController?.pushViewController(controller, animated: true)
             case let .report(searchValue):
-                let controller = ReportScreenViewController.make(searchValue: searchValue)
+                let controller = ReportScreenViewController.make(searchValue: searchValue, captcha: nil)
                 base.navigationController?.pushViewController(controller, animated: true)
             }
         }

@@ -136,7 +136,8 @@ final class ReportScreenViewController: UIViewController {
         output.checkCaptcha
             .delay(.microseconds(500))
             .emit(to: Binder(self) { base, regNumber in
-                let controller = MTSBUScreenViewController.make(regNumber: regNumber) { [weak base] in
+                let controller = MTSBUScreenViewController.make(regNumber: regNumber) { [weak base] captcha in
+                    base?.viewModel.currentCaptcha = captcha
                     base?.didCloseMTSBU.accept(())
                 }
                 
@@ -273,8 +274,9 @@ extension ReportScreenViewController: UITableViewDelegate {
 
 // MARK: Make
 extension ReportScreenViewController {
-    static func make(searchValue: ReportSearchValue) -> ReportScreenViewController {
+    static func make(searchValue: ReportSearchValue, captcha: MTSBUCaptcha?) -> ReportScreenViewController {
         let controller = ReportScreenViewController(searchValue: searchValue)
+        controller.viewModel.currentCaptcha = captcha
         controller.title = "report".localized
         return controller
     }

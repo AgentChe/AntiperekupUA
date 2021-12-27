@@ -139,10 +139,12 @@ private extension ReportAlertScreenViewModel {
             let clearString = text.filter { !$0.isWhitespace }
             switch model.fieldType {
             case .regNumber:
+                let numberRegex = "^[\\w 0-9]*$"
+                let numberPredicate = NSPredicate(format: "SELF MATCHES %@", numberRegex)
                 let error = NSError(domain: "\(type(of: self))", code: -1, userInfo: [NSLocalizedDescriptionKey: Constants.regError])
-                return !predicate.evaluate(with: clearString)
+                return !numberPredicate.evaluate(with: clearString)
                     ? .failure(error)
-                    : .success(.regNumber(clearString))
+                : .success(.regNumber(clearString.cyrillicToLatinRegNumber))
             case .vin:
                 let error = NSError(domain: "\(type(of: self))", code: -1, userInfo: [NSLocalizedDescriptionKey: Constants.vinError])
                 return !predicate.evaluate(with: clearString)

@@ -14,6 +14,7 @@ struct SearchValueFormatter {
         case vin
         case technicalPassport
     }
+    
     static func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String, fieldType: FieldType?) -> Bool {
         guard let selectedRange = textField.selectedTextRange, let text = textField.text, let textRange = Range(range, in: text), let fieldType = fieldType else {
             return true

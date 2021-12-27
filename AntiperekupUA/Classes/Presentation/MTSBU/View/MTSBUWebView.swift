@@ -110,8 +110,7 @@ extension MTSBUWebView: WKScriptMessageHandler {
                 let captchaModel = MTSBUCaptcha(
                     token: token,
                     captchaCode: captcha,
-                    cookiesString: cookiesString,
-                    date: Date()
+                    cookiesString: cookiesString
                 )
                 captchaRelay.accept(captchaModel)
             }

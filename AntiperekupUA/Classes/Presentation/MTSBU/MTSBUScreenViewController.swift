@@ -15,7 +15,7 @@ final class MTSBUScreenViewController: UIViewController {
     
     private let viewModel: MTSBUScreenViewModel
     
-    private var completion: (() -> Void)?
+    private var completion: ((MTSBUCaptcha?) -> Void)?
     
     init(regNumber: String) {
         viewModel = MTSBUScreenViewModel(regNumber: regNumber)
@@ -54,12 +54,13 @@ final class MTSBUScreenViewController: UIViewController {
             .disposed(by: disposeBag)
         
         output.searchValue
-            .emit(to: Binder(self) { base, searchValue in
+            .emit(to: Binder(self) { base, tuple in
+                let (searchValue, captcha) = tuple
                 if base.navigationController?.viewControllers.first === base {
-                    base.completion?()
+                    base.completion?(captcha)
                     base.dismiss(animated: true)
                 } else {
-                    let controller = ReportScreenViewController.make(searchValue: searchValue)
+                    let controller = ReportScreenViewController.make(searchValue: searchValue, captcha: captcha)
                     let mainController = base.navigationController?.viewControllers.first
                     let controllers = [mainController, controller].compactMap { $0 }
                     base.navigationController?.setViewControllers(controllers, animated: true)
@@ -84,7 +85,7 @@ final class MTSBUScreenViewController: UIViewController {
 
 // MARK: Make
 extension MTSBUScreenViewController {
-    static func make(regNumber: String, completion: (() -> Void)? = nil) -> MTSBUScreenViewController {
+    static func make(regNumber: String, completion: ((MTSBUCaptcha?) -> Void)? = nil) -> MTSBUScreenViewController {
         let controller = MTSBUScreenViewController(regNumber: regNumber)
         controller.completion = completion
         controller.title = "app_name".localized

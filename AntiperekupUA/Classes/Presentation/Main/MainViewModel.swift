@@ -237,9 +237,11 @@ private extension MainViewModel {
             let clearString = text.filter { !$0.isWhitespace }
             switch type {
             case .regNumber:
-                return !predicate.evaluate(with: clearString)
+                let numberRegex = "^[\\w 0-9]*$"
+                let numberPredicate = NSPredicate(format: "SELF MATCHES %@", numberRegex)
+                return !numberPredicate.evaluate(with: clearString)
                     ? .error(Constants.regError)
-                    : .regNumber(clearString)
+                : .regNumber(clearString.cyrillicToLatinRegNumber)
             case .vinNumber:
                 let error = Constants.vinError + String(format: Constants.example, Constants.vinExample)
                 return !predicate.evaluate(with: clearString)
@@ -281,8 +283,8 @@ private extension MainViewModel {
                 case .report(let model):
                     switch model.searchType {
                     case .regNumber:
-                        let captcha = MTSBUService.shared.getCaptcha(for: model.searchValue)
-                        result = captcha == nil
+                        let cachedModel = MTSBUService.shared.getCache(for: model.searchValue)
+                        result = cachedModel == nil
                         ? .regValidation(model.searchValue)
                         : .report(.regNumber(model.searchValue))
                     case .vin:
@@ -310,8 +312,8 @@ private extension MainViewModel {
         return { result -> MainRoute? in
             switch result {
             case let .regNumber(value):
-                let captcha = MTSBUService.shared.getCaptcha(for: value)
-                return captcha == nil
+                let cache = MTSBUService.shared.getCache(for: value)
+                return cache == nil
                 ? .regValidation(value)
                 : .report(.regNumber(value))
             case let .vinNumber(value):

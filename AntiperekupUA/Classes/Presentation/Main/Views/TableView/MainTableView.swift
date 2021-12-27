@@ -121,7 +121,7 @@ extension MainTableView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch dataSource[indexPath.section].items[indexPath.row] {
         case .empty:
-            return tableView.bounds.height - tableView.contentSize.height + 50.scale
+            return abs(tableView.bounds.height - tableView.contentSize.height) + 50.scale
         default:
             return UITableView.automaticDimension
         }
