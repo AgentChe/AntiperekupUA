@@ -27,7 +27,7 @@ extension MTSBUScreenViewModel {
     
     struct Output {
         let cookies: Signal<[HTTPCookie]>
-        let searchValue: Signal<ReportSearchValue>
+        let searchValue: Signal<(ReportSearchValue, MTSBUCaptcha?)>
         let errorAlert: Signal<String>
         let retryLoad: Signal<Void>
     }
@@ -36,19 +36,15 @@ extension MTSBUScreenViewModel {
         
         let captchaSignal = input.captcha
             .asObservable()
-            .map { [regNumber] captcha -> Void in
-                MTSBUService.shared.set(captcha: captcha, for: regNumber)
-                return ()
-            }
         
-        let searchValue = Observable
+        let searchValue = Observable<MTSBUCaptcha?>
             .merge(
-                captchaSignal,
-                input.didTapSkip.asObservable(),
-                input.loadError.asObservable().skip(3).take(1).map { _ in () }
+                captchaSignal.map { $0 },
+                input.didTapSkip.asObservable().map { _ in nil },
+                input.loadError.asObservable().skip(3).take(1).map { _ in nil }
             )
-            .map { [regNumber] _ in
-                ReportSearchValue.regNumber(regNumber)
+            .map { [regNumber] captcha in
+                (ReportSearchValue.regNumber(regNumber), captcha)
             }
             .asSignal(onErrorSignalWith: .empty())
         

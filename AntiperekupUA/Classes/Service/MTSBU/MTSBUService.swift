@@ -11,44 +11,39 @@ import RxSwift
 final class MTSBUService {
     static let shared = MTSBUService()
     
-    func set(captcha: MTSBUCaptcha, for number: String) {
-        guard
-            let encodedData = try? JSONEncoder().encode(captcha)
-        else {
-            return
-        }
-        
-        var object = UserDefaults.standard.object(forKey: Constants.captchaKey) as? [String: Data] ?? [:]
-        
-        object[number] = encodedData
-        UserDefaults.standard.set(object, forKey: Constants.captchaKey)
+    func set(model: MTSBUModel, for regNumber: String) {
+        let model = MTSBUCacheModel(date: Date(), model: model)
+        guard let encodedData = try? JSONEncoder().encode(model) else { return }
+        var object = UserDefaults.standard.object(forKey: Constants.mtsbRecordsKey) as? [String: Data] ?? [:]
+        object[regNumber] = encodedData
+        UserDefaults.standard.set(object, forKey: Constants.mtsbRecordsKey)
     }
     
-    func getCaptcha(for regNumber: String) -> MTSBUCaptcha? {
+    func getCache(for regNumber: String) -> MTSBUModel? {
         guard
-            let object = UserDefaults.standard.object(forKey: Constants.captchaKey) as? [String: Data],
+            let object = UserDefaults.standard.object(forKey: Constants.mtsbRecordsKey) as? [String: Data],
             let decodedData = object[regNumber],
-            let captcha = try? JSONDecoder().decode(MTSBUCaptcha.self, from: decodedData)
+            let model = try? JSONDecoder().decode(MTSBUCacheModel.self, from: decodedData)
         else {
             return nil
         }
         
         let current = Calendar.current
         let currentComponents = current.dateComponents([.day, .month, .year], from: Date())
-        let captchaComponents = current.dateComponents([.day, .month, .year], from: captcha.date)
+        let cachedComponents = current.dateComponents([.day, .month, .year], from: model.date)
         
         guard
-            currentComponents.month == captchaComponents.month,
-            currentComponents.year == captchaComponents.year,
+            currentComponents.month == cachedComponents.month,
+            currentComponents.year == cachedComponents.year,
             let currentDay = currentComponents.day,
-            let tokenDay = captchaComponents.day,
-            currentDay <= tokenDay + 2
+            let cachedDay = cachedComponents.day,
+            currentDay <= cachedDay + 2
         else {
-            resetCaptcha(for: regNumber)
+            resetCache(for: regNumber)
             return nil
         }
         
-        return captcha
+        return model.model
     }
     
     func getCookies() -> Single<MTSBUCookiesModel?> {
@@ -59,19 +54,19 @@ final class MTSBUService {
             .map(MTSBUCookiesModel.init)
     }
     
-    private func resetCaptcha(for regNumber: String) {
+    private func resetCache(for regNumber: String) {
         guard
-            var object = UserDefaults.standard.object(forKey: Constants.captchaKey) as? [String: Data]
+            var object = UserDefaults.standard.object(forKey: Constants.mtsbRecordsKey) as? [String: Data]
         else {
             return
         }
         object.removeValue(forKey: regNumber)
-        UserDefaults.standard.set(object, forKey: Constants.captchaKey)
+        UserDefaults.standard.set(object, forKey: Constants.mtsbRecordsKey)
     }
 }
 
 private extension MTSBUService {
     enum Constants {
-        static let captchaKey = "mtsbu_service_captcha_key"
+        static let mtsbRecordsKey = "mtsbu_service_records_key"
     }
 }

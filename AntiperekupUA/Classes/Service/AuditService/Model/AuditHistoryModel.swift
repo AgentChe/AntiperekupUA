@@ -22,10 +22,51 @@ struct AuditHistoryModel {
     }
 }
 
+extension AuditHistoryModel: Equatable {
+    static func == (lhs: AuditHistoryModel, rhs: AuditHistoryModel) -> Bool {
+        return lhs.searchType == rhs.searchType && lhs.searchValue == rhs.searchValue
+    }
+}
+
+extension PassportModel: Equatable {
+    static func == (lhs: PassportModel, rhs: PassportModel) -> Bool {
+        return lhs.number == rhs.number && lhs.series == rhs.series
+    }
+}
+
+extension DebtsModel: Equatable {}
+
 enum History {
     case report(AuditHistoryModel)
     case passport(PassportModel)
     case debts(DebtsModel)
+}
+
+extension History: Hashable {
+    static func == (lhs: History, rhs: History) -> Bool {
+        switch (lhs, rhs) {
+        case (.report(let first), .report(let second)):
+            return first == second
+        case (.passport(let first), .passport(let second)):
+            return first == second
+        case (.debts(let first), .debts(let second)):
+            return first.data == second.data
+        default:
+            return false
+        }
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        switch self {
+        case .report(let auditHistoryModel):
+            hasher.combine(auditHistoryModel.searchValue)
+        case .passport(let passportModel):
+            hasher.combine(passportModel.number)
+            hasher.combine(passportModel.series)
+        case .debts(let debtsModel):
+            hasher.combine(debtsModel.data)
+        }
+    }
 }
 
 extension History: Codable {

@@ -31,6 +31,12 @@ final class ReportScreenViewModel {
     private var complectationModel: ComplectationModel?
     private var mtsbuModel: MTSBUModel?
     
+    var currentCaptcha: MTSBUCaptcha?
+    
+    private let mainVinRelay = BehaviorRelay<String>(value: "")
+    private let mtsbuVinRelay = BehaviorRelay<String>(value: "")
+    private let showCaptchaRelay = PublishRelay<String>()
+    
     init(searchValue: ReportSearchValue) {
         self.searchValue = searchValue
     }
@@ -60,6 +66,14 @@ extension ReportScreenViewModel {
     
     func configure(input: Input) -> Output {
         let activityIndicator = RxActivityIndicator()
+        
+        let mainOrMTSBUVin = Observable
+            .combineLatest(mainVinRelay, mtsbuVinRelay)
+            .compactMap { main, mtsbu -> String? in
+                return mtsbu.isEmpty ? main.isEmpty ? nil : main : mtsbu
+            }
+            .distinctUntilChanged()
+            .map { ReportSearchValue.vin($0) }
         
         let reportFile = input.didTapShate
             .asObservable()
@@ -106,7 +120,10 @@ extension ReportScreenViewModel {
         let initialData = makeInitialData(retryTrigger: retryTrigger)
             .share(replay: 1)
         
-        let changeData = makeChangeData(inputValue: input.inputValue, retryTrigger: retryTrigger)
+        let inputValue = Observable
+            .merge(input.inputValue.asObservable(), mainOrMTSBUVin)
+        
+        let changeData = makeChangeData(inputValue: inputValue, retryTrigger: retryTrigger)
             .share(replay: 1)
         
         let baseDataResult = makeData(
@@ -200,25 +217,6 @@ extension ReportScreenViewModel {
             }
             .asSignal(onErrorSignalWith: .empty())
         
-        let showCaptchaScreen = baseDataResult
-            .skip(1)
-            .compactMap { [searchValue] result -> String? in
-                guard
-                    let element = result.element,
-                    element.isValidNumber,
-                    MTSBUService.shared.getCaptcha(for: element.regNumber) == nil
-                else {
-                    return nil
-                }
-                
-                if case let .regNumber(value) = searchValue, value == element.regNumber {
-                    return nil
-                }
-                
-                return element.regNumber
-            }
-            .distinctUntilChanged()
-        
         let didTapCheckCaptcha = input.selectedElement
             .asObservable()
             .compactMap { element -> Void? in
@@ -228,7 +226,7 @@ extension ReportScreenViewModel {
             .withLatestFrom(baseData) { _, data in data.regNumber }
         
         let checkCaptcha = Observable
-            .merge(showCaptchaScreen, didTapCheckCaptcha)
+            .merge(showCaptchaRelay.asObservable(), didTapCheckCaptcha)
             .asSignal(onErrorSignalWith: .empty())
         
         return Output(
@@ -303,7 +301,7 @@ private extension ReportScreenViewModel {
             .startWith(.next(startData))
     }
     
-    func makeChangeData(inputValue: Signal<ReportSearchValue>, retryTrigger: Observable<Void>) -> Observable<Event<BaseData>> {
+    func makeChangeData(inputValue: Observable<ReportSearchValue>, retryTrigger: Observable<Void>) -> Observable<Event<BaseData>> {
         inputValue.asObservable()
             .flatMapLatest { [weak self] searchValue -> Observable<Event<BaseData>> in
                 guard let self = self else { return .empty() }
@@ -405,6 +403,8 @@ private extension ReportScreenViewModel {
                     .asObservable()
                     .do(onNext: { [weak self] in
                         self?.govDataModel = $0
+                        let vin = $0?.vehicle?.vin ?? ""
+                        self?.mainVinRelay.accept(vin)
                     })
                     .materialize(with: retryTrigger)
                     .do(onNext: { [weak self] event in
@@ -527,7 +527,11 @@ private extension ReportScreenViewModel {
         let headerTitle = "mtsbu_title".localized
         
         return Observable
-            .combineLatest(baseData, updateSignal.startWith(()))
+            .combineLatest(
+                baseData.distinctUntilChanged {
+                    $0.regNumber == $1.regNumber }.debug(),
+                updateSignal.startWith(()).debug()
+            )
             .map { $0.0 }
             .withUnretained(self)
             .flatMapLatest { base, data -> Observable<Elements> in
@@ -544,23 +548,39 @@ private extension ReportScreenViewModel {
                     return .just(items + additional)
                 }
                 
-                guard let captchaResult = MTSBUService.shared.getCaptcha(for: data.regNumber) else {
-                    let text = "complete_captcha_info".localized
-                    return .just([.header(title: headerTitle, state: .error), .text(text), .checkCaptcha])
+                let mtsbuEvent: Observable<Event<MTSBUModel?>>
+                
+                if let model = MTSBUService.shared.getCache(for: data.regNumber) {
+                    mtsbuEvent = .just(.next(model))
+                } else {
+                    guard let captchaResult = base.currentCaptcha else {
+                        let text = "complete_captcha_info".localized
+                        base.showCaptchaRelay.accept(data.regNumber)
+                        return .just([.header(title: headerTitle, state: .error), .text(text), .checkCaptcha])
+                    }
+                    
+                    mtsbuEvent = base.reportService
+                        .getMTSBU(
+                            regNumber: data.regNumber,
+                            captchaCode: captchaResult.captchaCode,
+                            verificationToken: captchaResult.token,
+                            cookiesString: captchaResult.cookiesString
+                        )
+                        .asObservable()
+                        .do(onNext: { [weak base] mtsbuModel in
+                            base?.mtsbuModel = mtsbuModel
+                            base?.currentCaptcha = nil
+                            
+                            if let model = mtsbuModel, !model.records.isEmpty {
+                                let vin = model.records.first(where: { !$0.vin.isEmpty})?.vin ?? ""
+                                base?.mtsbuVinRelay.accept(vin)
+                                MTSBUService.shared.set(model: model, for: data.regNumber)
+                            }
+                        })
+                        .materialize(with: retryTrigger)
                 }
                 
-                return base.reportService
-                    .getMTSBU(
-                        regNumber: data.regNumber,
-                        captchaCode: captchaResult.captchaCode,
-                        verificationToken: captchaResult.token,
-                        cookiesString: captchaResult.cookiesString
-                    )
-                    .asObservable()
-                    .do(onNext: { [weak self] in
-                        self?.mtsbuModel = $0
-                    })
-                    .materialize(with: retryTrigger)
+                return mtsbuEvent
                     .compactMap { ReportDataSourceConfigureHelper.mtsbuSection(headerTitle: headerTitle, event: $0) }
                     .startWith([.header(title: headerTitle, state: .empty), .loader])
             }

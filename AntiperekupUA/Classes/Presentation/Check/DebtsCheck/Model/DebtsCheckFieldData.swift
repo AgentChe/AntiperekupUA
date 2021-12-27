@@ -14,6 +14,6 @@ struct DebtsCheckFieldData {
     let birthday: String
 }
 
-extension DebtsCheckFieldData: Codable {
-    
-}
+extension DebtsCheckFieldData: Codable {}
+extension DebtsCheckFieldData: Equatable {}
+extension DebtsCheckFieldData: Hashable {}

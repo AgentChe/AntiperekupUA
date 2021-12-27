@@ -48,6 +48,10 @@ extension MTSBUModel {
     }
 }
 
+extension MTSBUModel: Codable {}
+
+extension MTSBUModel.Record: Codable {}
+
 private extension MTSBUModel.Record {
     init(from response: [String: Any]) {
         insurerName = response["insurer_name"] as? String ?? ""

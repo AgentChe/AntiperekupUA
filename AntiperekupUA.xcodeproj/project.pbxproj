@@ -213,6 +213,7 @@
 		86E410E827401BA50036D0DC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 86E410EA27401BA50036D0DC /* InfoPlist.strings */; };
 		86E521C726ECF41F00BE6AC7 /* ReportDataSourceConfigureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E521C626ECF41F00BE6AC7 /* ReportDataSourceConfigureHelper.swift */; };
 		86F5F636277257F30082098C /* MainEmptyCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F5F635277257F30082098C /* MainEmptyCellView.swift */; };
+		86F5F6522778E4220082098C /* MTSBUCacheModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F5F6512778E4220082098C /* MTSBUCacheModel.swift */; };
 		86FC5F5526F1021100A95B9C /* NewCommentCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FC5F5426F1021100A95B9C /* NewCommentCommentCell.swift */; };
 		86FC5F5726F10B4F00A95B9C /* NewCommentTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FC5F5626F10B4F00A95B9C /* NewCommentTitleCell.swift */; };
 		86FC5F5A26F2655F00A95B9C /* NewCommentHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FC5F5926F2655F00A95B9C /* NewCommentHeaderCell.swift */; };
@@ -457,6 +458,7 @@
 		86E410EB27401BA80036D0DC /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		86E521C626ECF41F00BE6AC7 /* ReportDataSourceConfigureHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDataSourceConfigureHelper.swift; sourceTree = "<group>"; };
 		86F5F635277257F30082098C /* MainEmptyCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainEmptyCellView.swift; sourceTree = "<group>"; };
+		86F5F6512778E4220082098C /* MTSBUCacheModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTSBUCacheModel.swift; sourceTree = "<group>"; };
 		86FC5F5426F1021100A95B9C /* NewCommentCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentCommentCell.swift; sourceTree = "<group>"; };
 		86FC5F5626F10B4F00A95B9C /* NewCommentTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentTitleCell.swift; sourceTree = "<group>"; };
 		86FC5F5926F2655F00A95B9C /* NewCommentHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCommentHeaderCell.swift; sourceTree = "<group>"; };
@@ -1074,6 +1076,7 @@
 			children = (
 				8687827427174F3A00E0C7C0 /* MTSBUCookiesModel.swift */,
 				86101473271B349900721A56 /* MTSBUCaptcha.swift */,
+				86F5F6512778E4220082098C /* MTSBUCacheModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1780,6 +1783,7 @@
 				8609009C26FF51AE00ACE9C6 /* DebtsCheckRequest.swift in Sources */,
 				866B818A26BC488900026E95 /* PurchaseManagerCore.swift in Sources */,
 				86C5DDA426F50B2E00104C41 /* UIControllerExtension.swift in Sources */,
+				86F5F6522778E4220082098C /* MTSBUCacheModel.swift in Sources */,
 				866B818426BC473900026E95 /* ReportScreenView.swift in Sources */,
 				866B819726BC518600026E95 /* ReportManagerCore.swift in Sources */,
 				864D45FB26DE5E5D00B75C70 /* DSBTModel.swift in Sources */,

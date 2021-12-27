@@ -11,7 +11,6 @@ struct MTSBUCaptcha {
     let token: String
     let captchaCode: String
     let cookiesString: String
-    let date: Date
 }
 
 extension MTSBUCaptcha: Codable {

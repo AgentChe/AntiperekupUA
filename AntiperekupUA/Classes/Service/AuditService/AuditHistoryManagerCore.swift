@@ -35,31 +35,40 @@ private extension History {
 final class AuditHistoryManagerCore {
     
     func save(model: History) {
-        var elements = getHistory()
-        elements.append(model)
+        var elements = getCahchedHistory()
+        elements.remove(model)
+        elements.insert(model)
         save(models: elements)
     }
     
     func getHistory() -> [History] {
-        guard let decodedData = UserDefaults.standard.object(forKey: Constants.historyKey) as? Data else {
-            return []
-        }
-        let elements = try? JSONDecoder().decode([History].self, from: decodedData)
-        let result = elements ?? []
+        let result = getCahchedHistory()
         return result.sorted(by: { $0.date.compare($1.date) == .orderedDescending })
     }
     
     func delete(by id: String) {
-        var elements = getHistory()
-        elements.removeAll { $0.id == id }
+        var elements = getCahchedHistory()
+        guard let element = elements.first(where: { $0.id == id }) else {
+            return
+        }
+        elements.remove(element)
         save(models: elements)
     }
     
     func getItem(by id: String) -> History? {
-        getHistory().first(where: { $0.id == id })
+        getCahchedHistory().first(where: { $0.id == id })
     }
     
-    private func save(models: [History]) {
+    private func getCahchedHistory() -> Set<History> {
+        guard let decodedData = UserDefaults.standard.object(forKey: Constants.historyKey) as? Data else {
+            return []
+        }
+        
+        let elements = try? JSONDecoder().decode(Set<History>.self, from: decodedData)
+        return elements ?? []
+    }
+    
+    private func save(models: Set<History>) {
         guard let encodedData = try? JSONEncoder().encode(models) else {
             return
         }
@@ -67,45 +76,11 @@ final class AuditHistoryManagerCore {
         UserDefaults.standard.set(encodedData, forKey: Constants.historyKey)
         AuditHistoryMediator.shared.itemsChange()
     }
-    //=======================
-//    func save(model: AuditHistoryModel) {
-//        var elements = getAuditHistory()
-//        elements.append(model)
-//        save(models: elements)
-//    }
-    
-//    func delete(by id: String) {
-//        var elements = getAuditHistory()
-//        elements.removeAll { $0.id == id }
-//        save(models: elements)
-//    }
     
     func deleteAll() {
         UserDefaults.standard.set(nil, forKey: Constants.historyKey)
         AuditHistoryMediator.shared.itemsChange()
     }
-    
-//    func getAuditHistory() -> [AuditHistoryModel] {
-//        guard let decodedData = UserDefaults.standard.object(forKey: Constants.historyKey) as? Data else {
-//            return []
-//        }
-//        let elements = try? JSONDecoder().decode([AuditHistoryModel].self, from: decodedData)
-//        let result = elements ?? []
-//        return result.sorted(by: { $0.date.compare($1.date) == .orderedDescending })
-//    }
-    
-//    func getItem(by id: String) -> AuditHistoryModel? {
-//        getAuditHistory().first(where: { $0.id == id })
-//    }
-    
-//    private func save(models: [AuditHistoryModel]) {
-//        guard let encodedData = try? JSONEncoder().encode(models) else {
-//            return
-//        }
-//
-//        UserDefaults.standard.set(encodedData, forKey: Constants.historyKey)
-//        AuditHistoryMediator.shared.itemsChange()
-//    }
 }
 
 private extension AuditHistoryManagerCore {
