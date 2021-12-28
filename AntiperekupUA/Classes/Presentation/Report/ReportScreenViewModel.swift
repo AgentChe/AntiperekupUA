@@ -11,6 +11,7 @@ import RxCocoa
 final class ReportScreenViewModel {
     typealias DataSource = (String, [ReportTableItem])
     typealias Elements = [ReportTableItem]
+    typealias SectionConfigurator = ReportDataSourceConfigureHelper
     
     private lazy var purchaseService = PurchaseManagerCore()
     private lazy var reportService = ReportManagerCore()
@@ -49,7 +50,7 @@ extension ReportScreenViewModel {
         let activateSubscription: Signal<Void>
         let updateComments: Signal<Void>
         let complainId: Signal<Int>
-        let didTapShate: Signal<Void>
+        let didTapShare: Signal<Void>
         let didCloseMTSBU: Signal<Void>
     }
     
@@ -62,6 +63,7 @@ extension ReportScreenViewModel {
         let checkCaptcha: Signal<String>
         let reportFile: Signal<URL?>
         let isReportPreparing: Driver<Bool>
+        let showWarningAlert: Signal<String>
     }
     
     func configure(input: Input) -> Output {
@@ -74,31 +76,6 @@ extension ReportScreenViewModel {
             }
             .distinctUntilChanged()
             .map { ReportSearchValue.vin($0) }
-        
-        let reportFile = input.didTapShate
-            .asObservable()
-            .withUnretained(self)
-            .flatMapLatest { base, _ -> Observable<URL?> in
-                let reportModel = ReportModel(
-                    searchValue: base.searchValue,
-                    govDataModel: base.govDataModel,
-                    wantedModel: base.wantedModel,
-                    interpolModel: base.interpolModel,
-                    photoModel: base.photoModel,
-                    commentsModel: base.commentsModel,
-                    riaModel: base.riaModel,
-                    recallVinSubsModel: base.recallVinSubsModel,
-                    auctionModel: base.auctionModel,
-                    dsbtModel: base.dsbtModel,
-                    decodeVinModel: base.decodeVinModel,
-                    complectationModel: base.complectationModel,
-                    mtsbuModel: base.mtsbuModel
-                )
-                
-                return ShareReportCore.share.getReport(for: reportModel)
-                    .trackActivity(activityIndicator)
-            }
-            .asSignal(onErrorSignalWith: .empty())
             
         let isActiveSubscription = input.activateSubscription
             .asObservable()
@@ -144,9 +121,6 @@ extension ReportScreenViewModel {
             isActiveSubscription: isActiveSubscription,
             retryTrigger: retryTrigger
         )
-        .map { elements -> [DataSource] in
-            return elements.map { ("", $0) }
-        }
         
         let complainRequest = input.complainId
             .asObservable()
@@ -173,12 +147,16 @@ extension ReportScreenViewModel {
                 makeMTSBUSection(baseData: baseData, retryTrigger: retryTrigger, updateSignal: input.didCloseMTSBU.asObservable()),
                 makeCommentsSection(baseData: baseData, retryTrigger: retryTrigger, updateSignal: updateCommentSignal),
                 makeAuctionSection(baseData: baseData, isActiveSubscription: isActiveSubscription, retryTrigger: retryTrigger)
-            ]) { elements -> [DataSource] in
-                return elements.map { ("", $0) }
-            }
+            ])
         
         let elements = Observable
             .combineLatest(freeSections, lockedSections) { $0 + $1 }
+            .share(replay: 1)
+        
+        let dataSource = elements
+            .map { elements -> [DataSource] in
+                return elements.map { ("", $0) }
+            }
             .asDriver(onErrorDriveWith: .empty())
         
         let showChangeAlert = input.selectedElement
@@ -229,15 +207,65 @@ extension ReportScreenViewModel {
             .merge(showCaptchaRelay.asObservable(), didTapCheckCaptcha)
             .asSignal(onErrorSignalWith: .empty())
         
+        let isLoading = elements
+            .map { elements in
+                elements.contains(where: { models in
+                    models.contains(where: { model in
+                        guard case .loader = model else {
+                            return false
+                        }
+                        
+                        return true
+                    })
+                })
+            }
+        
+        let isShareEnabled = input.didTapShare
+            .asObservable()
+            .withLatestFrom(isLoading)
+            .map(!)
+            .share(replay: 1)
+        
+        
+        let reportFile = isShareEnabled
+            .filter { $0 }
+            .withUnretained(self)
+            .flatMapLatest { base, _ -> Observable<URL?> in
+                let reportModel = ReportModel(
+                    searchValue: base.searchValue,
+                    govDataModel: base.govDataModel,
+                    wantedModel: base.wantedModel,
+                    interpolModel: base.interpolModel,
+                    photoModel: base.photoModel,
+                    commentsModel: base.commentsModel,
+                    riaModel: base.riaModel,
+                    recallVinSubsModel: base.recallVinSubsModel,
+                    auctionModel: base.auctionModel,
+                    dsbtModel: base.dsbtModel,
+                    decodeVinModel: base.decodeVinModel,
+                    complectationModel: base.complectationModel,
+                    mtsbuModel: base.mtsbuModel
+                )
+                
+                return ShareReportCore.share.getReport(for: reportModel)
+                    .trackActivity(activityIndicator)
+            }
+            .asSignal(onErrorSignalWith: .empty())
+        
+        let showWarningAlert = isShareEnabled
+            .compactMap { $0 ? nil : "report_is_loading".localized }
+            .asSignal(onErrorSignalWith: .empty())
+        
         return Output(
-            elements: elements,
+            elements: dataSource,
             showChangeAlert: showChangeAlert,
             isActiveSubscription: isActiveSubscription.asDriver(onErrorJustReturn: false),
             showNewComment: showNewComment,
             showError: showError,
             checkCaptcha: checkCaptcha,
             reportFile: reportFile,
-            isReportPreparing: activityIndicator.map(!).asDriver()
+            isReportPreparing: activityIndicator.map(!).asDriver(),
+            showWarningAlert: showWarningAlert
         )
     }
 }
@@ -363,7 +391,7 @@ private extension ReportScreenViewModel {
         let headerTitle = "basic_information".localized
         
         return baseData.debug()
-            .compactMap { ReportDataSourceConfigureHelper.baseSection(headerTitle: headerTitle, event: $0) }
+            .compactMap { SectionConfigurator.baseSection(headerTitle: headerTitle, event: $0) }
             .startWith([.header(title: headerTitle, state: .empty), .loader])
     }
     
@@ -401,24 +429,35 @@ private extension ReportScreenViewModel {
                 return base.reportService
                     .getGovData(regNumber: data.regNumber)
                     .asObservable()
-                    .do(onNext: { [weak self] in
-                        self?.govDataModel = $0
-                        let vin = $0?.vehicle?.vin ?? ""
-                        self?.mainVinRelay.accept(vin)
-                    })
-                    .materialize(with: retryTrigger)
-                    .do(onNext: { [weak self] event in
-                        guard let self = self, let element = event.element else { return }
-                        let model = AuditHistoryModel(
+                    .do(onNext: { [weak self] model in
+                        guard let self = self else { return }
+                        self.govDataModel = model
+                        let vin = model?.vehicle?.vin ?? ""
+                        self.mainVinRelay.accept(vin)
+                        let history = AuditHistoryModel(
                             date: self.date,
                             searchValue: self.searchValue,
-                            brand: element?.vehicle?.brand ?? "",
-                            model: element?.vehicle?.model ?? ""
+                            brand: model?.vehicle?.brand ?? "",
+                            model: model?.vehicle?.model ?? ""
                         )
-                        self.auditHistoryService.save(model: .report(model))
+                        
+                        self.auditHistoryService.save(model: .report(history))
                     })
-                    .compactMap { ReportDataSourceConfigureHelper.mainAndHistory(mainTitle: mainTitle, historyTitle: historyTitle, event: $0) }
+                    .compactMap { SectionConfigurator.mainAndHistory(mainTitle: mainTitle, historyTitle: historyTitle, model: $0) }
                     .startWith(loadingSections)
+                    .materialize(with: retryTrigger)
+                    .compactMap { event in
+                        switch event {
+                        case let .next(elements):
+                            return elements
+                        case let .error(error):
+                            let mainError = SectionConfigurator.errorWithRetry(headerText: mainTitle, error: error)
+                            let historyError = SectionConfigurator.errorWithRetry(headerText: historyTitle, error: error)
+                            return (main: mainError, history: historyError)
+                        case .completed:
+                            return nil
+                        }
+                    }
             }
             .startWith(loadingSections)
     }
@@ -449,9 +488,11 @@ private extension ReportScreenViewModel {
                     .do(onNext: { [weak self] in
                         self?.wantedModel = $0
                     })
-                    .materialize(with: retryTrigger)
-                    .compactMap { ReportDataSourceConfigureHelper.wantedSection(headerTitle: headerTitle, event: $0, additional: additional) }
+                    .compactMap { SectionConfigurator.wantedSection(headerTitle: headerTitle, model: $0, additional: additional) }
                     .startWith([.header(title: headerTitle, state: .empty), .loader])
+                    .materialize(with: retryTrigger)
+                    .compactMap { Self.retrySourceHandler($0, headerTitle: headerTitle) }
+
             }
             .startWith([.header(title: headerTitle, state: .empty), .loader])
     }
@@ -482,9 +523,10 @@ private extension ReportScreenViewModel {
                     .do(onNext: { [weak self] in
                         self?.interpolModel = $0
                     })
-                    .materialize(with: retryTrigger)
-                    .compactMap { ReportDataSourceConfigureHelper.interpolSection(headerTitle: headerTitle, event: $0)}
+                    .compactMap { SectionConfigurator.interpolSection(headerTitle: headerTitle, model: $0)}
                     .startWith([.header(title: headerTitle, state: .empty), .loader])
+                    .materialize(with: retryTrigger)
+                    .compactMap { Self.retrySourceHandler($0, headerTitle: headerTitle) }
             }
             .startWith([.header(title: headerTitle, state: .empty), .loader])
     }
@@ -516,9 +558,11 @@ private extension ReportScreenViewModel {
                     .do(onNext: { [weak self] in
                         self?.photoModel = $0
                     })
-                    .materialize(with: retryTrigger)
-                    .compactMap { ReportDataSourceConfigureHelper.photoSection(headerTitle: headerTitle, event: $0) }
+                    .compactMap { SectionConfigurator.photoSection(headerTitle: headerTitle, model: $0) }
                     .startWith([.header(title: headerTitle, state: .empty), .loader])
+                    .materialize(with: retryTrigger)
+                    .compactMap { Self.retrySourceHandler($0, headerTitle: headerTitle) }
+
             }
             .startWith([.header(title: headerTitle, state: .empty), .loader])
     }
@@ -548,10 +592,10 @@ private extension ReportScreenViewModel {
                     return .just(items + additional)
                 }
                 
-                let mtsbuEvent: Observable<Event<MTSBUModel?>>
+                let mtsbuModel: Observable<MTSBUModel?>
                 
                 if let model = MTSBUService.shared.getCache(for: data.regNumber) {
-                    mtsbuEvent = .just(.next(model))
+                    mtsbuModel = .just(model)
                 } else {
                     guard let captchaResult = base.currentCaptcha else {
                         let text = "complete_captcha_info".localized
@@ -559,7 +603,7 @@ private extension ReportScreenViewModel {
                         return .just([.header(title: headerTitle, state: .error), .text(text), .checkCaptcha])
                     }
                     
-                    mtsbuEvent = base.reportService
+                    mtsbuModel = base.reportService
                         .getMTSBU(
                             regNumber: data.regNumber,
                             captchaCode: captchaResult.captchaCode,
@@ -577,12 +621,13 @@ private extension ReportScreenViewModel {
                                 MTSBUService.shared.set(model: model, for: data.regNumber)
                             }
                         })
-                        .materialize(with: retryTrigger)
                 }
                 
-                return mtsbuEvent
-                    .compactMap { ReportDataSourceConfigureHelper.mtsbuSection(headerTitle: headerTitle, event: $0) }
+                return mtsbuModel
+                    .compactMap { SectionConfigurator.mtsbuSection(headerTitle: headerTitle, model: $0) }
                     .startWith([.header(title: headerTitle, state: .empty), .loader])
+                    .materialize(with: retryTrigger)
+                    .compactMap { Self.retrySourceHandler($0, headerTitle: headerTitle) }
             }
             .startWith([.header(title: headerTitle, state: .empty), .loader])
     }
@@ -618,9 +663,10 @@ private extension ReportScreenViewModel {
                     .do(onNext: { [weak self] in
                         self?.commentsModel = $0
                     })
-                    .materialize(with: retryTrigger)
-                    .compactMap { ReportDataSourceConfigureHelper.commentsSection(headerTitle: headerTitle, event: $0) }
+                    .compactMap { SectionConfigurator.commentsSection(headerTitle: headerTitle, model: $0) }
                     .startWith([.header(title: headerTitle, state: .empty), .loader])
+                    .materialize(with: retryTrigger)
+                    .compactMap { Self.retrySourceHandler($0, headerTitle: headerTitle) }
             }
             .startWith([.header(title: headerTitle, state: .empty), .loader])
     }
@@ -658,9 +704,10 @@ private extension ReportScreenViewModel {
                     .do(onNext: { [weak self] in
                         self?.auctionModel = $0
                     })
-                    .materialize(with: retryTrigger)
-                    .compactMap { ReportDataSourceConfigureHelper.auctionSection(headerTitle: headerTitle, event: $0) }
+                    .compactMap { SectionConfigurator.auctionSection(headerTitle: headerTitle, model: $0) }
                     .startWith([.header(title: headerTitle, state: .empty), .loader])
+                    .materialize(with: retryTrigger)
+                    .compactMap { Self.retrySourceHandler($0, headerTitle: headerTitle) }
             }
             .startWith([.header(title: headerTitle, state: .empty), .loader])
     }
@@ -731,9 +778,10 @@ private extension ReportScreenViewModel {
                     .do(onNext: { [weak self] in
                         self?.riaModel = $0
                     })
-                    .materialize(with: retryTrigger)
-                    .compactMap { ReportDataSourceConfigureHelper.riaSection(headerTitle: headerTitle, event: $0) }
+                    .compactMap { SectionConfigurator.riaSection(headerTitle: headerTitle, model: $0) }
                     .startWith([.header(title: headerTitle, state: .empty), .loader])
+                    .materialize(with: retryTrigger)
+                    .compactMap { Self.retrySourceHandler($0, headerTitle: headerTitle) }
             }
             .startWith([.header(title: headerTitle, state: .empty), .loader])
     }
@@ -763,9 +811,10 @@ private extension ReportScreenViewModel {
                     .do(onNext: { [weak self] in
                         self?.recallVinSubsModel = $0
                     })
-                    .materialize(with: retryTrigger)
-                    .compactMap { ReportDataSourceConfigureHelper.recallSection(headerTitle: headerTitle, event: $0) }
+                    .compactMap { SectionConfigurator.recallSection(headerTitle: headerTitle, model: $0) }
                     .startWith([.header(title: headerTitle, state: .empty), .loader])
+                    .materialize(with: retryTrigger)
+                    .compactMap { Self.retrySourceHandler($0, headerTitle: headerTitle) }
             }
             .startWith([.header(title: headerTitle, state: .empty), .loader])
     }
@@ -792,13 +841,14 @@ private extension ReportScreenViewModel {
                 
                 return base.reportService
                     .getDSBT(regNumber: data.regNumber)
-                    .asObservable()
+                    .asObservable().debug()
                     .do(onNext: { [weak self] in
                         self?.dsbtModel = $0
                     })
-                    .materialize(with: retryTrigger)
-                    .compactMap { ReportDataSourceConfigureHelper.dsbtSection(headerTitle: headerTitle, event: $0) }
+                    .compactMap { SectionConfigurator.dsbtSection(headerTitle: headerTitle, model: $0) }
                     .startWith([.header(title: headerTitle, state: .empty), .loader])
+                    .materialize(with: retryTrigger)
+                    .compactMap { Self.retrySourceHandler($0, headerTitle: headerTitle) }
             }
             .startWith([.header(title: headerTitle, state: .empty), .loader])
     }
@@ -828,9 +878,10 @@ private extension ReportScreenViewModel {
                     .do(onNext: { [weak self] in
                         self?.decodeVinModel = $0
                     })
-                    .materialize(with: retryTrigger)
-                    .compactMap { ReportDataSourceConfigureHelper.decodeVinSection(headerTitle: headerTitle, event: $0) }
+                    .compactMap { SectionConfigurator.decodeVinSection(headerTitle: headerTitle, model: $0) }
                     .startWith([.header(title: headerTitle, state: .empty), .loader])
+                    .materialize(with: retryTrigger)
+                    .compactMap { Self.retrySourceHandler($0, headerTitle: headerTitle) }
                 
             }
             .startWith([.header(title: headerTitle, state: .empty), .loader])
@@ -861,9 +912,10 @@ private extension ReportScreenViewModel {
                     .do(onNext: { [weak self] in
                         self?.complectationModel = $0
                     })
-                    .materialize(with: retryTrigger)
-                    .compactMap { ReportDataSourceConfigureHelper.complectationSection(headerTitle: headerTitle, event: $0) }
+                    .compactMap { SectionConfigurator.complectationSection(headerTitle: headerTitle, model: $0) }
                     .startWith([.header(title: headerTitle, state: .empty), .loader])
+                    .materialize(with: retryTrigger)
+                    .compactMap { Self.retrySourceHandler($0, headerTitle: headerTitle) }
                 
             }
             .startWith([.header(title: headerTitle, state: .empty), .loader])
@@ -989,6 +1041,17 @@ extension ReportScreenViewModel {
     enum Action1 {
         case initial(BaseData)
         case input(BaseData)
+    }
+    
+    static func retrySourceHandler(_ event: Event<Elements>, headerTitle: String) -> Elements? {
+        switch event {
+        case let .next(elements):
+            return elements
+        case let .error(error):
+            return SectionConfigurator.errorWithRetry(headerText: headerTitle, error: error)
+        case .completed:
+            return nil
+        }
     }
 
 }

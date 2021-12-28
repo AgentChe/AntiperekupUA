@@ -43,7 +43,7 @@ private extension ReportHeaderCell {
 private extension ReportHeaderCell {
     func makeConstraints() {
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16.scale),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding)

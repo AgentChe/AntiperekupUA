@@ -75,7 +75,7 @@ final class ReportScreenViewController: UIViewController {
             activateSubscription: didActivateSubscription.asSignal(),
             updateComments: updateCommentsRelay.asSignal(),
             complainId: complainIdRelay.asSignal(),
-            didTapShate: reportFooter.shareReportButton.tap.asSignal(),
+            didTapShare: reportFooter.shareReportButton.tap.asSignal(),
             didCloseMTSBU: didCloseMTSBU.asSignal()
         )
         
@@ -148,6 +148,15 @@ final class ReportScreenViewController: UIViewController {
         
         output.isReportPreparing
             .drive(mainView.loadingView.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        output.showWarningAlert
+            .emit(to: Binder(self) { base, message in
+                let alertController = UIAlertController(title: "warning".localized, message: message, preferredStyle: .alert)
+                let action = UIAlertAction(title: "OK", style: .cancel)
+                alertController.addAction(action)
+                base.present(alertController, animated: true)
+            })
             .disposed(by: disposeBag)
         
         mainView.tableView.rx.setDelegate(self).disposed(by: disposeBag)
@@ -259,16 +268,6 @@ extension ReportScreenViewController: UITableViewDelegate {
                 content.containerView.layer.mask = nil
             }
         }
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView()
-        view.backgroundColor = .clear
-        return view
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 16.scale
     }
 }
 
