@@ -50,7 +50,7 @@ extension ReportScreenViewModel {
         let activateSubscription: Signal<Void>
         let updateComments: Signal<Void>
         let complainId: Signal<Int>
-        let didTapShate: Signal<Void>
+        let didTapShare: Signal<Void>
         let didCloseMTSBU: Signal<Void>
     }
     
@@ -63,6 +63,7 @@ extension ReportScreenViewModel {
         let checkCaptcha: Signal<String>
         let reportFile: Signal<URL?>
         let isReportPreparing: Driver<Bool>
+        let showWarningAlert: Signal<String>
     }
     
     func configure(input: Input) -> Output {
@@ -75,31 +76,6 @@ extension ReportScreenViewModel {
             }
             .distinctUntilChanged()
             .map { ReportSearchValue.vin($0) }
-        
-        let reportFile = input.didTapShate
-            .asObservable()
-            .withUnretained(self)
-            .flatMapLatest { base, _ -> Observable<URL?> in
-                let reportModel = ReportModel(
-                    searchValue: base.searchValue,
-                    govDataModel: base.govDataModel,
-                    wantedModel: base.wantedModel,
-                    interpolModel: base.interpolModel,
-                    photoModel: base.photoModel,
-                    commentsModel: base.commentsModel,
-                    riaModel: base.riaModel,
-                    recallVinSubsModel: base.recallVinSubsModel,
-                    auctionModel: base.auctionModel,
-                    dsbtModel: base.dsbtModel,
-                    decodeVinModel: base.decodeVinModel,
-                    complectationModel: base.complectationModel,
-                    mtsbuModel: base.mtsbuModel
-                )
-                
-                return ShareReportCore.share.getReport(for: reportModel)
-                    .trackActivity(activityIndicator)
-            }
-            .asSignal(onErrorSignalWith: .empty())
             
         let isActiveSubscription = input.activateSubscription
             .asObservable()
@@ -145,9 +121,6 @@ extension ReportScreenViewModel {
             isActiveSubscription: isActiveSubscription,
             retryTrigger: retryTrigger
         )
-        .map { elements -> [DataSource] in
-            return elements.map { ("", $0) }
-        }
         
         let complainRequest = input.complainId
             .asObservable()
@@ -174,12 +147,16 @@ extension ReportScreenViewModel {
                 makeMTSBUSection(baseData: baseData, retryTrigger: retryTrigger, updateSignal: input.didCloseMTSBU.asObservable()),
                 makeCommentsSection(baseData: baseData, retryTrigger: retryTrigger, updateSignal: updateCommentSignal),
                 makeAuctionSection(baseData: baseData, isActiveSubscription: isActiveSubscription, retryTrigger: retryTrigger)
-            ]) { elements -> [DataSource] in
-                return elements.map { ("", $0) }
-            }
+            ])
         
         let elements = Observable
             .combineLatest(freeSections, lockedSections) { $0 + $1 }
+            .share(replay: 1)
+        
+        let dataSource = elements
+            .map { elements -> [DataSource] in
+                return elements.map { ("", $0) }
+            }
             .asDriver(onErrorDriveWith: .empty())
         
         let showChangeAlert = input.selectedElement
@@ -230,15 +207,65 @@ extension ReportScreenViewModel {
             .merge(showCaptchaRelay.asObservable(), didTapCheckCaptcha)
             .asSignal(onErrorSignalWith: .empty())
         
+        let isLoading = elements
+            .map { elements in
+                elements.contains(where: { models in
+                    models.contains(where: { model in
+                        guard case .loader = model else {
+                            return false
+                        }
+                        
+                        return true
+                    })
+                })
+            }
+        
+        let isShareEnabled = input.didTapShare
+            .asObservable()
+            .withLatestFrom(isLoading)
+            .map(!)
+            .share(replay: 1)
+        
+        
+        let reportFile = isShareEnabled
+            .filter { $0 }
+            .withUnretained(self)
+            .flatMapLatest { base, _ -> Observable<URL?> in
+                let reportModel = ReportModel(
+                    searchValue: base.searchValue,
+                    govDataModel: base.govDataModel,
+                    wantedModel: base.wantedModel,
+                    interpolModel: base.interpolModel,
+                    photoModel: base.photoModel,
+                    commentsModel: base.commentsModel,
+                    riaModel: base.riaModel,
+                    recallVinSubsModel: base.recallVinSubsModel,
+                    auctionModel: base.auctionModel,
+                    dsbtModel: base.dsbtModel,
+                    decodeVinModel: base.decodeVinModel,
+                    complectationModel: base.complectationModel,
+                    mtsbuModel: base.mtsbuModel
+                )
+                
+                return ShareReportCore.share.getReport(for: reportModel)
+                    .trackActivity(activityIndicator)
+            }
+            .asSignal(onErrorSignalWith: .empty())
+        
+        let showWarningAlert = isShareEnabled
+            .compactMap { $0 ? nil : "report_is_loading".localized }
+            .asSignal(onErrorSignalWith: .empty())
+        
         return Output(
-            elements: elements,
+            elements: dataSource,
             showChangeAlert: showChangeAlert,
             isActiveSubscription: isActiveSubscription.asDriver(onErrorJustReturn: false),
             showNewComment: showNewComment,
             showError: showError,
             checkCaptcha: checkCaptcha,
             reportFile: reportFile,
-            isReportPreparing: activityIndicator.map(!).asDriver()
+            isReportPreparing: activityIndicator.map(!).asDriver(),
+            showWarningAlert: showWarningAlert
         )
     }
 }
