@@ -61,7 +61,8 @@ final class ShareReportCore {
                     self.configureRecallBlock(model: model.recallVinSubsModel),
                     self.configureDSBTBlock(model: model.dsbtModel),
                     decodeVinBlock,
-                    self.configureComplectationBlock(model: model.complectationModel)
+                    self.configureComplectationBlock(model: model.complectationModel),
+                    self.configureDisposalBlock(model: model.disposalModel)
                 ]
                 
                 return self.configure(blocks: blocks)
@@ -650,6 +651,23 @@ private extension ShareReportCore {
         return header(
             title: headerTitle,
             content: subtitleBlock + properties(items: items) + description(value: "subs_descr_complectation".localized),
+            isError: isError
+        )
+    }
+    
+    func configureDisposalBlock(model: String?) -> String {
+        guard let model = model else {
+            return ""
+        }
+        let headerTitle = "disposal_title".localized
+        let isError = false
+        let subtitle = model
+        
+        let subtitleBlock = iconWithText(title: subtitle, isError: isError)
+        
+        return header(
+            title: headerTitle,
+            content: subtitleBlock,
             isError: isError
         )
     }

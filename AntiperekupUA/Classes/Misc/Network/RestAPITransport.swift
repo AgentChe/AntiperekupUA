@@ -12,7 +12,7 @@ final class RestAPITransport {
     func callServerApi(requestBody: APIRequestBody) -> Single<Any> {
         Single.create { single in
             let manager = Alamofire.Session.default
-            manager.session.configuration.timeoutIntervalForRequest = 30
+            manager.session.configuration.timeoutIntervalForRequest = 180
             
             let encodedUrl = requestBody.url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
             
