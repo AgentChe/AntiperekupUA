@@ -31,6 +31,7 @@ final class ReportScreenViewModel {
     private var decodeVinModel: DecodeVinModel?
     private var complectationModel: ComplectationModel?
     private var mtsbuModel: MTSBUModel?
+    private var disposalModel: String?
     
     var currentCaptcha: MTSBUCaptcha?
     
@@ -226,7 +227,6 @@ extension ReportScreenViewModel {
             .map(!)
             .share(replay: 1)
         
-        
         let reportFile = isShareEnabled
             .filter { $0 }
             .withUnretained(self)
@@ -244,7 +244,8 @@ extension ReportScreenViewModel {
                     dsbtModel: base.dsbtModel,
                     decodeVinModel: base.decodeVinModel,
                     complectationModel: base.complectationModel,
-                    mtsbuModel: base.mtsbuModel
+                    mtsbuModel: base.mtsbuModel,
+                    disposalModel: base.disposalModel
                 )
                 
                 return ShareReportCore.share.getReport(for: reportModel)
@@ -295,7 +296,7 @@ private extension ReportScreenViewModel {
             }
             .compactMap { $0.map { Event.next($0) } }
         
-        return Observable.merge(error, success).debug()
+        return Observable.merge(error, success)
     }
     
     func makeInitialData(retryTrigger: Observable<Void>) -> Observable<Event<BaseData>> {
@@ -390,7 +391,7 @@ private extension ReportScreenViewModel {
     func makeBaseSection(baseData: Observable<Event<BaseData>>) -> Observable<Elements> {
         let headerTitle = "basic_information".localized
         
-        return baseData.debug()
+        return baseData
             .compactMap { SectionConfigurator.baseSection(headerTitle: headerTitle, event: $0) }
             .startWith([.header(title: headerTitle, state: .empty), .loader])
     }
@@ -572,9 +573,8 @@ private extension ReportScreenViewModel {
         
         return Observable
             .combineLatest(
-                baseData.distinctUntilChanged {
-                    $0.regNumber == $1.regNumber }.debug(),
-                updateSignal.startWith(()).debug()
+                baseData.distinctUntilChanged { $0.regNumber == $1.regNumber },
+                updateSignal.startWith(())
             )
             .map { $0.0 }
             .withUnretained(self)
@@ -841,7 +841,7 @@ private extension ReportScreenViewModel {
                 
                 return base.reportService
                     .getDSBT(regNumber: data.regNumber)
-                    .asObservable().debug()
+                    .asObservable()
                     .do(onNext: { [weak self] in
                         self?.dsbtModel = $0
                     })
@@ -922,6 +922,7 @@ private extension ReportScreenViewModel {
     }
     
     func makeDisposalSection() -> Observable<Elements> {
+        disposalModel = "no_disposal_information_found".localized
         let items: Elements = [
             .header(title: "disposal_title".localized, state: .success),
             .iconWithText(.init(text: "no_disposal_information_found".localized, iconType: .success))

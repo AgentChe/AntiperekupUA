@@ -21,4 +21,9 @@ struct ReportModel {
     var decodeVinModel: DecodeVinModel?
     var complectationModel: ComplectationModel?
     var mtsbuModel: MTSBUModel?
+    // Пока строка, чтобы сервису отчета понять,
+    // что активна подписка и нужно отобразить секцию
+    // с утилизацией. Когда бек будет отдавать данные,
+    // поправить на нормальную модель
+    var disposalModel: String?
 }

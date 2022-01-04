@@ -66,7 +66,7 @@ private extension ReportPhotoCell {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 4.scale
-        view.contentMode = .scaleAspectFill
+        view.contentMode = .scaleAspectFit
         view.layer.masksToBounds = true
         containerView.addSubview(view)
         return view

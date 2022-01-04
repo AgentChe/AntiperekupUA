@@ -240,16 +240,16 @@ enum ReportDataSourceConfigureHelper {
         guard !model.comments.isEmpty else {
             let text = "user_comments_not_found".localized
             let items: Elements = [
-                .header(title: headerTitle, state: .error),
-                .iconWithText(.init(text: text, iconType : .error))
+                .header(title: headerTitle, state: .success),
+                .iconWithText(.init(text: text, iconType : .success))
             ]
             
             return items + additional
         }
         
         let initialItems: Elements = [
-            .header(title: headerTitle, state: .success),
-            .iconWithText(.init(text: "user_comments_found".localized, iconType: .success))
+            .header(title: headerTitle, state: .error),
+            .iconWithText(.init(text: "user_comments_found".localized, iconType: .error))
         ]
         let items: Elements = model.comments
             .enumerated()
@@ -323,8 +323,8 @@ enum ReportDataSourceConfigureHelper {
         guard !model.data.isEmpty else {
             let text = "no_ria_information_found".localized
             let items: Elements = [
-                .header(title: headerTitle, state: .success),
-                .iconWithText(.init(text: text, iconType : .success)),
+                .header(title: headerTitle, state: .error),
+                .iconWithText(.init(text: text, iconType : .error)),
                 .description("subs_descr_ria".localized)
             ]
             
@@ -332,8 +332,8 @@ enum ReportDataSourceConfigureHelper {
         }
         
         let initialItems: Elements = [
-            .header(title: headerTitle, state: .error),
-            .iconWithText(.init(text: String(format: "records".localized, model.data.count), iconType: .error))
+            .header(title: headerTitle, state: .success),
+            .iconWithText(.init(text: String(format: "records".localized, model.data.count), iconType: .success))
         ]
         
         return model.data

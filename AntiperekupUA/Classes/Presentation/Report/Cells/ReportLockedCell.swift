@@ -41,7 +41,7 @@ private extension ReportLockedCell {
 private extension ReportLockedCell {
     func makeConstraints() {
         NSLayoutConstraint.activate([
-            container.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4.scale),
+            container.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16.scale),
             container.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4.scale),
             container.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16.scale),
             container.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16.scale)
